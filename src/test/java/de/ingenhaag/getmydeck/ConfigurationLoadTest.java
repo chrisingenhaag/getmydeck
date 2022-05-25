@@ -10,6 +10,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.util.Assert;
 
 import java.util.stream.Stream;
 
@@ -21,9 +22,8 @@ public class ConfigurationLoadTest {
 
   @Test
   void testLoadCompleteConfig() {
-
+    Assertions.assertNotNull(configuration.getReservationStart());
     Assertions.assertNotNull(configuration.getLastShipments(), "lastShipment list couldn´t be loaded from application.yml");
-    Assertions.assertNotNull(configuration.getLastShipments().get(Region.UK).get(Version.S64), "UK version 64GB last shipment value couldn´t be loaded");
   }
 
   @ParameterizedTest

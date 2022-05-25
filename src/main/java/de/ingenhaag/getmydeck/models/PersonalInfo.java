@@ -1,5 +1,6 @@
 package de.ingenhaag.getmydeck.models;
 
+import java.time.Duration;
 import java.time.OffsetDateTime;
 
 public class PersonalInfo {
@@ -7,6 +8,9 @@ public class PersonalInfo {
   private OffsetDateTime reservedAt;
   private Region region;
   private Version version;
+  private Duration durationReservedAfterStart;
+  private String durationReservedAfterStartHumanReadable;
+  private String elapsedTimePercentage;
 
   public OffsetDateTime getReservedAt() {
     return reservedAt;
@@ -29,5 +33,29 @@ public class PersonalInfo {
 
   public Version getVersion() {
     return version;
+  }
+
+  public void setDurationReservedAfterStart(Duration durationReservedAfterStart) {
+    this.durationReservedAfterStart = durationReservedAfterStart;
+  }
+
+  public Duration getDurationReservedAfterStart() {
+    return durationReservedAfterStart;
+  }
+
+  public void setDurationReservedAfterStartHumanReadable(String durationReservedAfterStartHumanReadable) {
+    this.durationReservedAfterStartHumanReadable = durationReservedAfterStartHumanReadable;
+  }
+
+  public String getDurationReservedAfterStartHumanReadable() {
+    return durationReservedAfterStartHumanReadable;
+  }
+
+  public void setElapsedTimePercentage(String elapsedTimePercentage) {
+    this.elapsedTimePercentage = elapsedTimePercentage;
+  }
+
+  public String getElapsedTimePercentage() {
+    return elapsedTimePercentage;
   }
 }

@@ -26,6 +26,12 @@ public class DeckService {
     personalInfo.setDurationReservedAfterStart(getDurationBetweenStartAndPersonalReservation(reservedAt));
     personalInfo.setDurationReservedAfterStartHumanReadable(humanReadableDuration(getDurationBetweenStartAndPersonalReservation(reservedAt)));
     personalInfo.setElapsedTimePercentage(calculateElapsedTimePercentage(reservedAt, region, version));
+    personalInfo.setPrettyText(
+        String.format("Hello! It looks like you have a %s %sGB reservation. You reserved your deck %s after pre-orders opened. You're %s of the way there.",
+            region,
+            version.getVersion(),
+            personalInfo.getDurationReservedAfterStartHumanReadable(),
+            personalInfo.getElapsedTimePercentage()));
 
     InfoResponse info = new InfoResponse();
     info.setOfficialInfo(officialInfo);
@@ -52,7 +58,7 @@ public class DeckService {
     long HH = duration.toHoursPart();
     long MM = duration.toMinutesPart();
     long SS = duration.toSecondsPart();
-    return String.format("%02d days %02d hours %02d minutes and %02d seconds", d, HH, MM, SS);
+    return String.format("%02d days, %02d hours ,%02d minutes and %02d seconds", d, HH, MM, SS);
   }
 
   public OffsetDateTime getSelectedDeckLastShipment(Region region, Version version) {

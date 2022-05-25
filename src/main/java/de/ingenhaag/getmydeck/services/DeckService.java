@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.OffsetDateTime;
+import java.util.Map;
 
 @Service
 public class DeckService {
@@ -14,7 +15,7 @@ public class DeckService {
   @Autowired
   SteamConfiguration config;
 
-  public InfoResponse getInfos(OffsetDateTime reservedAt, Region region, Version version) {
+  public InfoResponse getPersonalInfos(OffsetDateTime reservedAt, Region region, Version version) {
     OfficialInfo officialInfo = new OfficialInfo();
     officialInfo.setReservationsStartedAt(config.getReservationStart());
 
@@ -54,4 +55,11 @@ public class DeckService {
     return String.format("%02d days %02d hours %02d minutes and %02d seconds", d, HH, MM, SS);
   }
 
+  public OffsetDateTime getSelectedDeckLastShipment(Region region, Version version) {
+    return config.getLastShipments().get(region).get(version);
+  }
+
+  public Map<Version, OffsetDateTime> getSelectedDeckRegion(Region region) {
+    return config.getLastShipments().get(region);
+  }
 }

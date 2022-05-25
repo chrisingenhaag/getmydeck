@@ -22,14 +22,28 @@ public class DeckService {
     personalInfo.setRegion(region);
     personalInfo.setVersion(version);
     personalInfo.setReservedAt(reservedAt);
-    personalInfo.setDurationReservedAfterStart(Duration.between(config.getReservationStart(), reservedAt));
-    personalInfo.setDurationReservedAfterStartHumanReadable(humanReadableDuration(Duration.between(config.getReservationStart(), reservedAt)));
-    personalInfo.setElapsedTimePercentage("foo");
+    personalInfo.setDurationReservedAfterStart(getDurationBetweenStartAndPersonalReservation(reservedAt));
+    personalInfo.setDurationReservedAfterStartHumanReadable(humanReadableDuration(getDurationBetweenStartAndPersonalReservation(reservedAt)));
+    personalInfo.setElapsedTimePercentage(calculateElapsedTimePercentage(reservedAt, region, version));
 
     InfoResponse info = new InfoResponse();
     info.setOfficialInfo(officialInfo);
     info.setPersonalInfo(personalInfo);
     return info;
+  }
+
+  private Duration getDurationBetweenStartAndPersonalReservation(OffsetDateTime reservedAt) {
+    return Duration.between(config.getReservationStart(), reservedAt);
+  }
+
+  private String calculateElapsedTimePercentage(OffsetDateTime reservedAt, Region region, Version version) {
+    Duration diffToMyPersonalReservation = getDurationBetweenStartAndPersonalReservation(reservedAt);
+
+    OffsetDateTime myLastShipment = config.getLastShipments().get(region).get(version);
+    Duration diffToLastShipment = Duration.between(config.getReservationStart(), myLastShipment);
+
+    Double percentage = (double) diffToLastShipment.getSeconds() * 100 / diffToMyPersonalReservation.getSeconds();
+    return String.format("%1$,.2f %%", percentage);
   }
 
   private String humanReadableDuration(Duration duration) {

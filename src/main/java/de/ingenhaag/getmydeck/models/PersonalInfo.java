@@ -11,6 +11,7 @@ public class PersonalInfo {
   private Duration durationReservedAfterStart;
   private String durationReservedAfterStartHumanReadable;
   private String elapsedTimePercentage;
+  private String prettyText;
 
   public OffsetDateTime getReservedAt() {
     return reservedAt;
@@ -57,5 +58,13 @@ public class PersonalInfo {
 
   public String getElapsedTimePercentage() {
     return elapsedTimePercentage;
+  }
+
+  public void setPrettyText(String prettyText) {
+    this.prettyText = prettyText;
+  }
+
+  public String getPrettyText() {
+    return prettyText;
   }
 }

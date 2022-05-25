@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.OffsetDateTime;
+
 @RestController
 public class GetmydeckController {
 
@@ -17,7 +19,7 @@ public class GetmydeckController {
 
   @GetMapping("/api/info")
   public InfoResponse getMydeckSetupInfo(
-      @RequestParam("reserved") String reserved,
+      @RequestParam("reserved") OffsetDateTime reserved,
       @RequestParam("region") Region region,
       @RequestParam("version") Version version
   ) {

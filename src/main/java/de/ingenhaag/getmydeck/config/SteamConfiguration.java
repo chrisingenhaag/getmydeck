@@ -14,27 +14,26 @@ import java.util.Map;
 @ConfigurationProperties(prefix = "steam")
 public class SteamConfiguration {
 
-  private int reservationStart;
-  private Map<Region, Map<Version, Integer>> lastShipments;
-
-  public int getReservationStart() {
-    return reservationStart;
-  }
-
-  public void setReservationStart(int reservationStart) {
-    this.reservationStart = reservationStart;
-  }
+  private OffsetDateTime reservationStart;
+  private Map<Region, Map<Version, OffsetDateTime>> lastShipments;
 
   public OffsetDateTime getDiffFrom() {
     return OffsetDateTime.now(ZoneOffset.UTC);
   }
 
+  public OffsetDateTime getReservationStart() {
+    return reservationStart;
+  }
 
-  public Map<Region, Map<Version, Integer>> getLastShipments() {
+  public void setReservationStart(OffsetDateTime reservationStart) {
+    this.reservationStart = reservationStart;
+  }
+
+  public Map<Region, Map<Version, OffsetDateTime>> getLastShipments() {
     return lastShipments;
   }
 
-  public void setLastShipments(Map<Region, Map<Version, Integer>> lastShipments) {
+  public void setLastShipments(Map<Region, Map<Version, OffsetDateTime>> lastShipments) {
     this.lastShipments = lastShipments;
   }
 }

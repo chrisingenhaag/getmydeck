@@ -22,3 +22,7 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+bootBuildImage {
+	imageName = "registry.gitlab.com/cin/${project.name}:${project.version}"
+}

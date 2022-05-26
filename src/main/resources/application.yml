@@ -16,4 +16,5 @@ steam:
       S512: 1626456704
 
 management:
-  port: 8081
+  server:
+    port: 8081

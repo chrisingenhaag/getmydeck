@@ -21,10 +21,8 @@
 </script>
 
 <div>
-  <p>{region}</p>
-
   {#if deckdata}
-    <p>{deckdata}</p>
+    <p>{deckdata.personalInfo.prettyText}</p>
   {:else}
     <p class="loading">loading...</p>
   {/if}

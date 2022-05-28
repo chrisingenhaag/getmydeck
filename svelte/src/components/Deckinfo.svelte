@@ -22,8 +22,8 @@
 
 <div>
   {#if deckdata}
-    <p>{deckdata.personalInfo.prettyText}</p>
+    <p class="prose">{deckdata.personalInfo.prettyText}</p>
   {:else}
-    <p class="loading">loading...</p>
+    <p class="prose">loading...</p>
   {/if}
 </div>

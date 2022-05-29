@@ -1,16 +1,18 @@
-<script>
+<script lang="ts">
+  import type { DeckData } from 'src/types/DeckTypes';
+
   import { onMount } from 'svelte';
 
   const REMEMBERME_KEY = "urn:getmydeck:rememberme";
   
-  let reservationTime;
-  let selectedRegion;
-  let selectedVersion;
+  let reservationTime: string;
+  let selectedRegion: string;
+  let selectedVersion: string;
   let rememberme = false;
   let showDeckData = false
-  let deckdata;
+  let deckdata: DeckData;
   let showValidationError = false;
-  let errorMessage;
+  let errorMessage: string;
 
   let regions = [
     { id: 0, text: ``, value: undefined },
@@ -52,16 +54,18 @@
     localStorage.setItem(REMEMBERME_KEY, JSON.stringify(valueToStore));
   }
 
-  let fetchDeckInfos = async (re, ver, rt) => {
-    errorMessage = undefined;
+  let fetchDeckInfos = async (re: string, ver: string, rt: string) => {
+    errorMessage = '';
     await fetch(`/api/v2/regions/${re}/versions/${ver}/infos/${rt}`)
       .then(r => r.json())
       .then(data => {
         deckdata = data;
-        showDeckData = true;
       })
       .catch(() => {
         errorMessage = "Problem loading infos. Please fix your inputs."
+      })
+      .finally(() => {
+        showDeckData = true;
       });
     };
 
@@ -73,8 +77,7 @@
       selectedRegion = storedValues.region;
       selectedVersion = storedValues.version;
       rememberme = true;
-      fetchDeckInfos(selectedRegion.value, selectedVersion.value, reservationTime);
-      
+      fetchDeckInfos(selectedRegion, selectedVersion, reservationTime);
     }
   });
 </script>

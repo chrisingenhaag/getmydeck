@@ -84,7 +84,7 @@
 
 <div class="container mx-auto shadow-md p-5 mt-3 md:w-1/2 bg-white">
   <div class="grid grid-cols-1 gap-6 content-center">
-    <article class="block prose">
+    <article class="prose-lg">
       <h1 class="text-center">How long to get my Steam Deck?</h1>
       <p>Inspired from the reddit Steam Deck Order Email MegaThread <a target="_blank" href="https://www.reddit.com/r/SteamDeck/comments/uybfc5/order_email_megathread_may_26_2022">here</a> 
         I wanted to give an alternative way of getting actual 
@@ -102,7 +102,7 @@
     </article>
 
     <form on:submit|preventDefault={handleSubmit}>
-      <label class="block">
+      <label class="">
         <span class="text-gray-700">In which region did you preorder your Steam Deck?</span>
         <select class="form-select block rounded-md shadow-sm w-full mt-1" id="region" name="region" bind:value={selectedRegion}>
           {#each regions as region}
@@ -112,7 +112,7 @@
           {/each}
         </select>
       </label>
-      <label class="block">
+      <label class="">
         <span class="text-gray-700">Which version did you reserve?</span>
         <select class="form-select block rounded-md shadow-sm w-full mt-1" id="version" name="version" bind:value={selectedVersion}>
           {#each versions as version}
@@ -123,12 +123,12 @@
         </select>
       </label>
     
-      <label class="block">
+      <label class="">
         <span class="text-gray-700">Your reservation time (in seconds from 01.01.1970 example: 1627022437)</span>
         <input type="number" class="form-input block rounded-md shadow-sm w-full mt-1" name="reservationTime" id="reserationTime" bind:value={reservationTime}/>
       </label>
 
-      <label class="block">
+      <label class="">
         <button class="px-4 py-2 mt-5 font-semibold text-sm bg-sky-300 active:bg-sky-500 text-white rounded-lg shadow-sm" type="submit">
           Get my current preorder status
         </button>
@@ -150,6 +150,7 @@
           <p>{errorMessage}</p>
         {:else}
           {#if deckdata}
+            <h2>Results:</h2>
             <p>{deckdata.personalInfo.prettyText}</p>
           {:else}
             <p>Fetching infos ...</p>

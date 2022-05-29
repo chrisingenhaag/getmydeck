@@ -28,9 +28,9 @@ public class DeckService {
     personalInfo.setElapsedTimePercentage(calculateElapsedTimePercentage(reservedAt, region, version));
     personalInfo.setPrettyText(
         String.format("""
-            Hello! It looks like you have a %s %sGB reservation. 
+            It looks like you have a %s %sGB reservation. 
             You reserved your deck %s after pre-orders opened. 
-            You're %s of the way there because the last orders with your configuration did their reservation %s before you did.""",
+            You're %s of the way there because the last orders with your configuration were %s before you did.""",
             region,
             version.getVersion(),
             personalInfo.getDurationReservedAfterStartHumanReadable(),

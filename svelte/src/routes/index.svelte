@@ -1,7 +1,12 @@
 <script>
+  import { onMount } from 'svelte';
+
+  const REMEMBERME_KEY = "urn:getmydeck:rememberme";
+  
   let reservationTime;
   let selectedRegion;
   let selectedVersion;
+  let rememberme = false;
   let showDeckData = false
   let deckdata;
   let showValidationError = false;
@@ -22,15 +27,30 @@
 	];
 
   function handleSubmit() {
-    if(selectedRegion.value !== undefined && selectedVersion.value !== undefined && (reservationTime !== undefined && reservationTime !== null)) {
-      fetchDeckInfos(selectedRegion.value, selectedVersion.value, reservationTime)
+    if(selectedRegion !== undefined && selectedVersion !== undefined && (reservationTime !== undefined && reservationTime !== null)) {
+      fetchDeckInfos(selectedRegion, selectedVersion, reservationTime)
       showValidationError = false;
       showDeckData = true;
+      console.log(rememberme);
+      if(rememberme === true) {
+        saveRememberme()
+      } else {
+        localStorage.clear();
+      }
     } else {
       showValidationError = true;
       showDeckData = false
     }
 	}
+
+  let saveRememberme = () => {
+    let valueToStore = {
+      region: selectedRegion,
+      version: selectedVersion,
+      timestamp: reservationTime
+    }
+    localStorage.setItem(REMEMBERME_KEY, JSON.stringify(valueToStore));
+  }
 
   let fetchDeckInfos = async (re, ver, rt) => {
     errorMessage = undefined;
@@ -44,30 +64,56 @@
         errorMessage = "Problem loading infos. Please fix your inputs."
       });
     };
+
+  onMount(async () => {
+    let storedString = localStorage.getItem(REMEMBERME_KEY);
+    if (storedString !== null) {
+      let storedValues = JSON.parse(storedString);
+      reservationTime = storedValues.timestamp;
+      selectedRegion = storedValues.region;
+      selectedVersion = storedValues.version;
+      rememberme = true;
+      fetchDeckInfos(selectedRegion.value, selectedVersion.value, reservationTime);
+      
+    }
+  });
 </script>
 
 <div class="container mx-auto shadow-md p-5 mt-3 md:w-1/2 bg-white">
   <div class="grid grid-cols-1 gap-6 content-center">
-    <div class="block prose-lg text-center">
-      <h1>How long to get my Steam Deck</h1>
-    </div>
+    <article class="block prose">
+      <h1 class="text-center">How long to get my Steam Deck?</h1>
+      <p>Inspired from the reddit Steam Deck Order Email MegaThread <a target="_blank" href="https://www.reddit.com/r/SteamDeck/comments/uybfc5/order_email_megathread_may_26_2022">here</a> 
+        I wanted to give an alternative way of getting actual 
+        besides talking to the deckbot within the reddit. 
+      </p>
+      <p>
+        Anyway thanks to the guys behind the thread and there work on organizing this and making the data available. 
+        This site also relies on the data the people share in the reddit to collect information which people are able to
+        order their steam deck based on the reservation time, their region and their version.
+      </p>
+      <p>
+        Here you just need to enter your data to get your information about how far away you might be from ordering your steam deck. Every week 
+        you can just come back and see if something has changed (without a reddit account and talking to deckbot every week).
+      </p>
+    </article>
 
     <form on:submit|preventDefault={handleSubmit}>
       <label class="block">
         <span class="text-gray-700">In which region did you preorder your Steam Deck?</span>
         <select class="form-select block rounded-md shadow-sm w-full mt-1" id="region" name="region" bind:value={selectedRegion}>
           {#each regions as region}
-          <option value={region}>
+          <option value={region.value}>
             {region.text}
           </option>
           {/each}
         </select>
       </label>
       <label class="block">
-        <span class="text-gray-700">In which region did you preorder your Steam Deck?</span>
+        <span class="text-gray-700">Which version did you reserve?</span>
         <select class="form-select block rounded-md shadow-sm w-full mt-1" id="version" name="version" bind:value={selectedVersion}>
           {#each versions as version}
-          <option value={version}>
+          <option value={version.value}>
             {version.text}
           </option>
           {/each}
@@ -80,10 +126,16 @@
       </label>
 
       <label class="block">
-        <button class="px-4 py-2 mt-5 font-semibold text-sm bg-sky-300 active:bg-sky-500 text-white rounded-lg shadow-sm" type=submit>
+        <button class="px-4 py-2 mt-5 font-semibold text-sm bg-sky-300 active:bg-sky-500 text-white rounded-lg shadow-sm" type="submit">
           Get my current preorder status
         </button>
       </label>
+
+      <label class="block mt-3">
+        <input type="checkbox" class="form-input rounded-md shadow-sm" name="rememberme" id="rememberme" bind:checked={rememberme}/>
+        <span class="text-gray-700">Remember me</span>
+      </label>
+
     </form>
     
     <div class="block mt-3 pt-3 border-t-2 prose-lg">
@@ -97,7 +149,7 @@
           {#if deckdata}
             <p>{deckdata.personalInfo.prettyText}</p>
           {:else}
-            <p>fetching infos ...</p>
+            <p>Fetching infos ...</p>
           {/if}
         {/if}
       {/if}

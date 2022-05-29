@@ -6,6 +6,7 @@
   const REMEMBERME_KEY = "urn:getmydeck:rememberme";
   
   let reservationTime: string;
+  let reservationTimeHuman;
   let selectedRegion: string;
   let selectedVersion: string;
   let rememberme = false;
@@ -82,11 +83,11 @@
   });
 </script>
 
-<div class="container mx-auto shadow-md p-5 mt-3 md:w-1/2 bg-white">
+<div class="container mx-auto shadow-md p-5 mt-3 md:w-1/2 bg-white prose">
   <div class="grid grid-cols-1 gap-6 content-center">
-    <article class="prose-lg">
+    <article class="">
       <h1 class="text-center">How long to get my Steam Deck?</h1>
-      <p>Inspired from the reddit Steam Deck Order Email MegaThread <a target="_blank" href="https://www.reddit.com/r/SteamDeck/comments/uybfc5/order_email_megathread_may_26_2022">here</a> 
+      <p>Inspired from the reddit Steam Deck Order Email Megathreads <a target="_blank" href="https://www.reddit.com/r/SteamDeck/search?q=flair_name%3A%22MEGATHREAD%22&restrict_sr=1">(list of them here)</a> 
         I wanted to give an alternative way of getting actual 
         besides talking to the deckbot within the reddit. 
       </p>
@@ -124,7 +125,9 @@
       </label>
     
       <label class="">
-        <span class="text-gray-700">Your reservation time (in seconds from 01.01.1970 example: 1627022437)</span>
+        <span class="text-gray-700">Your reservation time (in seconds from 01.01.1970 example: 1627022437). Get it like 
+          described in the DeckBot description <a target="_blank" href="https://www.reddit.com/r/SteamDeck/comments/ui642q/introducing_deckbot/">here</a>
+        </span>
         <input type="number" class="form-input block rounded-md shadow-sm w-full mt-1" name="reservationTime" id="reserationTime" bind:value={reservationTime}/>
       </label>
 

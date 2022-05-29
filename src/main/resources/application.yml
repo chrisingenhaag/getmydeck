@@ -16,5 +16,9 @@ steam:
       S512: 1626456948
 
 management:
+  endpoints:
+    web:
+      exposure:
+        include: health, metrics, prometheus
   server:
     port: 8081

@@ -144,7 +144,11 @@
         <input type="checkbox" class="form-input rounded-md shadow-sm" name="rememberme" id="rememberme" bind:checked={rememberme}/>
         <span class="text-gray-700">Remember me</span>
       </label>
-
+      <div class="content-right">
+        <p>
+          Data last updated: May 26, 2022
+        </p>
+      </div>
     </form>
     
     <div class="block border-t-2">
@@ -163,6 +167,18 @@
           {/if}
         {/if}
       {/if}
+    </div>
+    <div class="block border-t-2 text-xs">
+      <h4>Changelog:</h4>
+      <ul>
+        <li>May 29, 2022: Added reservation timestamp from last order of your specific version of Steam Deck in form response</li>
+        <li>May 26, 2022: Updated data from deckbot googlesheet</li>
+      </ul>
+
+      <h4>Todo:</h4>
+      <ul>
+        <li>Auto update data from deckbot datasource</li>
+      </ul>
     </div>
     <div class="block border-t-2">
       <p>If you have questions or comments feel free to reach out for me on reddit <a target="_blank" href="https://www.reddit.com/u/Labidou51">Labidou51</a></p>

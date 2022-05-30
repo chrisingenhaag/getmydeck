@@ -2,26 +2,29 @@ package de.ingenhaag.getmydeck.services;
 
 import de.ingenhaag.getmydeck.config.SteamConfiguration;
 import de.ingenhaag.getmydeck.models.*;
+import de.ingenhaag.getmydeck.models.deckbot.DeckBotData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 public class DeckService {
 
   @Autowired
+  GoogleSheetService googleSheetService;
+  @Autowired
   SteamConfiguration config;
 
+  private OfficialInfo officialInfo = new OfficialInfo();
+
   public InfoResponse getPersonalInfos(OffsetDateTime reservedAt, Region region, Version version) {
-    OfficialInfo officialInfo = new OfficialInfo();
-    officialInfo.setReservationsStartedAt(config.getReservationStart());
+    this.officialInfo.setReservationsStartedAt(config.getReservationStart());
 
     OffsetDateTime latestOrderSpecificVersion = getSelectedDeckLastShipment(region, version);
-
-    System.out.println(latestOrderSpecificVersion.toEpochSecond());
 
     PersonalInfo personalInfo = new PersonalInfo();
     personalInfo.setRegion(region);
@@ -51,6 +54,19 @@ public class DeckService {
     return info;
   }
 
+  private Map<Region, Map<Version, OffsetDateTime>> getDeckBotDataOrDefault() {
+    final DeckBotData deckBotData = googleSheetService.getDeckBotData();
+    if (Objects.nonNull(deckBotData) && deckBotData.isComplete()) {
+      this.officialInfo.setLastDataUpdate(deckBotData.getLastUpdated());
+      this.officialInfo.setLastShipments(deckBotData.getLastShipments());
+      return deckBotData.getLastShipments();
+    } else {
+      this.officialInfo.setLastDataUpdate(config.getLastStaticUpdate());
+      this.officialInfo.setLastShipments(config.getLastShipments());
+      return config.getLastShipments();
+    }
+  }
+
   private Duration getDurationBetweenStartAndPersonalReservation(OffsetDateTime reservedAt) {
     return Duration.between(config.getReservationStart(), reservedAt);
   }
@@ -77,10 +93,10 @@ public class DeckService {
   }
 
   public OffsetDateTime getSelectedDeckLastShipment(Region region, Version version) {
-    return config.getLastShipments().get(region).get(version);
+    return getDeckBotDataOrDefault().get(region).get(version);
   }
 
   public Map<Version, OffsetDateTime> getSelectedDeckRegion(Region region) {
-    return config.getLastShipments().get(region);
+    return getDeckBotDataOrDefault().get(region);
   }
 }

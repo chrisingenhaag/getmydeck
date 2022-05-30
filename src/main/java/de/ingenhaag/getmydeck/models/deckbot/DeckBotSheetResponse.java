@@ -4,14 +4,13 @@ import java.util.List;
 
 public class DeckBotSheetResponse {
 
-  private List<DeckBotData> values;
+  private List<List<String>> values;
 
-
-  public List<DeckBotData> getValues() {
+  public List<List<String>> getValues() {
     return values;
   }
 
-  public void setValues(List<DeckBotData> values) {
+  public void setValues(List<List<String>> values) {
     this.values = values;
   }
 

@@ -144,11 +144,6 @@
         <input type="checkbox" class="form-input rounded-md shadow-sm" name="rememberme" id="rememberme" bind:checked={rememberme}/>
         <span class="text-gray-700">Remember me</span>
       </label>
-      <div class="content-right">
-        <p>
-          Data last updated: May 26, 2022
-        </p>
-      </div>
     </form>
     
     <div class="block border-t-2">
@@ -162,15 +157,19 @@
         {:else}
           {#if deckdata}
             <p>{deckdata.personalInfo.prettyText}</p>
+            <p class="text-xs">
+              Data last fetched from deckbot sheet: {deckdata.officialInfo.lastDataUpdate}
+            </p>
           {:else}
             <p>Fetching infos ...</p>
           {/if}
-        {/if}
+        {/if}      
       {/if}
     </div>
     <div class="block border-t-2 text-xs">
       <h4>Changelog:</h4>
       <ul>
+        <li>May 30, 2022: Updated to auto fetch data from deckbot google sheet</li>
         <li>May 30, 2022: Updated data from deckbot</li>
         <li>May 29, 2022: Added reservation timestamp from last order of your specific version of Steam Deck in form response</li>
         <li>May 26, 2022: Updated data from deckbot googlesheet</li>
@@ -178,7 +177,7 @@
 
       <h4>Todo:</h4>
       <ul>
-        <li>Auto update data from deckbot datasource</li>
+        <li class="line-through">Auto update data from deckbot datasource</li>
       </ul>
     </div>
     <div class="block border-t-2">

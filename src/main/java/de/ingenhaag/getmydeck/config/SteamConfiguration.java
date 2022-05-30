@@ -16,6 +16,7 @@ public class SteamConfiguration {
 
   private OffsetDateTime reservationStart;
   private Map<Region, Map<Version, OffsetDateTime>> lastShipments;
+  private OffsetDateTime lastStaticUpdate;
 
   public OffsetDateTime getDiffFrom() {
     return OffsetDateTime.now(ZoneOffset.UTC);
@@ -35,5 +36,13 @@ public class SteamConfiguration {
 
   public void setLastShipments(Map<Region, Map<Version, OffsetDateTime>> lastShipments) {
     this.lastShipments = lastShipments;
+  }
+
+  public OffsetDateTime getLastStaticUpdate() {
+    return lastStaticUpdate;
+  }
+
+  public void setLastStaticUpdate(OffsetDateTime lastStaticUpdate) {
+    this.lastStaticUpdate = lastStaticUpdate;
   }
 }

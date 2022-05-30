@@ -12,6 +12,8 @@ public class PersonalInfo {
   private String durationReservedAfterStartHumanReadable;
   private String elapsedTimePercentage;
   private String prettyText;
+  private long latestOrderSeconds;
+  private OffsetDateTime latestOrder;
 
   public OffsetDateTime getReservedAt() {
     return reservedAt;
@@ -66,5 +68,21 @@ public class PersonalInfo {
 
   public String getPrettyText() {
     return prettyText;
+  }
+
+  public void setLatestOrderSeconds(long latestOrderSeconds) {
+    this.latestOrderSeconds = latestOrderSeconds;
+  }
+
+  public long getLatestOrderSeconds() {
+    return latestOrderSeconds;
+  }
+
+  public void setLatestOrder(OffsetDateTime latestOrder) {
+    this.latestOrder = latestOrder;
+  }
+
+  public OffsetDateTime getLatestOrder() {
+    return latestOrder;
   }
 }

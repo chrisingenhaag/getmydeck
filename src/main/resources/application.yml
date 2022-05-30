@@ -1,6 +1,7 @@
 
 steam:
   reservation-start: 1626454800
+  last-static-update: 1653946328
   last-shipments:
     US:
       S64: 1626470474
@@ -16,9 +17,11 @@ steam:
       S512: 1626607271
 
 deckbot:
-  google:
-    api-key: ***REMOVED***
-    sheetid: 1ZaKncig9fce7K0sr1f-E2_sgLH1HuKQ-q3k7clPMOCs
+  google-api-key: ***REMOVED***
+  sheet-id: 1ZaKncig9fce7K0sr1f-E2_sgLH1HuKQ-q3k7clPMOCs
+  sheet-data-location: "deckbot!A1:C9"
+  base-url: https://sheets.googleapis.com/v4/spreadsheets
+  url: "${deckbot.base-url}/${deckbot.sheet-id}/values/${deckbot.sheet-data-location}?key=${deckbot.google-api-key}"
 
 management:
   endpoints:

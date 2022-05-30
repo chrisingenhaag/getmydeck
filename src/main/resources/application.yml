@@ -15,6 +15,11 @@ steam:
       S256: 1626619266
       S512: 1626607271
 
+deckbot:
+  google:
+    api-key: ***REMOVED***
+    sheetid: 1ZaKncig9fce7K0sr1f-E2_sgLH1HuKQ-q3k7clPMOCs
+
 management:
   endpoints:
     web:

@@ -19,23 +19,31 @@ public class DeckService {
     OfficialInfo officialInfo = new OfficialInfo();
     officialInfo.setReservationsStartedAt(config.getReservationStart());
 
+    OffsetDateTime latestOrderSpecificVersion = getSelectedDeckLastShipment(region, version);
+
+    System.out.println(latestOrderSpecificVersion.toEpochSecond());
+
     PersonalInfo personalInfo = new PersonalInfo();
     personalInfo.setRegion(region);
     personalInfo.setVersion(version);
+    personalInfo.setLatestOrderSeconds(latestOrderSpecificVersion.toEpochSecond());
+    personalInfo.setLatestOrder(latestOrderSpecificVersion);
+
     personalInfo.setReservedAt(reservedAt);
     personalInfo.setDurationReservedAfterStart(getDurationBetweenStartAndPersonalReservation(reservedAt));
     personalInfo.setDurationReservedAfterStartHumanReadable(humanReadableDuration(getDurationBetweenStartAndPersonalReservation(reservedAt)));
-    personalInfo.setElapsedTimePercentage(calculateElapsedTimePercentage(reservedAt, region, version));
+    personalInfo.setElapsedTimePercentage(calculateElapsedTimePercentage(reservedAt, latestOrderSpecificVersion));
     personalInfo.setPrettyText(
         String.format("""
-            It looks like you have a %s %sGB reservation. 
-            You reserved your deck %s after pre-orders opened. 
-            You're %s of the way there because the last orders with your configuration were %s before you did.""",
+            It looks like you have a %s %sGB reservation. You reserved your deck %s after pre-orders opened. 
+            You're %s of the way there because the last orders with your configuration were %s (at reservation timestamp %s) before you did.""",
             region,
             version.getVersion(),
             personalInfo.getDurationReservedAfterStartHumanReadable(),
             personalInfo.getElapsedTimePercentage(),
-            calculateDurationBetweenLastShipmentAndMyReservation(reservedAt, region, version)));
+            calculateDurationBetweenLastShipmentAndMyReservation(reservedAt, latestOrderSpecificVersion),
+            personalInfo.getLatestOrderSeconds())
+        );
 
     InfoResponse info = new InfoResponse();
     info.setOfficialInfo(officialInfo);
@@ -47,17 +55,14 @@ public class DeckService {
     return Duration.between(config.getReservationStart(), reservedAt);
   }
 
-  private String calculateDurationBetweenLastShipmentAndMyReservation(OffsetDateTime reservedAt, Region region, Version version) {
-    OffsetDateTime myLastShipment = config.getLastShipments().get(region).get(version);
-    Duration d = Duration.between(myLastShipment, reservedAt);
-
+  private String calculateDurationBetweenLastShipmentAndMyReservation(OffsetDateTime reservedAt, OffsetDateTime latestOrderSpecificVersion) {
+    Duration d = Duration.between(latestOrderSpecificVersion, reservedAt);
     return humanReadableDuration(d);
   }
-  private String calculateElapsedTimePercentage(OffsetDateTime reservedAt, Region region, Version version) {
+  private String calculateElapsedTimePercentage(OffsetDateTime reservedAt, OffsetDateTime latestOrderSpecificVersion) {
     Duration diffToMyPersonalReservation = getDurationBetweenStartAndPersonalReservation(reservedAt);
 
-    OffsetDateTime myLastShipment = config.getLastShipments().get(region).get(version);
-    Duration diffToLastShipment = Duration.between(config.getReservationStart(), myLastShipment);
+    Duration diffToLastShipment = Duration.between(config.getReservationStart(), latestOrderSpecificVersion);
 
     Double percentage = (double) diffToLastShipment.getSeconds() * 100 / diffToMyPersonalReservation.getSeconds();
     return String.format("%1$,.2f %%", percentage);

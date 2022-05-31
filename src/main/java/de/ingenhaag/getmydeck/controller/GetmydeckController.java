@@ -4,6 +4,7 @@ import de.ingenhaag.getmydeck.models.InfoResponse;
 import de.ingenhaag.getmydeck.models.Region;
 import de.ingenhaag.getmydeck.models.Version;
 import de.ingenhaag.getmydeck.services.DeckService;
+import io.micrometer.core.annotation.Timed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,7 @@ import java.time.OffsetDateTime;
 import java.util.Map;
 
 @RestController
+@Timed(histogram = true)
 public class GetmydeckController {
 
   @Autowired

@@ -38,14 +38,16 @@ public class DeckService {
     personalInfo.setElapsedTimePercentage(calculateElapsedTimePercentage(reservedAt, latestOrderSpecificVersion));
     personalInfo.setPrettyText(
         String.format("""
-            It looks like you have a %s %sGB reservation. You reserved your deck %s after pre-orders opened. 
-            You're %s of the way there because the last orders with your configuration were %s (at reservation timestamp %s) before you did.""",
+            It looks like you have a %s %sGB reservation. 
+            You reserved your deck %s after pre-orders opened. 
+            %s of orders have been processed, and you have %s of orders to go until it is your turn. 
+            You're %s of the way there!""",
             region,
             version.getVersion(),
             personalInfo.getDurationReservedAfterStartHumanReadable(),
-            personalInfo.getElapsedTimePercentage(),
+            calculateDurationBetweenPreorderStartAndLastShipment(latestOrderSpecificVersion),
             calculateDurationBetweenLastShipmentAndMyReservation(reservedAt, latestOrderSpecificVersion),
-            personalInfo.getLatestOrderSeconds())
+            personalInfo.getElapsedTimePercentage())
         );
 
     InfoResponse info = new InfoResponse();
@@ -69,6 +71,11 @@ public class DeckService {
 
   private Duration getDurationBetweenStartAndPersonalReservation(OffsetDateTime reservedAt) {
     return Duration.between(config.getReservationStart(), reservedAt);
+  }
+
+  private String calculateDurationBetweenPreorderStartAndLastShipment(OffsetDateTime latestOrderSpecificVersion) {
+    Duration d = Duration.between(config.getReservationStart(), latestOrderSpecificVersion);
+    return humanReadableDuration(d);
   }
 
   private String calculateDurationBetweenLastShipmentAndMyReservation(OffsetDateTime reservedAt, OffsetDateTime latestOrderSpecificVersion) {

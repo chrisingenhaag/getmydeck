@@ -169,6 +169,7 @@
     <div class="block border-t-2 text-xs">
       <h4>Changelog:</h4>
       <ul>
+        <li>May 31, 2022: Switched text response to be more understandable</li>
         <li>May 30, 2022: Updated to auto fetch data from deckbot google sheet</li>
         <li>May 30, 2022: Updated data from deckbot</li>
         <li>May 29, 2022: Added reservation timestamp from last order of your specific version of Steam Deck in form response</li>

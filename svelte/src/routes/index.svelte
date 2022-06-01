@@ -15,14 +15,14 @@
   let errorMessage: string;
 
   let regions = [
-    { id: 0, text: ``, value: undefined },
+    { id: 0, text: `empty`, value: undefined },
 		{ id: 1, text: `US`, value: `US` },
 		{ id: 2, text: `UK`, value: `UK` },
 		{ id: 3, text: `EU`, value: `EU` }
 	];
 
   let versions = [
-    { id: 0, text: ``, value: undefined },
+    { id: 0, text: `empty`, value: undefined },
 		{ id: 1, text: `64GB`, value: `64` },
 		{ id: 2, text: `256GB`, value: `256` },
 		{ id: 3, text: `512GB`, value: `512` }
@@ -106,36 +106,36 @@
     </article>
 
     <form on:submit|preventDefault={handleSubmit}>
-      <label class="">
-        <span class="text-gray-700">In which region did you preorder your Steam Deck?</span>
+      <div class="">
+        <label for="region" class="text-gray-700">In which region did you preorder your Steam Deck?</label>
         <select class="form-select block rounded-md shadow-sm w-full mt-1" id="region" name="region" bind:value={selectedRegion}>
           {#each regions as region}
-          <option value={region.value}>
+          <option label={region.text} value={region.value}>
             {region.text}
           </option>
           {/each}
         </select>
-      </label>
-      <label class="">
-        <span class="text-gray-700">Which version did you reserve?</span>
+      </div>
+      <div class="">
+        <label for="version" class="text-gray-700">Which version did you reserve?</label>
         <select class="form-select block rounded-md shadow-sm w-full mt-1" id="version" name="version" bind:value={selectedVersion}>
           {#each versions as version}
-          <option value={version.value}>
+          <option label={version.text} value={version.value}>
             {version.text}
           </option>
           {/each}
         </select>
-      </label>
+      </div>
     
-      <label class="">
-        <span class="text-gray-700">Your reservation time (in seconds from 01.01.1970 example: 1627022437). Get it like 
+      <div class="">
+        <label for="reserationTime" class="text-gray-700">Your reservation time (in seconds from 01.01.1970 example: 1627022437). Get it like 
           described in the DeckBot description <a target="_blank" href="https://www.reddit.com/r/SteamDeck/comments/ui642q/introducing_deckbot/">here</a>
-        </span>
+        </label>
         <input type="number" class="form-input block rounded-md shadow-sm w-full mt-1" name="reservationTime" id="reserationTime" bind:value={reservationTime}/>
-      </label>
+      </div>
 
       <label class="">
-        <button class="px-4 py-2 mt-5 font-semibold text-sm bg-sky-300 active:bg-sky-500 text-white rounded-lg shadow-sm" type="submit">
+        <button class="px-4 py-2 mt-5 font-semibold text-sm bg-sky-900 active:bg-sky-600 text-white rounded-lg shadow-sm" type="submit">
           Get my current preorder status
         </button>
       </label>

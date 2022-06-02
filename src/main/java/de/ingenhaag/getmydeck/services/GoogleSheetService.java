@@ -18,7 +18,6 @@ import java.net.URI;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -28,7 +27,7 @@ public class GoogleSheetService {
 
   private static final Logger log = LoggerFactory.getLogger(GoogleSheetService.class);
 
-  private DeckBotData deckBotData;
+  private DeckBotData currentDeckBotData;
   private final RestTemplate restTemplate;
   private final DeckBotConfiguration deckBotConfiguration;
 
@@ -70,15 +69,15 @@ public class GoogleSheetService {
     deckBotData.setLastShipments(parsedData);
     deckBotData.setLastUpdated(OffsetDateTime.now(ZoneOffset.UTC));
     if (deckBotData.isComplete() &&
-        (this.deckBotData == null || !parsedData.entrySet().equals(this.deckBotData.getLastShipments().entrySet()))) {
-      this.deckBotData = deckBotData;
-      log.info("Success updating deckBotData to {}", this.deckBotData);
+        (this.currentDeckBotData == null || !parsedData.entrySet().equals(this.currentDeckBotData.getLastShipments().entrySet()))) {
+      this.currentDeckBotData = deckBotData;
+      log.info("Success updating deckBotData to {}", this.currentDeckBotData);
     } else {
       log.info("Data not changed on google sheet, skipping");
     }
   }
 
   public DeckBotData getDeckBotData() {
-    return deckBotData;
+    return currentDeckBotData;
   }
 }

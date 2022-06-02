@@ -37,7 +37,7 @@ public class GoogleSheetService {
     this.deckBotConfiguration = deckBotConfiguration;
   }
 
-  @Scheduled(timeUnit = TimeUnit.MINUTES, fixedRate = 15)
+  @Scheduled(timeUnit = TimeUnit.MINUTES, fixedRate = 1)
   protected void fetchDeckBotData() {
     final ResponseEntity<DeckBotSheetResponse> response = restTemplate.getForEntity(URI.create(deckBotConfiguration.getUrl()), DeckBotSheetResponse.class);
     if (response.hasBody()) {

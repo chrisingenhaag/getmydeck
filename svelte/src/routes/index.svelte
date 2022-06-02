@@ -181,6 +181,10 @@
 
       <h4>Todo:</h4>
       <ul>
+        <li>Use historical data to calc a 5 week average and use it to calc estimated order date</li>
+        <li>Use historical data to display last increases on your personal reservation time</li>
+        <li>If deckbot data changes, persist them to disk. Load this data from disk</li>
+        <li class="line-through">Update data from deckbot datasource only if they changed</li>
         <li class="line-through">Auto update data from deckbot datasource</li>
       </ul>
     </div>

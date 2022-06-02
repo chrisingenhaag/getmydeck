@@ -11,6 +11,8 @@
   let rememberme = false;
   let showDeckData = false
   let deckdata: DeckData;
+  let deckdataLastUpdatedString: string;
+
   let showValidationError = false;
   let errorMessage: string;
 
@@ -33,7 +35,6 @@
       fetchDeckInfos(selectedRegion, selectedVersion, reservationTime)
       showValidationError = false;
       showDeckData = true;
-      console.log(rememberme);
       if(rememberme === true) {
         saveRememberme()
       } else {
@@ -65,6 +66,8 @@
         errorMessage = "Problem loading infos. Please fix your inputs."
       })
       .finally(() => {
+        let date = new Date(deckdata.officialInfo.lastDataUpdate);
+        deckdataLastUpdatedString = date.toLocaleString();
         showDeckData = true;
       });
     };
@@ -158,7 +161,7 @@
           {#if deckdata}
             <p>{deckdata.personalInfo.prettyText}</p>
             <p class="text-xs">
-              Data last fetched from deckbot sheet: {deckdata.officialInfo.lastDataUpdate}
+              Data last updated from deckbot sheet: {deckdataLastUpdatedString}
             </p>
           {:else}
             <p>Fetching infos ...</p>

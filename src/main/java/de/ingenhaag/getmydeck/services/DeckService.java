@@ -3,6 +3,7 @@ package de.ingenhaag.getmydeck.services;
 import de.ingenhaag.getmydeck.config.SteamConfiguration;
 import de.ingenhaag.getmydeck.models.*;
 import de.ingenhaag.getmydeck.models.deckbot.DeckBotData;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +15,19 @@ import java.util.Objects;
 @Service
 public class DeckService {
 
-  @Autowired
-  GoogleSheetService googleSheetService;
-  @Autowired
-  SteamConfiguration config;
+  public static final String METRIC_DECKDATA_RETURNED = "deckdata_returned";
+  public static final String METRIC_DECKDATA_TAG_OUTCOME = "outcome";
+  public static final String METRIC_DECKDATA_COMPLETE = "complete_and_update";
+  public static final String METRIC_DECKDATA_FALLBACK = "fallback_to_static";
 
-  private OfficialInfo officialInfo = new OfficialInfo();
+  @Autowired
+  private MeterRegistry meterRegistry;
+  @Autowired
+  private GoogleSheetService googleSheetService;
+  @Autowired
+  private SteamConfiguration config;
+
+  private final OfficialInfo officialInfo = new OfficialInfo();
 
   public InfoResponse getPersonalInfos(OffsetDateTime reservedAt, Region region, Version version) {
     this.officialInfo.setReservationsStartedAt(config.getReservationStart());
@@ -59,10 +67,12 @@ public class DeckService {
   private Map<Region, Map<Version, OffsetDateTime>> getDeckBotDataOrDefault() {
     final DeckBotData deckBotData = googleSheetService.getDeckBotData();
     if (Objects.nonNull(deckBotData) && deckBotData.isComplete()) {
+      meterRegistry.counter(METRIC_DECKDATA_RETURNED, METRIC_DECKDATA_TAG_OUTCOME, METRIC_DECKDATA_COMPLETE).increment();
       this.officialInfo.setLastDataUpdate(deckBotData.getLastUpdated());
       this.officialInfo.setLastShipments(deckBotData.getLastShipments());
       return deckBotData.getLastShipments();
     } else {
+      meterRegistry.counter(METRIC_DECKDATA_RETURNED, METRIC_DECKDATA_TAG_OUTCOME, METRIC_DECKDATA_FALLBACK).increment();
       this.officialInfo.setLastDataUpdate(config.getLastStaticUpdate());
       this.officialInfo.setLastShipments(config.getLastShipments());
       return config.getLastShipments();

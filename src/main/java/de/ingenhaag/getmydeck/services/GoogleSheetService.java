@@ -58,14 +58,23 @@ public class GoogleSheetService {
                 parsedData.put(region, versionOffsetDateTimeMap);
               }
             });
-        DeckBotData deckBotData = new DeckBotData();
-        deckBotData.setLastShipments(parsedData);
-        deckBotData.setLastUpdated(OffsetDateTime.now(ZoneOffset.UTC));
-        this.deckBotData = deckBotData;
-        log.info("Success updating deckBotData to {}", this.deckBotData);
+        updateParsedDataIfChanged(parsedData);
       } catch(NullPointerException e) {
         log.error("Error parsing response from googlesheet", e);
       }
+    }
+  }
+
+  private void updateParsedDataIfChanged(Map<Region, Map<Version, OffsetDateTime>> parsedData) {
+    DeckBotData deckBotData = new DeckBotData();
+    deckBotData.setLastShipments(parsedData);
+    deckBotData.setLastUpdated(OffsetDateTime.now(ZoneOffset.UTC));
+    if (deckBotData.isComplete() &&
+        (this.deckBotData == null || !parsedData.entrySet().equals(this.deckBotData.getLastShipments().entrySet()))) {
+      this.deckBotData = deckBotData;
+      log.info("Success updating deckBotData to {}", this.deckBotData);
+    } else {
+      log.info("Data not changed on google sheet, skipping");
     }
   }
 

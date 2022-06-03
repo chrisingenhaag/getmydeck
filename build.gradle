@@ -29,6 +29,7 @@ bootBuildImage {
 	publish = !project.version.contains("-SNAPSHOT")
 	docker {
 		publishRegistry {
+			url = "https://registry.gitlab.com"
 			token = System.getenv('DOCKER_PUSH_TOKEN')
 		}
 	}

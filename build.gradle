@@ -31,4 +31,7 @@ bootBuildImage {
 
 release {
 	buildTasks = ['bootBuildImage']
+	git {
+		requireBranch = 'main'
+	}
 }

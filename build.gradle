@@ -31,9 +31,4 @@ bootBuildImage {
 
 release {
 	buildTasks = ['bootBuildImage']
-	git {
-		requireBranch = 'master'
-		pushToRemote = 'origin'
-		pushToBranchPrefix = ''
-	}
 }

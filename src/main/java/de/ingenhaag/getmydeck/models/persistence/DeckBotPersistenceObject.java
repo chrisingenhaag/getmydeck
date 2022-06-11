@@ -23,7 +23,7 @@ public class DeckBotPersistenceObject {
 
   @JsonIgnore
   public Optional<DeckBotData> getLatestDeckData() {
-    return data.entrySet().stream().min(Map.Entry.comparingByKey()).map(Map.Entry::getValue);
+    return data.entrySet().stream().max(Map.Entry.comparingByKey()).map(Map.Entry::getValue);
   }
 
   @JsonIgnore

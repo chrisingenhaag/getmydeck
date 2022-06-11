@@ -23,7 +23,7 @@ public class DeckService {
   @Autowired
   private MeterRegistry meterRegistry;
   @Autowired
-  private GoogleSheetService googleSheetService;
+  private DeckDataPersistenceService deckDataPersistenceService;
   @Autowired
   private SteamConfiguration config;
 
@@ -65,7 +65,7 @@ public class DeckService {
   }
 
   private Map<Region, Map<Version, OffsetDateTime>> getDeckBotDataOrDefault() {
-    final DeckBotData deckBotData = googleSheetService.getDeckBotData();
+    final DeckBotData deckBotData = deckDataPersistenceService.getDeckBotData();
     if (Objects.nonNull(deckBotData) && deckBotData.isComplete()) {
       meterRegistry.counter(METRIC_DECKDATA_RETURNED, METRIC_DECKDATA_TAG_OUTCOME, METRIC_DECKDATA_COMPLETE).increment();
       this.officialInfo.setLastDataUpdate(deckBotData.getLastUpdated());

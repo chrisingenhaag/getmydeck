@@ -1,20 +1,20 @@
 
 steam:
   reservation-start: 1626454800
-  last-static-update: 1654193119
+  last-static-update: 1654969214
   last-shipments:
     US:
-      S64: 1626471512
-      S256: 1626466837
-      S512: 1626457290
+      S64: 1626474232
+      S256: 1626469537
+      S512: 1626457848
     UK:
-      S64: 1626622497
-      S256: 1626460034
-      S512: 1626456342
+      S64: 1626669417
+      S256: 1626461143
+      S512: 1626456694
     EU:
-      S64: 1626742716
-      S256: 1626639335
-      S512: 1626628529
+      S64: 1626800517
+      S256: 1626712678
+      S512: 1626705120
 
 deckbot:
   google-api-key: ***REMOVED***
@@ -22,6 +22,11 @@ deckbot:
   sheet-data-location: "deckbot!A1:C9"
   base-url: https://sheets.googleapis.com/v4/spreadsheets
   url: "${deckbot.base-url}/${deckbot.sheet-id}/values/${deckbot.sheet-data-location}?key=${deckbot.google-api-key}"
+
+persistence:
+  enabled: {DECKBOT_DATA_ENABLED:false}
+  path: ${DECKBOT_DATA_PATH:/data/deckbot-data.json}
+  create-if-not-exists: ${DECKBOT_DATA_PATH_CREATE_IF_NOT_EXISTS:false}
 
 management:
   endpoints:

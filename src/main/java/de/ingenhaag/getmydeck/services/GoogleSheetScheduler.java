@@ -3,7 +3,6 @@ package de.ingenhaag.getmydeck.services;
 import de.ingenhaag.getmydeck.config.DeckBotConfiguration;
 import de.ingenhaag.getmydeck.models.Region;
 import de.ingenhaag.getmydeck.models.Version;
-import de.ingenhaag.getmydeck.models.deckbot.DeckBotData;
 import de.ingenhaag.getmydeck.models.deckbot.DeckBotSheetResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,21 +22,25 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Service
-public class GoogleSheetService {
+public class GoogleSheetScheduler {
 
-  private static final Logger log = LoggerFactory.getLogger(GoogleSheetService.class);
+  private static final Logger log = LoggerFactory.getLogger(GoogleSheetScheduler.class);
 
-  private DeckBotData currentDeckBotData;
   private final RestTemplate restTemplate;
   private final DeckBotConfiguration deckBotConfiguration;
+  private DeckDataPersistenceService persistenceService;
 
   @Autowired
-  public GoogleSheetService(RestTemplateBuilder builder, DeckBotConfiguration deckBotConfiguration) {
+  public GoogleSheetScheduler(RestTemplateBuilder builder,
+                              DeckBotConfiguration deckBotConfiguration,
+                              DeckDataPersistenceService persistenceService) {
     this.restTemplate = builder.build();
     this.deckBotConfiguration = deckBotConfiguration;
+    this.persistenceService = persistenceService;
+
   }
 
-  @Scheduled(timeUnit = TimeUnit.MINUTES, fixedRate = 1)
+  @Scheduled(timeUnit = TimeUnit.MINUTES, fixedRate = 1, initialDelay = 2)
   protected void fetchDeckBotData() {
     final ResponseEntity<DeckBotSheetResponse> response = restTemplate.getForEntity(URI.create(deckBotConfiguration.getUrl()), DeckBotSheetResponse.class);
     if (response.hasBody()) {
@@ -57,27 +60,10 @@ public class GoogleSheetService {
                 parsedData.put(region, versionOffsetDateTimeMap);
               }
             });
-        updateParsedDataIfChanged(parsedData);
+        persistenceService.updateParsedDataIfChanged(parsedData);
       } catch(NullPointerException e) {
         log.error("Error parsing response from googlesheet", e);
       }
     }
-  }
-
-  private void updateParsedDataIfChanged(Map<Region, Map<Version, OffsetDateTime>> parsedData) {
-    DeckBotData deckBotData = new DeckBotData();
-    deckBotData.setLastShipments(parsedData);
-    deckBotData.setLastUpdated(OffsetDateTime.now(ZoneOffset.UTC));
-    if (deckBotData.isComplete() &&
-        (this.currentDeckBotData == null || !parsedData.entrySet().equals(this.currentDeckBotData.getLastShipments().entrySet()))) {
-      this.currentDeckBotData = deckBotData;
-      log.info("Success updating deckBotData to {}", this.currentDeckBotData);
-    } else {
-      log.info("Data not changed on google sheet, skipping");
-    }
-  }
-
-  public DeckBotData getDeckBotData() {
-    return currentDeckBotData;
   }
 }

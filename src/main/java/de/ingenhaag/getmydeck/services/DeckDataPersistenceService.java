@@ -81,7 +81,7 @@ public class DeckDataPersistenceService {
       data.addOrUpdateNewDeckDataSet(deckBotData);
 
       File file = new File(path);
-      mapper.writeValue(file, data);
+      mapper.writerWithDefaultPrettyPrinter().writeValue(file, data);
 
     } catch (FileNotFoundException e) {
       throw new RuntimeException(e);

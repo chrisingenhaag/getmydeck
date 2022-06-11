@@ -11,31 +11,26 @@ import java.util.Optional;
 
 public class DeckBotPersistenceObject {
 
-  private HashMap<LocalDate, DeckBotDataDaySet> data;
+  private HashMap<LocalDate, DeckBotData> data;
 
-  public HashMap<LocalDate, DeckBotDataDaySet> getData() {
+  public HashMap<LocalDate, DeckBotData> getData() {
     return data;
   }
 
-  public void setData(HashMap<LocalDate, DeckBotDataDaySet> data) {
+  public void setData(HashMap<LocalDate, DeckBotData> data) {
     this.data = data;
   }
 
   @JsonIgnore
   public Optional<DeckBotData> getLatestDeckData() {
-    return data.entrySet().stream().min(Map.Entry.comparingByKey()).map(entry -> {
-          final DeckBotDataDaySet value = entry.getValue();
-          DeckBotData deckBotData = new DeckBotData();
-          deckBotData.setLastShipments(value.getLastShipments());
-          return deckBotData;
-        });
+    return data.entrySet().stream().min(Map.Entry.comparingByKey()).map(Map.Entry::getValue);
   }
 
   @JsonIgnore
-  public void addOrUpdateNewDeckDataSet(DeckBotDataDaySet dataDaySet) {
+  public void addOrUpdateNewDeckDataSet(DeckBotData dataDaySet) {
     final LocalDate now = LocalDate.now(ZoneOffset.UTC);
     if(data == null) {
-      data = new HashMap<LocalDate, DeckBotDataDaySet>();
+      data = new HashMap<LocalDate, DeckBotData>();
     }
 
     if(data.containsKey(now)) {

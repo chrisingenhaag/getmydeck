@@ -40,6 +40,6 @@ release {
 	buildTasks = ['bootBuildImage']
 	git {
 		requireBranch = 'main'
-		pushOptions = ["ci.skip"]
+		pushOptions = ["-o ci.skip"]
 	}
 }

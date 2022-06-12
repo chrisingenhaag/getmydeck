@@ -29,8 +29,9 @@ bootBuildImage {
 	publish = !project.version.contains("-SNAPSHOT")
 	docker {
 		publishRegistry {
-			url = "registry.gitlab.com/cin/getmydeck"
-			token = System.getenv('DOCKER_PUSH_TOKEN')
+			url = System.getenv("CI_REGISTRY") ?: "n/a"
+			username = System.getenv("CI_REGISTRY_USER") ?: "n/a"
+			password = System.getenv("CI_REGISTRY_PASSWORD") ?: "n/a"
 		}
 	}
 }

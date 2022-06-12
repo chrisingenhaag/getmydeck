@@ -41,4 +41,4 @@ release:
   script:
     - ./gradlew release -Prelease.useAutomaticVersion=true
   only:
-    - master
+    - main

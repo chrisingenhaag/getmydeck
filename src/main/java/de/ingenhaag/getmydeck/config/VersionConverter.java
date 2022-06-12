@@ -1,6 +1,6 @@
 package de.ingenhaag.getmydeck.config;
 
-import de.ingenhaag.getmydeck.models.Version;
+import de.ingenhaag.getmydeck.models.deckbot.Version;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 

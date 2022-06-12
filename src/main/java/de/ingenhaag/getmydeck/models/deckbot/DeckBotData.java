@@ -1,8 +1,6 @@
 package de.ingenhaag.getmydeck.models.deckbot;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import de.ingenhaag.getmydeck.models.Region;
-import de.ingenhaag.getmydeck.models.Version;
 import de.ingenhaag.getmydeck.models.persistence.DeckBotDataDaySet;
 
 import java.time.Instant;

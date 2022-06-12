@@ -18,6 +18,67 @@ docker push
 
 Google sheet from u/fammy https://docs.google.com/spreadsheets/d/1ZaKncig9fce7K0sr1f-E2_sgLH1HuKQ-q3k7clPMOCs/edit?usp=sharing
 
+### Wanted output 
+
+```json
+{
+  "officialInfo": {
+    "reservationsStartedAt": "2021-07-16T17:00:00Z",
+    "lastDataUpdate": "2022-06-12T13:06:32Z",
+    "lastShipments": {
+      "US": {
+        "512": "2021-07-16T17:50:48Z",
+        "256": "2021-07-16T21:05:37Z",
+        "64": "2021-07-16T22:23:52Z"
+      },
+      "UK": {
+        "512": "2021-07-16T17:31:34Z",
+        "256": "2021-07-16T18:45:43Z",
+        "64": "2021-07-19T04:36:57Z"
+      },
+      "EU": {
+        "512": "2021-07-19T14:32:00Z",
+        "256": "2021-07-19T16:37:58Z",
+        "64": "2021-07-20T17:01:57Z"
+      }
+    }
+  },
+  "personalInfo": {
+    "reservedAt": "2021-07-23T06:40:37Z",
+    "region": "EU",
+    "version": "512",
+    "durationReservedAfterStart": "PT157H40M37S",
+    "durationReservedAfterStartHumanReadable": "06 days, 13 hours, 40 minutes and 37 seconds",
+    "elapsedTimePercentage": "44.10 %",
+    "prettyText": "It looks like you have a EU 512GB reservation.\nYou reserved your deck 06 days, 13 hours, 40 minutes and 37 seconds after pre-orders opened.\n02 days, 21 hours, 32 minutes and 00 seconds of orders have been processed, and you have 03 days, 16 hours, 08 minutes and 37 seconds of orders to go until it is your turn.\nYou're 44.10 % of the way there!",
+    "htmlText": "<ul>\n  <li>It looks like you have a EU 512GB reservation</li>\n  <li>You reserved your deck 06 days, 13 hours, 40 minutes and 37 seconds after pre-orders opened</li>\n  <li>02 days, 21 hours, 32 minutes and 00 seconds of orders have been processed</li>\n  <li>You have 03 days, 16 hours, 08 minutes and 37 seconds of orders to go until it is your turn</li>\n  <li>You're 44.10 % of the way there!</li>\n</ul>",
+    "latestOrderSeconds": 1626705120,
+    "latestOrder": "2021-07-19T14:32:00Z",
+    "predictiveData": {
+      "fiveWeekAverageTarget": "2022-06-30",
+      "fiveWeekLinearProgressionTarget": "2022-06-26"
+    },
+    "historicData": [
+      {
+        "date": "2022-06-09",
+        "elapsedTimePercentage": "38.10 %",
+        "elapsedTimePercentageIncrease": "6 %"
+      },
+      {
+        "date": "2022-06-05",
+        "elapsedTimePercentage": "32.10 %",
+        "elapsedTimePercentageIncrease": "4 %"
+      },
+      {
+        "date": "2022-06-01",
+        "elapsedTimePercentage": "28.10 %"
+        "elapsedTimePercentageIncrease": "2 %"
+      }
+    ]
+  }
+}
+```
+
 ### Dump of historical data from 
 
 Email Batch	Model	Region	rtReserveTime

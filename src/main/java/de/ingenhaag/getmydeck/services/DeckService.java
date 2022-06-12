@@ -1,16 +1,22 @@
 package de.ingenhaag.getmydeck.services;
 
 import de.ingenhaag.getmydeck.config.SteamConfiguration;
-import de.ingenhaag.getmydeck.models.*;
 import de.ingenhaag.getmydeck.models.deckbot.DeckBotData;
+import de.ingenhaag.getmydeck.models.deckbot.Region;
+import de.ingenhaag.getmydeck.models.deckbot.Version;
+import de.ingenhaag.getmydeck.models.dto.HistoricDeckbotData;
+import de.ingenhaag.getmydeck.models.dto.InfoResponse;
+import de.ingenhaag.getmydeck.models.dto.OfficialInfo;
+import de.ingenhaag.getmydeck.models.dto.PersonalInfo;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class DeckService {
@@ -73,11 +79,32 @@ public class DeckService {
             calculateDurationBetweenLastShipmentAndMyReservation(reservedAt, latestOrderSpecificVersion),
             personalInfo.getElapsedTimePercentage())
     );
+    personalInfo.setHistoricData(getHistoricData(reservedAt, region, version));
 
     InfoResponse info = new InfoResponse();
     info.setOfficialInfo(officialInfo);
     info.setPersonalInfo(personalInfo);
     return info;
+  }
+
+  private List<HistoricDeckbotData> getHistoricData(OffsetDateTime reservedAt, Region region, Version version) {
+    List<HistoricDeckbotData> result = new ArrayList<>();
+
+    final Map<LocalDate, DeckBotData> allDataFromDisk = deckDataPersistenceService.getAllDataFromDisk();
+    final Set<LocalDate> dates = allDataFromDisk.keySet();
+    final Iterator<LocalDate> it = dates.iterator();
+    while(it.hasNext()) {
+      final LocalDate next = it.next();
+      final DeckBotData deckBotData = allDataFromDisk.get(next);
+
+      HistoricDeckbotData historicDeckbotData = new HistoricDeckbotData();
+      historicDeckbotData.setDate(next);
+      historicDeckbotData.setElapsedTimePercentage(calculateElapsedTimePercentage(reservedAt, deckBotData.getLastShipments().get(region).get(version)));
+
+      result.add(historicDeckbotData);
+    }
+    result.sort(Comparator.comparing(HistoricDeckbotData::getDate).reversed());
+    return result.stream().skip(1).collect(Collectors.toList());
   }
 
   private Map<Region, Map<Version, OffsetDateTime>> getDeckBotDataOrDefault() {

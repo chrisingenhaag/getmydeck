@@ -1,4 +1,4 @@
-package de.ingenhaag.getmydeck.models.deckbot;
+package de.ingenhaag.getmydeck.models.google;
 
 import java.util.List;
 

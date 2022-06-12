@@ -1,8 +1,8 @@
 package de.ingenhaag.getmydeck.controller;
 
-import de.ingenhaag.getmydeck.models.InfoResponse;
-import de.ingenhaag.getmydeck.models.Region;
-import de.ingenhaag.getmydeck.models.Version;
+import de.ingenhaag.getmydeck.models.dto.InfoResponse;
+import de.ingenhaag.getmydeck.models.deckbot.Region;
+import de.ingenhaag.getmydeck.models.deckbot.Version;
 import de.ingenhaag.getmydeck.services.DeckService;
 import io.micrometer.core.annotation.Timed;
 import org.springframework.beans.factory.annotation.Autowired;

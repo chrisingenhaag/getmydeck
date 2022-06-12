@@ -1,4 +1,4 @@
-package de.ingenhaag.getmydeck.models;
+package de.ingenhaag.getmydeck.models.deckbot;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 

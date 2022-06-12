@@ -2,6 +2,7 @@
   import type { DeckData } from 'src/types/DeckTypes';
 
   import { onMount } from 'svelte';
+import { element } from 'svelte/internal';
 
   const REMEMBERME_KEY = "urn:getmydeck:rememberme";
   
@@ -163,6 +164,12 @@
             <p class="text-xs">
               Data last updated from deckbot sheet: {deckdataLastUpdatedString}
             </p>
+            <h4>Past percentages</h4>
+            <ul>
+              {#each deckdata.personalInfo.historicData as element, index}
+                <li>On {element.date} the percentage was {element.elapsedTimePercentage}</li>
+              {/each}
+            </ul>
           {:else}
             <p>Fetching infos ...</p>
           {/if}

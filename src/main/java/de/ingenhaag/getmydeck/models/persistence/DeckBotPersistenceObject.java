@@ -5,9 +5,8 @@ import de.ingenhaag.getmydeck.models.deckbot.DeckBotData;
 
 import java.time.LocalDate;
 import java.time.ZoneOffset;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class DeckBotPersistenceObject {
 
@@ -24,6 +23,14 @@ public class DeckBotPersistenceObject {
   @JsonIgnore
   public Optional<DeckBotData> getLatestDeckData() {
     return data.entrySet().stream().max(Map.Entry.comparingByKey()).map(Map.Entry::getValue).map(DeckBotData::of);
+  }
+
+  @JsonIgnore
+  public Map<LocalDate, DeckBotData> getAllDeckData() {
+    return data.entrySet().stream()
+        .sorted(Map.Entry.comparingByKey())
+        .map(localDateDeckBotDataDaySetEntry -> Map.entry(localDateDeckBotDataDaySetEntry.getKey(), DeckBotData.of(localDateDeckBotDataDaySetEntry.getValue())))
+        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 
   @JsonIgnore

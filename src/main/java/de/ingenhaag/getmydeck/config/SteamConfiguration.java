@@ -1,7 +1,7 @@
 package de.ingenhaag.getmydeck.config;
 
-import de.ingenhaag.getmydeck.models.Region;
-import de.ingenhaag.getmydeck.models.Version;
+import de.ingenhaag.getmydeck.models.deckbot.Region;
+import de.ingenhaag.getmydeck.models.deckbot.Version;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 

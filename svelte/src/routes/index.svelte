@@ -161,15 +161,15 @@ import { element } from 'svelte/internal';
         {:else}
           {#if deckdata}
             {@html deckdata.personalInfo.htmlText}
-            <p class="text-xs">
-              Data last updated from deckbot sheet: {deckdataLastUpdatedString}
-            </p>
             <h4>Past percentages</h4>
             <ul>
               {#each deckdata.personalInfo.historicData as element, index}
                 <li>On {element.date} the percentage was {element.elapsedTimePercentage}</li>
               {/each}
             </ul>
+            <p class="text-xs">
+              Data last updated from deckbot sheet: {deckdataLastUpdatedString}
+            </p>
           {:else}
             <p>Fetching infos ...</p>
           {/if}
@@ -179,6 +179,7 @@ import { element } from 'svelte/internal';
     <div class="block border-t-2 text-xs">
       <h4>Changelog:</h4>
       <ul>
+        <li>June 12, 2022: Added collection of historical data, persistence and presentation of past percentages</li>
         <li>May 31, 2022: Switched text response to be more understandable</li>
         <li>May 30, 2022: Updated to auto fetch data from deckbot google sheet</li>
         <li>May 30, 2022: Updated data from deckbot</li>
@@ -189,8 +190,8 @@ import { element } from 'svelte/internal';
       <h4>Todo:</h4>
       <ul>
         <li>Use historical data to calc a 5 week average and use it to calc estimated order date</li>
-        <li>Use historical data to display last increases on your personal reservation time</li>
-        <li>If deckbot data changes, persist them to disk. Load this data from disk</li>
+        <li class="line-through">Use historical data to display last increases on your personal reservation time</li>
+        <li class="line-through">If deckbot data changes, persist them to disk. Load this data from disk</li>
         <li class="line-through">Update data from deckbot datasource only if they changed</li>
         <li class="line-through">Auto update data from deckbot datasource</li>
       </ul>

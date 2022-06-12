@@ -57,6 +57,22 @@ public class DeckService {
             calculateDurationBetweenLastShipmentAndMyReservation(reservedAt, latestOrderSpecificVersion),
             personalInfo.getElapsedTimePercentage())
         );
+    personalInfo.setHtmlText(
+        String.format("""
+            <ul>
+              <li>It looks like you have a %s %sGB reservation</li>
+              <li>You reserved your deck %s after pre-orders opened</li>
+              <li>%s of orders have been processed</li>
+              <li>You have %s of orders to go until it is your turn</li>
+              <li>You're %s of the way there!</li>
+            </ul>""",
+            region,
+            version.getVersion(),
+            personalInfo.getDurationReservedAfterStartHumanReadable(),
+            calculateDurationBetweenPreorderStartAndLastShipment(latestOrderSpecificVersion),
+            calculateDurationBetweenLastShipmentAndMyReservation(reservedAt, latestOrderSpecificVersion),
+            personalInfo.getElapsedTimePercentage())
+    );
 
     InfoResponse info = new InfoResponse();
     info.setOfficialInfo(officialInfo);

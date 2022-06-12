@@ -12,6 +12,8 @@ public class PersonalInfo {
   private String durationReservedAfterStartHumanReadable;
   private String elapsedTimePercentage;
   private String prettyText;
+
+  private String htmlText;
   private long latestOrderSeconds;
   private OffsetDateTime latestOrder;
 
@@ -68,6 +70,14 @@ public class PersonalInfo {
 
   public String getPrettyText() {
     return prettyText;
+  }
+
+  public String getHtmlText() {
+    return htmlText;
+  }
+
+  public void setHtmlText(String htmlText) {
+    this.htmlText = htmlText;
   }
 
   public void setLatestOrderSeconds(long latestOrderSeconds) {

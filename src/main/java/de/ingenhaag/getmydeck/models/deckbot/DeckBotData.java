@@ -3,8 +3,12 @@ package de.ingenhaag.getmydeck.models.deckbot;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.ingenhaag.getmydeck.models.Region;
 import de.ingenhaag.getmydeck.models.Version;
+import de.ingenhaag.getmydeck.models.persistence.DeckBotDataDaySet;
 
+import java.time.Instant;
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -45,6 +49,24 @@ public class DeckBotData {
         (lastShipments.get(Region.EU).containsKey(Version.S64) &&
             lastShipments.get(Region.EU).containsKey(Version.S256) &&
             lastShipments.get(Region.EU).containsKey(Version.S512));
+  }
+
+  public static DeckBotData of(DeckBotDataDaySet daySet) {
+    DeckBotData data = new DeckBotData();
+    data.setLastUpdated(OffsetDateTime.ofInstant(Instant.ofEpochSecond(Long.parseLong(daySet.getLastUpdated())), ZoneOffset.UTC));
+
+    Map<Region, Map<Version, OffsetDateTime>> resultMap = new HashMap<>();
+
+    for(Region region : Region.values()) {
+      Map<Version, OffsetDateTime> regionMap = new HashMap<>();
+      for(Version version : Version.values()) {
+        OffsetDateTime dateTime = OffsetDateTime.ofInstant(Instant.ofEpochSecond(Long.parseLong(daySet.getLastShipments().get(region).get(version))), ZoneOffset.UTC);
+        regionMap.put(version, dateTime);
+      }
+      resultMap.put(region, regionMap);
+    }
+    data.setLastShipments(resultMap);
+    return data;
   }
 
   @Override

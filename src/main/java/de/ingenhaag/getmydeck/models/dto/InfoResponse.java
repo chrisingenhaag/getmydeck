@@ -1,4 +1,4 @@
-package de.ingenhaag.getmydeck.models;
+package de.ingenhaag.getmydeck.models.dto;
 
 public class InfoResponse {
 

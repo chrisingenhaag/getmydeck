@@ -1,7 +1,11 @@
-package de.ingenhaag.getmydeck.models;
+package de.ingenhaag.getmydeck.models.dto;
+
+import de.ingenhaag.getmydeck.models.deckbot.Region;
+import de.ingenhaag.getmydeck.models.deckbot.Version;
 
 import java.time.Duration;
 import java.time.OffsetDateTime;
+import java.util.List;
 
 public class PersonalInfo {
 
@@ -16,6 +20,8 @@ public class PersonalInfo {
   private String htmlText;
   private long latestOrderSeconds;
   private OffsetDateTime latestOrder;
+
+  private List<HistoricDeckbotData> historicData;
 
   public OffsetDateTime getReservedAt() {
     return reservedAt;
@@ -94,5 +100,13 @@ public class PersonalInfo {
 
   public OffsetDateTime getLatestOrder() {
     return latestOrder;
+  }
+
+  public List<HistoricDeckbotData> getHistoricData() {
+    return historicData;
+  }
+
+  public void setHistoricData(List<HistoricDeckbotData> historicData) {
+    this.historicData = historicData;
   }
 }

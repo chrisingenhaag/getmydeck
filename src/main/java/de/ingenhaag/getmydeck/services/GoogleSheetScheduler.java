@@ -1,9 +1,9 @@
 package de.ingenhaag.getmydeck.services;
 
 import de.ingenhaag.getmydeck.config.DeckBotConfiguration;
-import de.ingenhaag.getmydeck.models.Region;
-import de.ingenhaag.getmydeck.models.Version;
-import de.ingenhaag.getmydeck.models.deckbot.DeckBotSheetResponse;
+import de.ingenhaag.getmydeck.models.deckbot.Region;
+import de.ingenhaag.getmydeck.models.deckbot.Version;
+import de.ingenhaag.getmydeck.models.google.DeckBotSheetResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

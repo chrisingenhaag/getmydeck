@@ -1,4 +1,7 @@
-package de.ingenhaag.getmydeck.models;
+package de.ingenhaag.getmydeck.models.dto;
+
+import de.ingenhaag.getmydeck.models.deckbot.Region;
+import de.ingenhaag.getmydeck.models.deckbot.Version;
 
 import java.time.OffsetDateTime;
 import java.util.Map;

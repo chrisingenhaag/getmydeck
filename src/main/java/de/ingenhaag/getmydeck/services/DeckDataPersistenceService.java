@@ -4,20 +4,25 @@ import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.core.exc.StreamWriteException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.ingenhaag.getmydeck.models.Region;
-import de.ingenhaag.getmydeck.models.Version;
+import de.ingenhaag.getmydeck.models.deckbot.Region;
+import de.ingenhaag.getmydeck.models.deckbot.Version;
 import de.ingenhaag.getmydeck.models.deckbot.DeckBotData;
 import de.ingenhaag.getmydeck.models.persistence.DeckBotPersistenceObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileSystemUtils;
+import org.springframework.util.ResourceUtils;
 
 import javax.annotation.PostConstruct;
 import java.io.*;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -69,7 +74,7 @@ public class DeckDataPersistenceService {
 
   public void storeDataToDisk(DeckBotData deckBotData) {
     try {
-      File in = new File(path);
+      File in = ResourceUtils.getFile(path);
       DeckBotPersistenceObject data;
       if(createIfNotExists && in.createNewFile()) {
         log.info("File {} not found, was created automatically", path);
@@ -80,7 +85,7 @@ public class DeckDataPersistenceService {
 
       data.addOrUpdateNewDeckDataSet(deckBotData);
 
-      File file = new File(path);
+      File file = ResourceUtils.getFile(path);
       mapper.writerWithDefaultPrettyPrinter().writeValue(file, data);
 
     } catch (FileNotFoundException e) {
@@ -101,8 +106,12 @@ public class DeckDataPersistenceService {
     return latestDeckData.orElse(null);
   }
 
+  public Map<LocalDate, DeckBotData> getAllDataFromDisk() {
+    return this.deckBotPersistenceObject.getAllDeckData();
+  }
+
   public DeckBotPersistenceObject loadDataFromDisk() throws IOException {
-    File file = new File(path);
+    File file = ResourceUtils.getFile(path);
     return mapper.readValue(file, DeckBotPersistenceObject.class);
   }
 

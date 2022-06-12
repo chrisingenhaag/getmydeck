@@ -25,7 +25,7 @@ deckbot:
 
 persistence:
   enabled: {DECKBOT_DATA_ENABLED:false}
-  path: ${DECKBOT_DATA_PATH:/data/deckbot-data.json}
+  path: ${DECKBOT_DATA_PATH:classpath:deckbot-data.json}
   create-if-not-exists: ${DECKBOT_DATA_PATH_CREATE_IF_NOT_EXISTS:false}
 
 management:

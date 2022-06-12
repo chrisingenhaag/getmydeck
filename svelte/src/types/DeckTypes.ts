@@ -6,8 +6,14 @@ export interface DeckData {
 export interface PersonalInfo {
   prettyText: string
   htmlText: string
+  historicData: HistoricDeckbotData[]
 }
 
 export interface OfficialInfo {
   lastDataUpdate: string
+}
+
+export interface HistoricDeckbotData {
+  date: string
+  elapsedTimePercentage: string
 }

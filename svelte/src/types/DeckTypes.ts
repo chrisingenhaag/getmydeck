@@ -5,6 +5,7 @@ export interface DeckData {
 
 export interface PersonalInfo {
   prettyText: string
+  htmlText: string
 }
 
 export interface OfficialInfo {

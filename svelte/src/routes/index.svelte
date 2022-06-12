@@ -159,7 +159,7 @@
           <p>{errorMessage}</p>
         {:else}
           {#if deckdata}
-            {deckdata.personalInfo.htmlText}
+            {@html deckdata.personalInfo.htmlText}
             <p class="text-xs">
               Data last updated from deckbot sheet: {deckdataLastUpdatedString}
             </p>

@@ -18,8 +18,12 @@ class DeckDataPersistenceServiceTest {
   @Autowired
   private DeckDataPersistenceService service;
 
+  @Autowired
+  private GoogleSheetScheduler scheduler;
+
   @Test
   void getDeckBotData() {
+    scheduler.fetchDeckBotData();
     final DeckBotData deckBotData = service.getDeckBotData();
     assertTrue(deckBotData.isComplete());
   }

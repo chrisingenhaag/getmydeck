@@ -14,7 +14,7 @@ public class PersonalInfo {
   private Version version;
   private Duration durationReservedAfterStart;
   private String durationReservedAfterStartHumanReadable;
-  private String elapsedTimePercentage;
+  private Double elapsedTimePercentage;
   private String prettyText;
 
   private String htmlText;
@@ -22,6 +22,8 @@ public class PersonalInfo {
   private OffsetDateTime latestOrder;
 
   private List<HistoricDeckbotData> historicData;
+
+  private PredictiveData predictiveData;
 
   public OffsetDateTime getReservedAt() {
     return reservedAt;
@@ -62,11 +64,11 @@ public class PersonalInfo {
     return durationReservedAfterStartHumanReadable;
   }
 
-  public void setElapsedTimePercentage(String elapsedTimePercentage) {
+  public void setElapsedTimePercentage(Double elapsedTimePercentage) {
     this.elapsedTimePercentage = elapsedTimePercentage;
   }
 
-  public String getElapsedTimePercentage() {
+  public Double getElapsedTimePercentage() {
     return elapsedTimePercentage;
   }
 
@@ -108,5 +110,13 @@ public class PersonalInfo {
 
   public void setHistoricData(List<HistoricDeckbotData> historicData) {
     this.historicData = historicData;
+  }
+
+  public PredictiveData getPredictiveData() {
+    return predictiveData;
+  }
+
+  public void setPredictiveData(PredictiveData predictiveData) {
+    this.predictiveData = predictiveData;
   }
 }

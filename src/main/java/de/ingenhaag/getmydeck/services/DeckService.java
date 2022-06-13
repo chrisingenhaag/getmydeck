@@ -4,18 +4,17 @@ import de.ingenhaag.getmydeck.config.SteamConfiguration;
 import de.ingenhaag.getmydeck.models.deckbot.DeckBotData;
 import de.ingenhaag.getmydeck.models.deckbot.Region;
 import de.ingenhaag.getmydeck.models.deckbot.Version;
-import de.ingenhaag.getmydeck.models.dto.HistoricDeckbotData;
-import de.ingenhaag.getmydeck.models.dto.InfoResponse;
-import de.ingenhaag.getmydeck.models.dto.OfficialInfo;
-import de.ingenhaag.getmydeck.models.dto.PersonalInfo;
+import de.ingenhaag.getmydeck.models.dto.*;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
+import java.text.DecimalFormat;
+import java.time.*;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,19 +48,20 @@ public class DeckService {
     personalInfo.setReservedAt(reservedAt);
     personalInfo.setDurationReservedAfterStart(getDurationBetweenStartAndPersonalReservation(reservedAt));
     personalInfo.setDurationReservedAfterStartHumanReadable(humanReadableDuration(getDurationBetweenStartAndPersonalReservation(reservedAt)));
-    personalInfo.setElapsedTimePercentage(calculateElapsedTimePercentage(reservedAt, latestOrderSpecificVersion));
+    final Double elapsedTimePercentage = calculateElapsedTimePercentage(reservedAt, latestOrderSpecificVersion);
+    personalInfo.setElapsedTimePercentage(elapsedTimePercentage);
     personalInfo.setPrettyText(
         String.format("""
             It looks like you have a %s %sGB reservation. 
             You reserved your deck %s after pre-orders opened. 
             %s of orders have been processed, and you have %s of orders to go until it is your turn. 
-            You're %s of the way there!""",
+            You're %s %% of the way there!""",
             region,
             version.getVersion(),
             personalInfo.getDurationReservedAfterStartHumanReadable(),
             calculateDurationBetweenPreorderStartAndLastShipment(latestOrderSpecificVersion),
             calculateDurationBetweenLastShipmentAndMyReservation(reservedAt, latestOrderSpecificVersion),
-            personalInfo.getElapsedTimePercentage())
+            elapsedTimePercentage)
         );
     personalInfo.setHtmlText(
         String.format("""
@@ -70,21 +70,37 @@ public class DeckService {
               <li>You reserved your deck %s after pre-orders opened</li>
               <li>%s of orders have been processed</li>
               <li>You have %s of orders to go until it is your turn</li>
-              <li>You're %s of the way there!</li>
+              <li>You're %s %% of the way there!</li>
             </ul>""",
             region,
             version.getVersion(),
             personalInfo.getDurationReservedAfterStartHumanReadable(),
             calculateDurationBetweenPreorderStartAndLastShipment(latestOrderSpecificVersion),
             calculateDurationBetweenLastShipmentAndMyReservation(reservedAt, latestOrderSpecificVersion),
-            personalInfo.getElapsedTimePercentage())
+            elapsedTimePercentage)
     );
-    personalInfo.setHistoricData(getHistoricData(reservedAt, region, version));
+    final List<HistoricDeckbotData> historicData = getHistoricData(reservedAt, region, version);
+    personalInfo.setHistoricData(historicData);
+    personalInfo.setPredictiveData(calcPredictiveDataFromHistory(elapsedTimePercentage, historicData));
 
     InfoResponse info = new InfoResponse();
     info.setOfficialInfo(officialInfo);
     info.setPersonalInfo(personalInfo);
     return info;
+  }
+
+  private PredictiveData calcPredictiveDataFromHistory(Double currentElapsedTimePercentage, List<HistoricDeckbotData> historicData) {
+    PredictiveData predictiveData = new PredictiveData();
+
+    final Double oldPercentage = historicData.get(4).getElapsedTimePercentage();
+    final LocalDate date = historicData.get(4).getDate();
+    long daysBetween = date.until(LocalDate.now(ZoneOffset.UTC), ChronoUnit.DAYS);
+    Double averageIncreasePerDay = (currentElapsedTimePercentage - oldPercentage) / daysBetween;
+    int daysToGo = 100 - Double.valueOf(currentElapsedTimePercentage / averageIncreasePerDay).intValue() + 1;
+
+    predictiveData.setFiveShipmentAverage(LocalDate.ofInstant(Instant.now().plus(daysToGo, ChronoUnit.DAYS), ZoneOffset.UTC));
+
+    return predictiveData;
   }
 
   private List<HistoricDeckbotData> getHistoricData(OffsetDateTime reservedAt, Region region, Version version) {
@@ -135,13 +151,13 @@ public class DeckService {
     Duration d = Duration.between(latestOrderSpecificVersion, reservedAt);
     return humanReadableDuration(d);
   }
-  private String calculateElapsedTimePercentage(OffsetDateTime reservedAt, OffsetDateTime latestOrderSpecificVersion) {
+  private Double calculateElapsedTimePercentage(OffsetDateTime reservedAt, OffsetDateTime latestOrderSpecificVersion) {
     Duration diffToMyPersonalReservation = getDurationBetweenStartAndPersonalReservation(reservedAt);
 
     Duration diffToLastShipment = Duration.between(config.getReservationStart(), latestOrderSpecificVersion);
 
     Double percentage = (double) diffToLastShipment.getSeconds() * 100 / diffToMyPersonalReservation.getSeconds();
-    return String.format("%1$,.2f %%", percentage);
+    return (double) ((int) (percentage * 100)) / (100);
   }
 
   private String humanReadableDuration(Duration duration) {

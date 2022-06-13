@@ -4,8 +4,7 @@ import java.time.LocalDate;
 
 public class HistoricDeckbotData {
   private LocalDate date;
-  private String elapsedTimePercentage;
-  private String elapsedTimePercentageIncrease;
+  private Double elapsedTimePercentage;
 
   public LocalDate getDate() {
     return date;
@@ -15,28 +14,19 @@ public class HistoricDeckbotData {
     this.date = date;
   }
 
-  public String getElapsedTimePercentage() {
+  public Double getElapsedTimePercentage() {
     return elapsedTimePercentage;
   }
 
-  public void setElapsedTimePercentage(String elapsedTimePercentage) {
+  public void setElapsedTimePercentage(Double elapsedTimePercentage) {
     this.elapsedTimePercentage = elapsedTimePercentage;
-  }
-
-  public String getElapsedTimePercentageIncrease() {
-    return elapsedTimePercentageIncrease;
-  }
-
-  public void setElapsedTimePercentageIncrease(String elapsedTimePercentageIncrease) {
-    this.elapsedTimePercentageIncrease = elapsedTimePercentageIncrease;
   }
 
   @Override
   public String toString() {
     return "HistoricDeckbotData{" +
         "date=" + date +
-        ", elapsedTimePercentage='" + elapsedTimePercentage + '\'' +
-        ", elapsedTimePercentageIncrease='" + elapsedTimePercentageIncrease + '\'' +
+        ", elapsedTimePercentage=" + elapsedTimePercentage +
         '}';
   }
 }

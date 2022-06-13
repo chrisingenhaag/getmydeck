@@ -164,7 +164,7 @@ import { element } from 'svelte/internal';
             <h4>Past percentages</h4>
             <ul>
               {#each deckdata.personalInfo.historicData as element, index}
-                <li>On {element.date} the percentage was {element.elapsedTimePercentage}</li>
+                <li>On {element.date} the percentage was {element.elapsedTimePercentage} %</li>
               {/each}
             </ul>
             <p class="text-xs">

@@ -12,9 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
-import org.springframework.util.FileSystemUtils;
 import org.springframework.util.ResourceUtils;
 
 import javax.annotation.PostConstruct;
@@ -22,7 +20,6 @@ import java.io.*;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -61,7 +58,7 @@ public class DeckDataPersistenceService {
     if (deckBotData.isComplete() &&
         (this.currentDeckBotData == null || !parsedData.entrySet().equals(this.currentDeckBotData.getLastShipments().entrySet()))) {
       this.currentDeckBotData = deckBotData;
-      storeDataToDisk(deckBotData);
+      storeDataToDiskAndRefreshObject(deckBotData);
       log.info("Success updating deckBotData to {}", this.currentDeckBotData);
     } else {
       log.info("Data not changed on google sheet, skipping");
@@ -72,7 +69,7 @@ public class DeckDataPersistenceService {
     return currentDeckBotData;
   }
 
-  public void storeDataToDisk(DeckBotData deckBotData) {
+  public void storeDataToDiskAndRefreshObject(DeckBotData deckBotData) {
     try {
       File in = ResourceUtils.getFile(path);
       DeckBotPersistenceObject data;
@@ -87,7 +84,7 @@ public class DeckDataPersistenceService {
 
       File file = ResourceUtils.getFile(path);
       mapper.writerWithDefaultPrettyPrinter().writeValue(file, data);
-
+      this.deckBotPersistenceObject = data;
     } catch (FileNotFoundException e) {
       throw new RuntimeException(e);
     } catch (StreamReadException e) {

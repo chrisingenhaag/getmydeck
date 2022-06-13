@@ -29,7 +29,7 @@ class DeckServiceTest {
   void testHistoricDataCalculation() {
     scheduler.fetchDeckBotData();
     final InfoResponse personalInfos = service.getPersonalInfos(OffsetDateTime.ofInstant(Instant.ofEpochSecond(Long.parseLong("1627022437")), ZoneOffset.UTC), Region.EU, Version.S512);
-    assertEquals(4, personalInfos.getPersonalInfo().getHistoricData().size());
+    assertEquals(7, personalInfos.getPersonalInfo().getHistoricData().size());
   }
 
 }

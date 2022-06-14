@@ -3,8 +3,10 @@ package de.ingenhaag.getmydeck.models.persistence;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.ingenhaag.getmydeck.models.deckbot.DeckBotData;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -45,7 +47,16 @@ public class DeckBotPersistenceObject {
     if(data.containsKey(now)) {
       data.replace(now, dataDaySet);
     } else {
-      data.put(now, dataDaySet);
+      if(now.getDayOfWeek().equals(DayOfWeek.MONDAY) || now.getDayOfWeek().equals(DayOfWeek.THURSDAY)) {
+        data.put(now, dataDaySet);
+      } else {
+        // search existing day in dataset
+        LocalDate tempDate = now.minus(1, ChronoUnit.DAYS);
+        while(!data.containsKey(tempDate)) {
+          tempDate = now.minus(1, ChronoUnit.DAYS);
+        }
+        data.replace(tempDate, dataDaySet);
+      }
     }
   }
 }

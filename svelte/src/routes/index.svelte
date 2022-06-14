@@ -1,8 +1,8 @@
 <script lang="ts">
+  import Chart from 'svelte-frappe-charts'; 
   import type { DeckData } from 'src/types/DeckTypes';
 
   import { onMount } from 'svelte';
-import { element } from 'svelte/internal';
 
   const REMEMBERME_KEY = "urn:getmydeck:rememberme";
   
@@ -56,12 +56,52 @@ import { element } from 'svelte/internal';
     localStorage.setItem(REMEMBERME_KEY, JSON.stringify(valueToStore));
   }
 
+  let chartData = {
+    labels: [],
+    datasets: [],
+    lineOptions: {
+      regionFill: 1 // default: 0
+    },
+    yMarkers: [
+      {
+            label: '',
+            value: 0,
+            type: 'solid'
+        },
+        {
+            label: '',
+            value: 100,
+            type: 'solid'
+        }
+    ]
+  };
+  
   let fetchDeckInfos = async (re: string, ver: string, rt: string) => {
     errorMessage = '';
     await fetch(`/api/v2/regions/${re}/versions/${ver}/infos/${rt}`)
       .then(r => r.json())
       .then(data => {
         deckdata = data;
+
+        let values: number[] = []
+        let labels: string[] = []
+        const datacopy = []
+        deckdata.personalInfo.historicData.forEach(val => datacopy.push(Object.assign({}, val)));
+        datacopy.reverse().forEach((item) => {
+          const monthDay = item.date.split('-')
+          labels.push(monthDay[1]+'-'+monthDay[2]);
+          values.push(item.elapsedTimePercentage)
+        })
+        labels.push('today')
+        values.push(deckdata.personalInfo.elapsedTimePercentage)
+        chartData.labels = labels
+        chartData.datasets = [
+            {
+              values: values
+            }
+          ]
+          
+
       })
       .catch(() => {
         errorMessage = "Problem loading infos. Please fix your inputs."
@@ -72,6 +112,7 @@ import { element } from 'svelte/internal';
         showDeckData = true;
       });
     };
+
 
   onMount(async () => {
     let storedString = localStorage.getItem(REMEMBERME_KEY);
@@ -162,11 +203,7 @@ import { element } from 'svelte/internal';
           {#if deckdata}
             {@html deckdata.personalInfo.htmlText}
             <h4>Past percentages</h4>
-            <ul>
-              {#each deckdata.personalInfo.historicData as element, index}
-                <li>On {element.date} the percentage was {element.elapsedTimePercentage} %</li>
-              {/each}
-            </ul>
+            <Chart data={chartData} type="line"/>
             <p class="text-xs">
               Data last updated from deckbot sheet: {deckdataLastUpdatedString}
             </p>

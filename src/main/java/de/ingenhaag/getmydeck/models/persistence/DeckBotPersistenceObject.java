@@ -47,7 +47,7 @@ public class DeckBotPersistenceObject {
     if(data.containsKey(now)) {
       data.replace(now, dataDaySet);
     } else {
-      if(now.getDayOfWeek().equals(DayOfWeek.MONDAY) || now.getDayOfWeek().equals(DayOfWeek.THURSDAY)) {
+      if(data.isEmpty() || now.getDayOfWeek().equals(DayOfWeek.MONDAY) || now.getDayOfWeek().equals(DayOfWeek.THURSDAY)) {
         data.put(now, dataDaySet);
       } else {
         // search existing day in dataset

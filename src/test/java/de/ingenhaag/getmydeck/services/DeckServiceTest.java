@@ -19,16 +19,13 @@ import static org.junit.jupiter.api.Assertions.*;
     "persistence.path=classpath:deckbot-data.json"
 })
 class DeckServiceTest {
+  public static final String RESERVED_AT = "1627022437";
   @Autowired
   private DeckService service;
 
-  @Autowired
-  private GoogleSheetScheduler scheduler;
-
   @Test
   void testHistoricDataCalculation() {
-    scheduler.fetchDeckBotData();
-    final InfoResponse personalInfos = service.getPersonalInfos(OffsetDateTime.ofInstant(Instant.ofEpochSecond(Long.parseLong("1627022437")), ZoneOffset.UTC), Region.EU, Version.S512);
+    final InfoResponse personalInfos = service.getPersonalInfos(OffsetDateTime.ofInstant(Instant.ofEpochSecond(Long.parseLong(RESERVED_AT)), ZoneOffset.UTC), Region.EU, Version.S512);
     assertEquals(7, personalInfos.getPersonalInfo().getHistoricData().size());
   }
 

@@ -77,6 +77,7 @@ public class DeckDataPersistenceService {
         log.info("File {} not found, was created automatically", path);
         data = new DeckBotPersistenceObject();
       } else {
+        // check for empty file
         data = mapper.readValue(in, DeckBotPersistenceObject.class);
       }
 

@@ -62,6 +62,10 @@
     lineOptions: {
       regionFill: 1 // default: 0
     },
+    tooltipOptions: {
+      formatTooltipY: d => d + ' %'
+    },
+    valuesOverPoints: 1, // default: 0
     yMarkers: [
       {
             label: '',
@@ -92,7 +96,8 @@
           labels.push(monthDay[1]+'-'+monthDay[2]);
           values.push(item.elapsedTimePercentage)
         })
-        labels.push(deckdata.officialInfo.lastDataUpdateDate)
+        const monthDayToday = deckdata.officialInfo.lastDataUpdateDate.split('-')
+        labels.push(monthDayToday[1]+'-'+monthDayToday[2])
         values.push(deckdata.personalInfo.elapsedTimePercentage)
         chartData.labels = labels
         chartData.datasets = [
@@ -216,6 +221,7 @@
     <div class="block border-t-2 text-xs">
       <h4>Changelog:</h4>
       <ul>
+        <li>June 15, 2022: Added graph for past percentages; Limit data points to mondays and thursdays</li>
         <li>June 12, 2022: Added collection of historical data, persistence and presentation of past percentages</li>
         <li>May 31, 2022: Switched text response to be more understandable</li>
         <li>May 30, 2022: Updated to auto fetch data from deckbot google sheet</li>
@@ -227,6 +233,8 @@
       <h4>Todo:</h4>
       <ul>
         <li>Use historical data to calc a 5 week average and use it to calc estimated order date</li>
+        <li>Make results shareable via link</li>
+        <li>Improve graph and readability</li>
         <li class="line-through">Use historical data to display last increases on your personal reservation time</li>
         <li class="line-through">If deckbot data changes, persist them to disk. Load this data from disk</li>
         <li class="line-through">Update data from deckbot datasource only if they changed</li>

@@ -92,7 +92,7 @@
           labels.push(monthDay[1]+'-'+monthDay[2]);
           values.push(item.elapsedTimePercentage)
         })
-        labels.push('today')
+        labels.push(deckdata.officialInfo.lastDataUpdateDate)
         values.push(deckdata.personalInfo.elapsedTimePercentage)
         chartData.labels = labels
         chartData.datasets = [

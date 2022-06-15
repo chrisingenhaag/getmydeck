@@ -1,20 +1,6 @@
 
 steam:
   reservation-start: 1626454800
-  last-static-update: 1654969214
-  last-shipments:
-    US:
-      S64: 1626474232
-      S256: 1626469537
-      S512: 1626457848
-    UK:
-      S64: 1626669417
-      S256: 1626461143
-      S512: 1626456694
-    EU:
-      S64: 1626800517
-      S256: 1626712678
-      S512: 1626705120
 
 deckbot:
   google-api-key: ***REMOVED***

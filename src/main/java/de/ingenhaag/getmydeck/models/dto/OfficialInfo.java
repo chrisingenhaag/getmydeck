@@ -3,6 +3,7 @@ package de.ingenhaag.getmydeck.models.dto;
 import de.ingenhaag.getmydeck.models.deckbot.Region;
 import de.ingenhaag.getmydeck.models.deckbot.Version;
 
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ public class OfficialInfo {
 
   private OffsetDateTime reservationsStartedAt;
   private OffsetDateTime lastDataUpdate;
+  private LocalDate lastDataUpdateDate;
   private Map<Region, Map<Version, OffsetDateTime>> lastShipments;
 
   public OffsetDateTime getReservationsStartedAt() {
@@ -34,5 +36,23 @@ public class OfficialInfo {
 
   public Map<Region, Map<Version, OffsetDateTime>> getLastShipments() {
     return lastShipments;
+  }
+
+  public LocalDate getLastDataUpdateDate() {
+    return lastDataUpdateDate;
+  }
+
+  public void setLastDataUpdateDate(LocalDate lastDataUpdateDate) {
+    this.lastDataUpdateDate = lastDataUpdateDate;
+  }
+
+  @Override
+  public String toString() {
+    return "OfficialInfo{" +
+        "reservationsStartedAt=" + reservationsStartedAt +
+        ", lastDataUpdate=" + lastDataUpdate +
+        ", lastDataUpdateDate=" + lastDataUpdateDate +
+        ", lastShipments=" + lastShipments +
+        '}';
   }
 }

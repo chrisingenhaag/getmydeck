@@ -22,27 +22,6 @@ public class ConfigurationLoadTest {
   @Test
   void testLoadCompleteConfig() {
     Assertions.assertNotNull(configuration.getReservationStart());
-    Assertions.assertNotNull(configuration.getLastShipments(), "lastShipment list couldn´t be loaded from application.yml");
   }
 
-  @ParameterizedTest
-  @MethodSource("getEnumMatrix")
-  void allLastShipmentsLoaded(Region region, Version version) {
-    Assertions.assertNotNull(configuration.getLastShipments().get(region).get(version),String.format("config couldn´t be loaded from region %s and version %s", region, version));
-
-  }
-
-  private static Stream<Arguments> getEnumMatrix() {
-    return Stream.of(
-        Arguments.of(Region.EU, Version.S64),
-        Arguments.of(Region.EU, Version.S256),
-        Arguments.of(Region.EU, Version.S512),
-        Arguments.of(Region.UK, Version.S64),
-        Arguments.of(Region.UK, Version.S256),
-        Arguments.of(Region.UK, Version.S512),
-        Arguments.of(Region.US, Version.S64),
-        Arguments.of(Region.US, Version.S256),
-        Arguments.of(Region.US, Version.S512)
-    );
-  }
 }

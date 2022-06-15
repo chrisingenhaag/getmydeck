@@ -12,6 +12,7 @@ export interface PersonalInfo {
 
 export interface OfficialInfo {
   lastDataUpdate: string
+  lastDataUpdateDate: string
 }
 
 export interface HistoricDeckbotData {

@@ -5,28 +5,17 @@ import de.ingenhaag.getmydeck.models.deckbot.DeckBotData;
 import de.ingenhaag.getmydeck.models.deckbot.Region;
 import de.ingenhaag.getmydeck.models.deckbot.Version;
 import de.ingenhaag.getmydeck.models.dto.*;
-import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.DecimalFormat;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
 public class DeckService {
 
-  public static final String METRIC_DECKDATA_RETURNED = "deckdata_returned";
-  public static final String METRIC_DECKDATA_TAG_OUTCOME = "outcome";
-  public static final String METRIC_DECKDATA_COMPLETE = "complete_and_update";
-  public static final String METRIC_DECKDATA_FALLBACK = "fallback_to_static";
-
-  @Autowired
-  private MeterRegistry meterRegistry;
   @Autowired
   private DeckDataPersistenceService deckDataPersistenceService;
   @Autowired
@@ -126,16 +115,12 @@ public class DeckService {
   private Map<Region, Map<Version, OffsetDateTime>> getDeckBotDataOrDefault() {
     final DeckBotData deckBotData = deckDataPersistenceService.getDeckBotData();
     if (Objects.nonNull(deckBotData) && deckBotData.isComplete()) {
-      meterRegistry.counter(METRIC_DECKDATA_RETURNED, METRIC_DECKDATA_TAG_OUTCOME, METRIC_DECKDATA_COMPLETE).increment();
       this.officialInfo.setLastDataUpdate(deckBotData.getLastUpdated());
+      this.officialInfo.setLastDataUpdateDate(deckBotData.getLastUpdated().toLocalDate());
       this.officialInfo.setLastShipments(deckBotData.getLastShipments());
       return deckBotData.getLastShipments();
-    } else {
-      meterRegistry.counter(METRIC_DECKDATA_RETURNED, METRIC_DECKDATA_TAG_OUTCOME, METRIC_DECKDATA_FALLBACK).increment();
-      this.officialInfo.setLastDataUpdate(config.getLastStaticUpdate());
-      this.officialInfo.setLastShipments(config.getLastShipments());
-      return config.getLastShipments();
     }
+    return null;
   }
 
   private Duration getDurationBetweenStartAndPersonalReservation(OffsetDateTime reservedAt) {
@@ -156,7 +141,7 @@ public class DeckService {
 
     Duration diffToLastShipment = Duration.between(config.getReservationStart(), latestOrderSpecificVersion);
 
-    Double percentage = (double) diffToLastShipment.getSeconds() * 100 / diffToMyPersonalReservation.getSeconds();
+    double percentage = (double) diffToLastShipment.getSeconds() * 100 / diffToMyPersonalReservation.getSeconds();
     return (double) ((int) (percentage * 100)) / (100);
   }
 

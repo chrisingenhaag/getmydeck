@@ -24,7 +24,7 @@ public enum Version {
         return e;
       }
     }
-    return null;
+    throw new IllegalArgumentException("No valid version given");
   }
 
 }

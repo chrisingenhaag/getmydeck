@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.core.exc.StreamWriteException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.ingenhaag.getmydeck.config.PersistenceConfiguration;
 import de.ingenhaag.getmydeck.models.deckbot.Region;
 import de.ingenhaag.getmydeck.models.deckbot.Version;
 import de.ingenhaag.getmydeck.models.deckbot.DeckBotData;
@@ -11,7 +12,6 @@ import de.ingenhaag.getmydeck.models.persistence.DeckBotPersistenceObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
@@ -30,11 +30,8 @@ public class DeckDataPersistenceService {
 
   private DeckBotData currentDeckBotData;
 
-  @Value("${persistence.path}")
-  private String path;
-
-  @Value("${persistence.create-if-not-exists}")
-  private boolean createIfNotExists;
+  @Autowired
+  PersistenceConfiguration persistenceConfiguration;
 
   @Autowired
   private ObjectMapper mapper;
@@ -71,10 +68,10 @@ public class DeckDataPersistenceService {
 
   public void storeDataToDiskAndRefreshObject(DeckBotData deckBotData) {
     try {
-      File in = ResourceUtils.getFile(path);
+      File in = ResourceUtils.getFile(persistenceConfiguration.getPath());
       DeckBotPersistenceObject data;
-      if(createIfNotExists && in.createNewFile()) {
-        log.info("File {} not found, was created automatically", path);
+      if(persistenceConfiguration.isCreateIfNotExists() && in.createNewFile()) {
+        log.info("File {} not found, was created automatically", persistenceConfiguration.getPath());
         data = new DeckBotPersistenceObject();
       } else {
         // check for empty file
@@ -83,7 +80,7 @@ public class DeckDataPersistenceService {
 
       data.addOrUpdateNewDeckDataSet(deckBotData);
 
-      File file = ResourceUtils.getFile(path);
+      File file = ResourceUtils.getFile(persistenceConfiguration.getPath());
       mapper.writerWithDefaultPrettyPrinter().writeValue(file, data);
       this.deckBotPersistenceObject = data;
     } catch (FileNotFoundException e) {
@@ -109,7 +106,7 @@ public class DeckDataPersistenceService {
   }
 
   public DeckBotPersistenceObject loadDataFromDisk() throws IOException {
-    File file = ResourceUtils.getFile(path);
+    File file = ResourceUtils.getFile(persistenceConfiguration.getPath());
     return mapper.readValue(file, DeckBotPersistenceObject.class);
   }
 

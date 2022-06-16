@@ -4,7 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties(prefix = "deckbot")
+@ConfigurationProperties(prefix = "getmydeck.deckbot")
 public class DeckBotConfiguration {
 
   private String url;

@@ -35,3 +35,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### File validation comparison ###
+data/test/output
+data/test/tmp

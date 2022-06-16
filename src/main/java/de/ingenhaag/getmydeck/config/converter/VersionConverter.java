@@ -1,4 +1,4 @@
-package de.ingenhaag.getmydeck.config;
+package de.ingenhaag.getmydeck.config.converter;
 
 import de.ingenhaag.getmydeck.models.deckbot.Version;
 import org.springframework.core.convert.converter.Converter;

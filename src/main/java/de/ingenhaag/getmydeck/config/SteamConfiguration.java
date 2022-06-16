@@ -7,7 +7,7 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
 @Configuration
-@ConfigurationProperties(prefix = "steam")
+@ConfigurationProperties(prefix = "getmydeck.steam")
 public class SteamConfiguration {
 
   private OffsetDateTime reservationStart;

@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestPropertySource(properties = {
     "persistence.path=classpath:deckbot-data.json"
 })
-class DeckServiceTest {
+public class DeckServiceTest {
   public static final String RESERVED_AT = "1627022437";
   @Autowired
   private DeckService service;
@@ -26,7 +26,7 @@ class DeckServiceTest {
   @Test
   void testHistoricDataCalculation() {
     final InfoResponse personalInfos = service.getPersonalInfos(OffsetDateTime.ofInstant(Instant.ofEpochSecond(Long.parseLong(RESERVED_AT)), ZoneOffset.UTC), Region.EU, Version.S512);
-    assertEquals(7, personalInfos.getPersonalInfo().getHistoricData().size());
+    assertEquals(8, personalInfos.getPersonalInfo().getHistoricData().size());
   }
 
 }

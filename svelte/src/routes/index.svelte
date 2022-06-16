@@ -96,9 +96,6 @@
           labels.push(monthDay[1]+'-'+monthDay[2]);
           values.push(item.elapsedTimePercentage)
         })
-        const monthDayToday = deckdata.officialInfo.lastDataUpdateDate.split('-')
-        labels.push(monthDayToday[1]+'-'+monthDayToday[2])
-        values.push(deckdata.personalInfo.elapsedTimePercentage)
         chartData.labels = labels
         chartData.datasets = [
             {

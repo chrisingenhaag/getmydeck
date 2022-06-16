@@ -1,18 +1,18 @@
 
-steam:
-  reservation-start: 1626454800
+getmydeck:
+  steam:
+    reservation-start: 1626454800
 
-deckbot:
-  google-api-key: ***REMOVED***
-  sheet-id: 1ZaKncig9fce7K0sr1f-E2_sgLH1HuKQ-q3k7clPMOCs
-  sheet-data-location: "deckbot!A1:C9"
-  base-url: https://sheets.googleapis.com/v4/spreadsheets
-  url: "${deckbot.base-url}/${deckbot.sheet-id}/values/${deckbot.sheet-data-location}?key=${deckbot.google-api-key}"
+  deckbot:
+    google-api-key: ***REMOVED***
+    sheet-id: 1ZaKncig9fce7K0sr1f-E2_sgLH1HuKQ-q3k7clPMOCs
+    sheet-data-location: "deckbot!A1:C9"
+    base-url: https://sheets.googleapis.com/v4/spreadsheets
+    url: "${getmydeck.deckbot.base-url}/${getmydeck.deckbot.sheet-id}/values/${getmydeck.deckbot.sheet-data-location}?key=${getmydeck.deckbot.google-api-key}"
 
-persistence:
-  enabled: {DECKBOT_DATA_ENABLED:false}
-  path: ${DECKBOT_DATA_PATH:classpath:deckbot-data.json}
-  create-if-not-exists: ${DECKBOT_DATA_PATH_CREATE_IF_NOT_EXISTS:false}
+  persistence:
+    path: ${DECKBOT_DATA_PATH:classpath:deckbot-data.json}
+    create-if-not-exists: ${DECKBOT_DATA_PATH_CREATE_IF_NOT_EXISTS:false}
 
 management:
   endpoints:

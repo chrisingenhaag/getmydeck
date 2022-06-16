@@ -109,7 +109,7 @@ public class DeckService {
       result.add(historicDeckbotData);
     }
     result.sort(Comparator.comparing(HistoricDeckbotData::getDate).reversed());
-    return result.stream().skip(1).collect(Collectors.toList());
+    return new ArrayList<>(result);
   }
 
   private Map<Region, Map<Version, OffsetDateTime>> getDeckBotDataOrDefault() {

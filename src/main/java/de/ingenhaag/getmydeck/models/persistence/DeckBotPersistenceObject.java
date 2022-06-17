@@ -53,7 +53,7 @@ public class DeckBotPersistenceObject {
         // search existing day in dataset
         LocalDate tempDate = now.minus(1, ChronoUnit.DAYS);
         while(!data.containsKey(tempDate)) {
-          tempDate = now.minus(1, ChronoUnit.DAYS);
+          tempDate = tempDate.minus(1, ChronoUnit.DAYS);
         }
         data.replace(tempDate, dataDaySet);
       }

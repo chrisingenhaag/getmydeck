@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { DeckData, ChartData, HistoricDeckbotData } from '$lib/DeckTypes'
+  import type { DeckData } from '$lib/DeckTypes'
   import DeckChart from '$lib/DeckChart.svelte'
 
   import { onMount } from 'svelte';

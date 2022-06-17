@@ -72,6 +72,9 @@ import type { Region, Version } from '$lib/DeckTypes';
       reservationTime = storedValues.timestamp
       selectedRegion = storedValues.region
       selectedVersion = storedValues.version
+      boundReservationTime = storedValues.timestamp
+      boundSelectedRegion = storedValues.region
+      boundSelectedVersion = storedValues.version
       rememberme = true
       showDeckData = true
     }

@@ -17,5 +17,21 @@ export interface OfficialInfo {
 
 export interface HistoricDeckbotData {
   date: string
-  elapsedTimePercentage: string
+  elapsedTimePercentage: number
+}
+
+export interface ChartData {
+  labels: string[]
+  datasets: ChartDataSet[]
+  yMarkers?: YMarker[]
+}
+
+export interface ChartDataSet {
+  values: number[]
+}
+
+export interface YMarker {
+  label: string
+  value: number
+  type: string
 }

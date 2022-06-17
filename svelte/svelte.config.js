@@ -15,7 +15,9 @@ const config = {
 		adapter: adapter({
 			page: '../src/main/resources/templates/',
 			assets: '../src/main/resources/static/',
-      fallback: '../../src/main/resources/templates/index.html'
+      fallback: '../../src/main/resources/templates/index.html',
+			lib: 'src/lib',
+			types: 'src/types'
     }),
 		prerender: {
 			default: false

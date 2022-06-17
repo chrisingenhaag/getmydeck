@@ -32,25 +32,25 @@
     formatTooltipX: (d: string) => 'date: '+ d
   }
 
+  $: {
+    let values: number[] = []
+    let labels: string[] = []
+    const datacopy: HistoricDeckbotData[] = []
+    
+    historicData.forEach(val => datacopy.push(Object.assign({}, val)));
+    datacopy.reverse().forEach((item) => {
+      const monthDay = item.date.split('-')
+      labels.push(monthDay[1]+'-'+monthDay[2]);
+      values.push(item.elapsedTimePercentage)
+    })
+    chartData.labels = labels
+    chartData.datasets = [
+      {
+        values: values
+      }
+    ]
+  }
 
-
-
-  let values: number[] = []
-  let labels: string[] = []
-  const datacopy: HistoricDeckbotData[] = []
-  
-  historicData.forEach(val => datacopy.push(Object.assign({}, val)));
-  datacopy.reverse().forEach((item) => {
-    const monthDay = item.date.split('-')
-    labels.push(monthDay[1]+'-'+monthDay[2]);
-    values.push(item.elapsedTimePercentage)
-  })
-  chartData.labels = labels
-  chartData.datasets = [
-    {
-      values: values
-    }
-  ]
 
 </script>
 

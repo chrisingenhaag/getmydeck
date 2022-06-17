@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
-
   import DeckChart from '$lib/DeckChart.svelte'
 
   import type { DeckData, Region, Version } from '$lib/DeckTypes'
@@ -16,7 +14,7 @@
 
   let fetchDeckInfos = async (re: Region, ver: Version, rt: string) => {
     errorMessage = ''
-    await fetch(`/api/v2/regions/${re}/versions/${ver}/infos/${rt}`)
+    await fetch(`http://localhost:8080/api/v2/regions/${re}/versions/${ver}/infos/${rt}`)
       .then(r => r.json())
       .then(data => {
         deckdata = data
@@ -29,10 +27,9 @@
       })
     }
 
-  onMount(async () => {
+  $: {  
     fetchDeckInfos(region, version, timestamp)
-  })
-
+  }
 </script>
 
 {#if errorMessage}

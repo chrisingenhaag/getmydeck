@@ -26,7 +26,7 @@ public class DeckServiceTest {
   @Test
   void testHistoricDataCalculation() {
     final InfoResponse personalInfos = service.getPersonalInfos(OffsetDateTime.ofInstant(Instant.ofEpochSecond(Long.parseLong(RESERVED_AT)), ZoneOffset.UTC), Region.EU, Version.S512);
-    assertEquals(8, personalInfos.getPersonalInfo().getHistoricData().size());
+    assertEquals(20, personalInfos.getPersonalInfo().getHistoricData().size());
   }
 
 }

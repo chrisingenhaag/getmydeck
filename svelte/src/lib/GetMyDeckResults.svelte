@@ -14,7 +14,7 @@
 
   let fetchDeckInfos = async (re: Region, ver: Version, rt: string) => {
     errorMessage = ''
-    await fetch(`http://localhost:8080/api/v2/regions/${re}/versions/${ver}/infos/${rt}`)
+    await fetch(`/api/v2/regions/${re}/versions/${ver}/infos/${rt}`)
       .then(r => r.json())
       .then(data => {
         deckdata = data

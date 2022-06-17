@@ -33,9 +33,13 @@
   }
 
   let showAllData: boolean = false
+  let showFullYScale: boolean = false
 
   let toggleShowAllData = () => {
     showAllData = !showAllData
+  }
+  let toggleFullYScale = () => {
+    showFullYScale = !showFullYScale
   }
 
   $: {
@@ -43,7 +47,9 @@
     let labels: string[] = []
     const datacopy: HistoricDeckbotData[] = []
     
-    historicData.forEach(val => datacopy.push(Object.assign({}, val)));
+    const tempArray = historicData.slice(0, showAllData ? historicData.length-1 : 7)
+    tempArray.forEach(val => datacopy.push(Object.assign({}, val)));
+
     datacopy.reverse().forEach((item) => {
       const monthDay = item.date.split('-')
       labels.push(monthDay[1]+'-'+monthDay[2]);
@@ -55,12 +61,25 @@
         values: values
       }
     ]
+    if(showFullYScale) {
+      chartData.yMarkers = yMarkers
+    } else {
+      chartData.yMarkers = undefined
+    }
   }
 
 
 </script>
 
 {#if chartData}
+  <span>
+    Show all data
+    <button on:click={toggleShowAllData}>All</button>
+  </span>
+  <span>
+    Show all data
+    <button on:click={toggleFullYScale}>Scale</button>
+  </span>
   <Chart data={chartData} type="line" 
       lineOptions={chartLineOptions} 
       tooltipOptions={chartTooltipOptions} 

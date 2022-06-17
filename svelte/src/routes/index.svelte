@@ -59,30 +59,20 @@
   let chartData = {
     labels: [],
     datasets: [],
-    lineOptions: {
-      regionFill: 1 // default: 0
-    },
-    tooltipOptions: {
-      formatTooltipY: d => d + ' %'
-    },
-    valuesOverPoints: 1, // default: 0
-    yMarkers: [
-      {
-            label: '',
-            value: 0,
-            type: 'solid'
-        },
-        {
-            label: '',
-            value: 100,
-            type: 'solid'
-        }
-    ]
   };
   
+  let chartLineOptions = {
+    regionFill: 1 // default: 0
+  }
+
+  let chartTooltipOptions = {
+    formatTooltipY: d => d + ' %',
+    formatTooltipX: d => 'date: '+ d
+  }
+
   let fetchDeckInfos = async (re: string, ver: string, rt: string) => {
     errorMessage = '';
-    await fetch(`/api/v2/regions/${re}/versions/${ver}/infos/${rt}`)
+    await fetch(`http://localhost:8080/api/v2/regions/${re}/versions/${ver}/infos/${rt}`)
       .then(r => r.json())
       .then(data => {
         deckdata = data;
@@ -205,7 +195,7 @@
           {#if deckdata}
             {@html deckdata.personalInfo.htmlText}
             <h4>Past percentages</h4>
-            <Chart data={chartData} type="line"/>
+            <Chart data={chartData} type="line" lineOptions={chartLineOptions} tooltipOptions={chartTooltipOptions} valuesOverPoints="1"/>
             <p class="text-xs">
               Data last updated from deckbot sheet: {deckdataLastUpdatedString}
             </p>

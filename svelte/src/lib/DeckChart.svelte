@@ -32,6 +32,12 @@
     formatTooltipX: (d: string) => 'date: '+ d
   }
 
+  let showAllData: boolean = false
+
+  let toggleShowAllData = () => {
+    showAllData = !showAllData
+  }
+
   $: {
     let values: number[] = []
     let labels: string[] = []

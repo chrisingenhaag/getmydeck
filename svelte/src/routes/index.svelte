@@ -5,10 +5,17 @@
 import type { Region, Version } from '$lib/DeckTypes';
 
   const REMEMBERME_KEY = "urn:getmydeck:rememberme";
-  
+
+  let boundReservationTime: string;
+  let boundSelectedRegion: Region
+  let boundSelectedVersion: Version
+
+
   let reservationTime: string;
   let selectedRegion: Region
   let selectedVersion: Version
+
+
 
   let rememberme = false;
   let showDeckData = false
@@ -31,6 +38,11 @@ import type { Region, Version } from '$lib/DeckTypes';
 
   function handleSubmit() {
     if(selectedRegion !== undefined && selectedVersion !== undefined && (reservationTime !== undefined && reservationTime !== null)) {
+
+      boundReservationTime = reservationTime
+      boundSelectedRegion = selectedRegion
+      boundSelectedVersion = selectedVersion
+      
       showValidationError = false;
       showDeckData = true;
       if(rememberme === true) {
@@ -140,7 +152,7 @@ import type { Region, Version } from '$lib/DeckTypes';
       <p>Please fill out form completely</p>
       {/if}
       {#if showDeckData }
-        <GetMyDeckResults region={selectedRegion} version={selectedVersion} timestamp={reservationTime} />
+        <GetMyDeckResults region={boundSelectedRegion} version={boundSelectedVersion} timestamp={boundReservationTime} />
       {/if}
     </div>
     <div class="block border-t-2 text-xs">

@@ -1,21 +1,19 @@
 <script lang="ts">
-  import type { DeckData } from '$lib/DeckTypes'
-  import DeckChart from '$lib/DeckChart.svelte'
-
   import { onMount } from 'svelte';
+
+  import GetMyDeckResults from '$lib/GetMyDeckResults.svelte'
+import type { Region, Version } from '$lib/DeckTypes';
 
   const REMEMBERME_KEY = "urn:getmydeck:rememberme";
   
   let reservationTime: string;
-  let selectedRegion: string;
-  let selectedVersion: string;
+  let selectedRegion: Region
+  let selectedVersion: Version
+
   let rememberme = false;
   let showDeckData = false
-  let deckdata: DeckData;
-  let deckdataLastUpdatedString: string;
 
   let showValidationError = false;
-  let errorMessage: string;
 
   let regions = [
     { id: 0, text: `empty`, value: undefined },
@@ -33,7 +31,6 @@
 
   function handleSubmit() {
     if(selectedRegion !== undefined && selectedVersion !== undefined && (reservationTime !== undefined && reservationTime !== null)) {
-      fetchDeckInfos(selectedRegion, selectedVersion, reservationTime)
       showValidationError = false;
       showDeckData = true;
       if(rememberme === true) {
@@ -56,36 +53,22 @@
     localStorage.setItem(REMEMBERME_KEY, JSON.stringify(valueToStore));
   }
 
-  let fetchDeckInfos = async (re: string, ver: string, rt: string) => {
-    errorMessage = '';
-    await fetch(`/api/v2/regions/${re}/versions/${ver}/infos/${rt}`)
-      .then(r => r.json())
-      .then(data => {
-        deckdata = data;
-      })
-      .catch(() => {
-        errorMessage = "Problem loading infos. Please fix your inputs."
-      })
-      .finally(() => {
-        let date = new Date(deckdata.officialInfo.lastDataUpdate);
-        deckdataLastUpdatedString = date.toLocaleString();
-        showDeckData = true;
-      });
-    };
-
-
   onMount(async () => {
     let storedString = localStorage.getItem(REMEMBERME_KEY);
     if (storedString !== null) {
-      let storedValues = JSON.parse(storedString);
-      reservationTime = storedValues.timestamp;
-      selectedRegion = storedValues.region;
-      selectedVersion = storedValues.version;
-      rememberme = true;
-      fetchDeckInfos(selectedRegion, selectedVersion, reservationTime);
+      let storedValues = JSON.parse(storedString)
+      reservationTime = storedValues.timestamp
+      selectedRegion = storedValues.region
+      selectedVersion = storedValues.version
+      rememberme = true
+      showDeckData = true
     }
   });
 </script>
+
+<svelte:head>
+  <title>GetMyDeck - Calculator</title>
+</svelte:head>
 
 <div class="container mx-auto shadow-md p-5 mt-3 md:w-1/2 bg-white prose">
   <div class="grid grid-cols-1 gap-6 content-center">
@@ -157,20 +140,7 @@
       <p>Please fill out form completely</p>
       {/if}
       {#if showDeckData }
-        {#if errorMessage}
-          <p>{errorMessage}</p>
-        {:else}
-          {#if deckdata}
-            {@html deckdata.personalInfo.htmlText}
-            <h4>Past percentages</h4>
-            <DeckChart historicData={deckdata.personalInfo.historicData} />
-            <p class="text-xs">
-              Data last updated from deckbot sheet: {deckdataLastUpdatedString}
-            </p>
-          {:else}
-            <p>Fetching infos ...</p>
-          {/if}
-        {/if}      
+        <GetMyDeckResults region={selectedRegion} version={selectedVersion} timestamp={reservationTime} />
       {/if}
     </div>
     <div class="block border-t-2 text-xs">

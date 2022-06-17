@@ -1,48 +1,66 @@
 {
   ".svelte-kit/runtime/client/start.js": {
-    "file": "start-e4f8c48d.js",
+    "file": "start-3c31cd6a.js",
     "src": ".svelte-kit/runtime/client/start.js",
     "isEntry": true,
     "imports": [
-      "_index-360015a4.js"
+      "_index-a9450b1f.js"
     ],
     "dynamicImports": [
       "src/routes/__layout.svelte",
       "src/routes/__error.svelte",
-      "src/routes/index.svelte"
+      "src/routes/index.svelte",
+      "src/routes/s/[region=region]/[version=version]/[timestamp=timestamp].svelte"
     ]
   },
   "src/routes/__layout.svelte": {
-    "file": "pages/__layout.svelte-2cc02a3e.js",
+    "file": "pages/__layout.svelte-bc9d8e3c.js",
     "src": "src/routes/__layout.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_index-360015a4.js"
+      "_index-a9450b1f.js"
     ],
     "css": [
-      "assets/pages/__layout.svelte-fe46ddf5.css"
+      "assets/pages/__layout.svelte-72c74a82.css"
     ]
   },
   "src/routes/__error.svelte": {
-    "file": "pages/__error.svelte-47d800bd.js",
+    "file": "pages/__error.svelte-ade2ba9c.js",
     "src": "src/routes/__error.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_index-360015a4.js"
+      "_index-a9450b1f.js"
     ]
   },
   "src/routes/index.svelte": {
-    "file": "pages/index.svelte-f003fb2e.js",
+    "file": "pages/index.svelte-cd75ba75.js",
     "src": "src/routes/index.svelte",
     "isEntry": true,
     "isDynamicEntry": true,
     "imports": [
-      "_index-360015a4.js"
+      "_index-a9450b1f.js",
+      "_GetMyDeckResults-a39dd62c.js"
     ]
   },
-  "_index-360015a4.js": {
-    "file": "chunks/index-360015a4.js"
+  "src/routes/s/[region=region]/[version=version]/[timestamp=timestamp].svelte": {
+    "file": "pages/s/_region_region_/_version_version_/_timestamp_timestamp_.svelte-02a24e95.js",
+    "src": "src/routes/s/[region=region]/[version=version]/[timestamp=timestamp].svelte",
+    "isEntry": true,
+    "isDynamicEntry": true,
+    "imports": [
+      "_index-a9450b1f.js",
+      "_GetMyDeckResults-a39dd62c.js"
+    ]
+  },
+  "_index-a9450b1f.js": {
+    "file": "chunks/index-a9450b1f.js"
+  },
+  "_GetMyDeckResults-a39dd62c.js": {
+    "file": "chunks/GetMyDeckResults-a39dd62c.js",
+    "imports": [
+      "_index-a9450b1f.js"
+    ]
   }
 }

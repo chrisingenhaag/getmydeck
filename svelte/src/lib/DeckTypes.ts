@@ -1,3 +1,6 @@
+export type Version = '64' | '256' | '512'
+export type Region = 'EU' | 'UK' | 'US'
+
 export interface DeckData {
   personalInfo: PersonalInfo
   officialInfo: OfficialInfo

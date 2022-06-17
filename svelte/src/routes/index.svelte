@@ -1,6 +1,6 @@
 <script lang="ts">
-  import Chart from 'svelte-frappe-charts'; 
-  import type { DeckData } from 'src/types/DeckTypes';
+  import type { DeckData, ChartData, HistoricDeckbotData } from '$lib/DeckTypes'
+  import DeckChart from '$lib/DeckChart.svelte'
 
   import { onMount } from 'svelte';
 
@@ -56,44 +56,12 @@
     localStorage.setItem(REMEMBERME_KEY, JSON.stringify(valueToStore));
   }
 
-  let chartData = {
-    labels: [],
-    datasets: [],
-  };
-  
-  let chartLineOptions = {
-    regionFill: 1 // default: 0
-  }
-
-  let chartTooltipOptions = {
-    formatTooltipY: d => d + ' %',
-    formatTooltipX: d => 'date: '+ d
-  }
-
   let fetchDeckInfos = async (re: string, ver: string, rt: string) => {
     errorMessage = '';
     await fetch(`/api/v2/regions/${re}/versions/${ver}/infos/${rt}`)
       .then(r => r.json())
       .then(data => {
         deckdata = data;
-
-        let values: number[] = []
-        let labels: string[] = []
-        const datacopy = []
-        deckdata.personalInfo.historicData.forEach(val => datacopy.push(Object.assign({}, val)));
-        datacopy.reverse().forEach((item) => {
-          const monthDay = item.date.split('-')
-          labels.push(monthDay[1]+'-'+monthDay[2]);
-          values.push(item.elapsedTimePercentage)
-        })
-        chartData.labels = labels
-        chartData.datasets = [
-            {
-              values: values
-            }
-          ]
-          
-
       })
       .catch(() => {
         errorMessage = "Problem loading infos. Please fix your inputs."
@@ -195,7 +163,7 @@
           {#if deckdata}
             {@html deckdata.personalInfo.htmlText}
             <h4>Past percentages</h4>
-            <Chart data={chartData} type="line" lineOptions={chartLineOptions} tooltipOptions={chartTooltipOptions} valuesOverPoints="1"/>
+            <DeckChart historicData={deckdata.personalInfo.historicData} />
             <p class="text-xs">
               Data last updated from deckbot sheet: {deckdataLastUpdatedString}
             </p>

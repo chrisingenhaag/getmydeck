@@ -8,13 +8,15 @@
 
   const REMEMBERME_KEY = "urn:getmydeck:rememberme";
 
-  let reservationTime: string;
+  let reservationTime: number;
   let selectedRegion: Region
   let selectedVersion: Version
 
-  let rememberme = false;
+  let reserationTimeValid: boolean = true
+  let selectedRegionValid: boolean = true
+  let selectedVersionValid: boolean = true
 
-  let showValidationError = false;
+  let rememberme = false;
 
   let regions = [
     { id: 0, text: `empty`, value: undefined },
@@ -30,8 +32,31 @@
 		{ id: 3, text: `512GB`, value: `512` }
 	];
 
+  function resetValidation() {
+    selectedRegionValid = true
+    selectedVersionValid = true
+    reserationTimeValid = true
+  }
+
+  function validateForm() {
+    resetValidation()
+
+    if(selectedRegion === undefined) {
+      selectedRegionValid = false
+    }
+    if(selectedVersion === undefined) {
+      selectedVersionValid = false
+    }
+    if(reservationTime === undefined || 
+        reservationTime === null || 
+        reservationTime.toString().length !== 10) {
+      reserationTimeValid = false
+    }
+    return selectedRegionValid && selectedVersionValid && reserationTimeValid
+  }
+
   function handleSubmit() {
-    if(selectedRegion !== undefined && selectedVersion !== undefined && (reservationTime !== undefined && reservationTime !== null)) {
+    if(validateForm()) {
       
       const resultLink = `s/${selectedRegion}/${selectedVersion}/${reservationTime}`
 
@@ -42,8 +67,6 @@
       }
 
       window.location.assign(resultLink)
-    } else {
-      showValidationError = true;
     }
 	}
 
@@ -80,46 +103,51 @@
     <form on:submit|preventDefault={handleSubmit}>
       <div class="">
         <label for="region" class="text-gray-700">In which region did you preorder your Steam Deck?</label>
-        <select class="form-select block rounded-md shadow-sm w-full mt-1" id="region" name="region" bind:value={selectedRegion}>
+        <select class="form-select block rounded-md shadow-sm w-full mt-1 {!selectedRegionValid ? 'bg-red-50 border border-red-500 text-red-900' : ''}" id="region" name="region" bind:value={selectedRegion} on:change={() => selectedRegionValid = true}>
           {#each regions as region}
           <option label={region.text} value={region.value}>
             {region.text}
           </option>
           {/each}
         </select>
+        {#if !selectedRegionValid }
+        <span class="text-sm text-red-600 dark:text-red-500">Please select a region</span>
+        {/if}
       </div>
       <div class="">
         <label for="version" class="text-gray-700">Which version did you reserve?</label>
-        <select class="form-select block rounded-md shadow-sm w-full mt-1" id="version" name="version" bind:value={selectedVersion}>
+        <select class="form-select block rounded-md shadow-sm w-full mt-1 {!selectedVersionValid ? 'bg-red-50 border border-red-500 text-red-900' : ''}" id="version" name="version" bind:value={selectedVersion} on:change={() => selectedVersionValid = true}>
           {#each versions as version}
           <option label={version.text} value={version.value}>
             {version.text}
           </option>
           {/each}
         </select>
+        {#if !selectedVersionValid }
+        <span class="text-sm text-red-600 dark:text-red-500">Please select a version</span>
+        {/if}
       </div>
     
       <div class="">
         <label for="reserationTime" class="text-gray-700">Your reservation time (in seconds from 01.01.1970 example: 1627022437). Get it like 
           described in the <a target="_blank" href="https://www.reddit.com/r/SteamDeck/comments/ui642q/introducing_deckbot/">reddit DeckBot description</a>.
         </label>
-        <input type="number" class="form-input block rounded-md shadow-sm w-full mt-1" name="reservationTime" id="reserationTime" bind:value={reservationTime}/>
+        <input type="number" class="form-input block rounded-md shadow-sm w-full mt-1 {!reserationTimeValid ? 'bg-red-50 border border-red-500 text-red-900' : ''}" name="reservationTime" id="reserationTime" bind:value={reservationTime}/>
+        {#if !reserationTimeValid }
+        <span class="text-sm text-red-600 dark:text-red-500">Please enter a valid timestamp (10 digits)</span>
+        {/if}
       </div>
-
-      <label class="">
-        <button class="px-4 py-2 mt-5 font-semibold text-sm bg-sky-900 active:bg-sky-600 text-white rounded-lg shadow-sm" type="submit">
-          Get my current preorder status
-        </button>
-      </label>
 
       <label class="block mt-3">
         <input type="checkbox" class="form-input rounded-md shadow-sm" name="rememberme" id="rememberme" bind:checked={rememberme}/>
         <span class="text-gray-700">Remember me</span>
       </label>
 
-      {#if showValidationError }
-      <p>Please fill out form completely</p>
-      {/if}
+      <label class="">
+        <button class="px-4 py-2 mt-5 font-semibold text-sm bg-sky-900 active:bg-sky-600 text-white rounded-lg shadow-sm" type="submit">
+          Get my current preorder status
+        </button>
+      </label>
     </form>
     
     <Changelog />

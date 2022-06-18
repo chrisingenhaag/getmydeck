@@ -40,7 +40,7 @@
     <h4>Past percentages</h4>
     <DeckChart historicData={deckdata.personalInfo.historicData} />
     <p class="text-xs">
-      Data last updated from deckbot sheet by <a href="https://www.reddit.com/user/Fammy">u/Fammy</a>: {deckdataLastUpdatedString}
+      Data last updated from deckbot sheet by <a target="_blank" href="https://www.reddit.com/u/Fammy">u/Fammy</a>: {deckdataLastUpdatedString}
     </p>
   {:else}
     <p>Fetching infos ...</p>

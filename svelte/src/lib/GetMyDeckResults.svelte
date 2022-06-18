@@ -45,4 +45,4 @@
   {:else}
     <p>Fetching infos ...</p>
   {/if}
-{/if}      
+{/if}

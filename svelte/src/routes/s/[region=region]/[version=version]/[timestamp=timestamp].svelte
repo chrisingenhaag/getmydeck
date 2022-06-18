@@ -10,6 +10,7 @@
 
 <script lang="ts">
   import type { Region, Version } from '$lib/DeckTypes';
+  import Footer from '$lib/Footer.svelte';
 
   import GetMyDeckResults from '$lib/GetMyDeckResults.svelte'
 
@@ -32,7 +33,8 @@
       <h3>Results:</h3>
 
       <GetMyDeckResults region={region} version={version} timestamp={timestamp} />
-
+ 
+      <Footer />
     </article>
   </div>
 </div>

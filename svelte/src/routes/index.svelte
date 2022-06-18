@@ -1,24 +1,18 @@
 <script lang="ts">
   import { onMount } from 'svelte';
 
-  import GetMyDeckResults from '$lib/GetMyDeckResults.svelte'
-import type { Region, Version } from '$lib/DeckTypes';
+  import type { Region, Version } from '$lib/DeckTypes';
+  import Description from '$lib/Description.svelte';
+  import Changelog from '$lib/Changelog.svelte';
+  import Footer from '$lib/Footer.svelte';
 
   const REMEMBERME_KEY = "urn:getmydeck:rememberme";
-
-  let boundReservationTime: string;
-  let boundSelectedRegion: Region
-  let boundSelectedVersion: Version
-
 
   let reservationTime: string;
   let selectedRegion: Region
   let selectedVersion: Version
 
-
-
   let rememberme = false;
-  let showDeckData = false
 
   let showValidationError = false;
 
@@ -38,21 +32,18 @@ import type { Region, Version } from '$lib/DeckTypes';
 
   function handleSubmit() {
     if(selectedRegion !== undefined && selectedVersion !== undefined && (reservationTime !== undefined && reservationTime !== null)) {
-
-      boundReservationTime = reservationTime
-      boundSelectedRegion = selectedRegion
-      boundSelectedVersion = selectedVersion
       
-      showValidationError = false;
-      showDeckData = true;
+      const resultLink = `s/${selectedRegion}/${selectedVersion}/${reservationTime}`
+
       if(rememberme === true) {
         saveRememberme()
       } else {
         localStorage.clear();
       }
+
+      window.location.assign(resultLink)
     } else {
       showValidationError = true;
-      showDeckData = false
     }
 	}
 
@@ -72,11 +63,7 @@ import type { Region, Version } from '$lib/DeckTypes';
       reservationTime = storedValues.timestamp
       selectedRegion = storedValues.region
       selectedVersion = storedValues.version
-      boundReservationTime = storedValues.timestamp
-      boundSelectedRegion = storedValues.region
-      boundSelectedVersion = storedValues.version
       rememberme = true
-      showDeckData = true
     }
   });
 </script>
@@ -87,26 +74,8 @@ import type { Region, Version } from '$lib/DeckTypes';
 
 <div class="container mx-auto shadow-md p-5 mt-3 md:w-1/2 bg-white prose">
   <div class="grid grid-cols-1 gap-6 content-center">
-    <article class="">
-      <h1 class="text-center">How long to get my Steam Deck?</h1>
-      <p>Inspired from the reddit Steam Deck Order Email Megathreads <a target="_blank" href="https://www.reddit.com/r/SteamDeck/search?q=flair_name%3A%22MEGATHREAD%22&restrict_sr=1">(list of them here)</a> 
-        I wanted to give an alternative way of getting actual information
-        besides talking to the deckbot within the reddit. 
-      </p>
-      <p>
-        Anyway thanks to the great work of all guys behind the thread and their work on organizing this 
-        and making the data available. 
-        This site also relies on the data the people share in the reddit to 
-        collect information which people are able to
-        order their steam deck based on the reservation time, their region and their version.
-      </p>
-      <p>
-        Here you just need to enter your data to get your information about how far 
-        away you might be from ordering your steam deck. Every week 
-        you can just come back and see if something has changed (without a reddit 
-        account and talking to deckbot every week).
-      </p>
-    </article>
+    
+    <Description />
 
     <form on:submit|preventDefault={handleSubmit}>
       <div class="">
@@ -147,44 +116,14 @@ import type { Region, Version } from '$lib/DeckTypes';
         <input type="checkbox" class="form-input rounded-md shadow-sm" name="rememberme" id="rememberme" bind:checked={rememberme}/>
         <span class="text-gray-700">Remember me</span>
       </label>
-    </form>
-    
-    <div class="block border-t-2">
-      <h3>Results:</h3>
+
       {#if showValidationError }
       <p>Please fill out form completely</p>
       {/if}
-      {#if showDeckData }
-        <GetMyDeckResults region={boundSelectedRegion} version={boundSelectedVersion} timestamp={boundReservationTime} />
-      {/if}
-    </div>
-    <div class="block border-t-2 text-xs">
-      <h4>Changelog:</h4>
-      <ul>
-        <li>June 17, 2022: Added graph toggle to show all or last 8 data sets</li>
-        <li>June 17, 2022: Added graph toggle to auto y-axis and full 100% view</li>
-        <li>June 15, 2022: Added graph for past percentages; Limit data points to mondays and thursdays</li>
-        <li>June 12, 2022: Added collection of historical data, persistence and presentation of past percentages</li>
-        <li>May 31, 2022: Switched text response to be more understandable</li>
-        <li>May 30, 2022: Updated to auto fetch data from deckbot google sheet</li>
-        <li>May 30, 2022: Updated data from deckbot</li>
-        <li>May 29, 2022: Added reservation timestamp from last order of your specific version of Steam Deck in form response</li>
-        <li>May 26, 2022: Updated data from deckbot googlesheet</li>
-      </ul>
+    </form>
+    
+    <Changelog />
 
-      <h4>Todo:</h4>
-      <ul>
-        <li>Use historical data to calc a 5 week average and use it to calc estimated order date</li>
-        <li>Make results shareable via link</li>
-        <li class="line-through">Improve graph and readability</li>
-        <li class="line-through">Use historical data to display last increases on your personal reservation time</li>
-        <li class="line-through">If deckbot data changes, persist them to disk. Load this data from disk</li>
-        <li class="line-through">Update data from deckbot datasource only if they changed</li>
-        <li class="line-through">Auto update data from deckbot datasource</li>
-      </ul>
-    </div>
-    <div class="block border-t-2">
-      <p>If you have questions or comments feel free to reach out for me on reddit <a target="_blank" href="https://www.reddit.com/u/Labidou51">Labidou51</a></p>
-    </div>
+    <Footer />
   </div>
 </div>

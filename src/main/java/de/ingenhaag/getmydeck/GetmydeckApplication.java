@@ -15,7 +15,7 @@ public class GetmydeckApplication {
 		SpringApplication.run(GetmydeckApplication.class, args);
 	}
 
-	@Bean
+	/*@Bean
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
 			@Override
@@ -23,6 +23,6 @@ public class GetmydeckApplication {
 				registry.addMapping("/**").allowedMethods("GET").allowedOrigins("*");
 			}
 		};
-	}
+	}*/
 
 }

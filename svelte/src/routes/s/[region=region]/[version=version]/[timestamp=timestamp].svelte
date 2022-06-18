@@ -30,8 +30,9 @@
     <article class="">
       <h1 class="text-center">How long to get my Steam Deck?</h1>
 
-      <h3>Results:</h3>
+      <span class="text-sm">Reload to refresh results <b>or</b> share the current page with other people</span>
 
+      <h3>Results:</h3>
       <GetMyDeckResults region={region} version={version} timestamp={timestamp} />
  
       <Footer />

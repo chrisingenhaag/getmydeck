@@ -1,7 +1,7 @@
 <div class="block border-t-2 text-xs">
   <h4>Changelog:</h4>
   <ul>
-    <li>June 18, 2022: Results on separate page for ressults being shareable via link</li>
+    <li>June 18, 2022: Moved results to separate page for results being shareable via link</li>
     <li>June 17, 2022: Added graph toggle to show all or last 8 data sets</li>
     <li>June 17, 2022: Added graph toggle to auto y-axis and full 100% view</li>
     <li>June 15, 2022: Added graph for past percentages; Limit data points to mondays and thursdays</li>
@@ -16,7 +16,7 @@
   <h4>Todo:</h4>
   <ul>
     <li>Use historical data to calc a 5 week average and use it to calc estimated order date</li>
-    <li>Make results shareable via link</li>
+    <li class="line-through">Make results shareable via link</li>
     <li class="line-through">Improve graph and readability</li>
     <li class="line-through">Use historical data to display last increases on your personal reservation time</li>
     <li class="line-through">If deckbot data changes, persist them to disk. Load this data from disk</li>

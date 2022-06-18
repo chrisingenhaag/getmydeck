@@ -22,7 +22,7 @@
 
 
 <svelte:head>
-  <title>GetMyDeck - Shared Progress</title>
+  <title>GetMyDeck - Results</title>
 </svelte:head>
 
 <div class="container mx-auto shadow-md p-5 mt-3 md:w-1/2 bg-white prose">

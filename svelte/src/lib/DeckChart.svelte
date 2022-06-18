@@ -70,14 +70,14 @@
     tooltipOptions={chartTooltipOptions} 
     valuesOverPoints="1"/>
   <div class="flex flex-row">
-    <div class="basis-1/4 sm:basis-1/2">
+    <div class="basis-1/2">
       <label for="showAllData" class="flex items-center cursor-pointer relative">
         <input bind:checked={showAllData} type="checkbox" id="showAllData" class="sr-only">
         <div class="toggle-bg bg-gray-200 border-2 border-gray-200 h-6 w-11 rounded-full"></div>
         <span class="ml-3 text-gray-900 text-sm font-medium">Show all data</span>
       </label>
     </div>
-    <div class="basis-1/4 sm:basis-1/2">
+    <div class="basis-1/2">
       <label for="showFullYScale" class="flex items-center cursor-pointer relative">
         <input bind:checked={showFullYScale} type="checkbox" id="showFullYScale" class="sr-only">
         <div class="toggle-bg bg-gray-200 border-2 border-gray-200 h-6 w-11 rounded-full"></div>

@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.stream.Stream;
 
 import static de.cronn.assertions.validationfile.FileExtensions.JSON;
+import static de.ingenhaag.getmydeck.services.DeckServiceTest.RESERVED_TOO_EARLY;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -82,6 +83,16 @@ class MainControllerTest implements JUnit5ValidationFileAssertions {
 
     mvc.perform( MockMvcRequestBuilders
             .get("/api/v2/regions/EU/versions/321/infos/"+reservedAt)
+            .accept(MediaType.APPLICATION_JSON))
+        .andDo(print())
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  void testGetApiV2TooEarlyReservation() throws Exception {
+
+    mvc.perform( MockMvcRequestBuilders
+            .get("/api/v2/regions/EU/versions/512/infos/"+RESERVED_TOO_EARLY)
             .accept(MediaType.APPLICATION_JSON))
         .andDo(print())
         .andExpect(status().isBadRequest());

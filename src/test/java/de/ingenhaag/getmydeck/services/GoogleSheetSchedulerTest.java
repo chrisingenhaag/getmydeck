@@ -10,8 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @TestPropertySource(properties = {
-    "persistence.path=build/deckbot-data.json",
-    "persistence.create-if-not-exists=true"
+    "getmydeck.persistence.path=build/deckbot-data.json",
+    "getmydeck.persistence.create-if-not-exists=true"
 })
 class GoogleSheetSchedulerTest {
 

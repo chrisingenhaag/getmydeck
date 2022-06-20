@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 })
 public class DeckServiceTest {
   public static final String RESERVED_AT = "1627022437";
+  public static final String RESERVED_TOO_EARLY = "1626454799";
   @Autowired
   private DeckService service;
 

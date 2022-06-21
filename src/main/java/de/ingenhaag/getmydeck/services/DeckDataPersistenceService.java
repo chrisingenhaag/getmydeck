@@ -22,6 +22,7 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.Map;
 import java.util.Optional;
+import java.util.SortedMap;
 
 @Service
 public class DeckDataPersistenceService {
@@ -42,13 +43,12 @@ public class DeckDataPersistenceService {
   public void init() {
     try {
       deckBotPersistenceObject = loadDataFromDisk();
-      this.currentDeckBotData = getLatestDataFromDisk();
     } catch (IOException e) {
       log.error("Error loading data from json file", e);
     }
   }
 
-  public void updateParsedDataIfChanged(Map<Region, Map<Version, OffsetDateTime>> parsedData) {
+  public void updateParsedDataIfChanged(SortedMap<Region, SortedMap<Version, OffsetDateTime>> parsedData) {
     DeckBotData deckBotData = new DeckBotData();
     deckBotData.setLastShipments(parsedData);
     deckBotData.setLastUpdated(OffsetDateTime.now(ZoneOffset.UTC));
@@ -63,6 +63,9 @@ public class DeckDataPersistenceService {
   }
 
   public DeckBotData getDeckBotData() {
+    if(currentDeckBotData == null) {
+      currentDeckBotData = getLatestDataFromDisk();
+    }
     return currentDeckBotData;
   }
 

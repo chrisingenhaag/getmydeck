@@ -4,6 +4,8 @@ getmydeck:
     reservation-start: 1626454800
 
   deckbot:
+    scheduler:
+      enabled: true
     google-api-key: ***REMOVED***
     sheet-id: 1ZaKncig9fce7K0sr1f-E2_sgLH1HuKQ-q3k7clPMOCs
     sheet-data-location: "deckbot!A1:C9"

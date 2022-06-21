@@ -1,12 +1,12 @@
 package de.ingenhaag.getmydeck.services;
 
+import de.ingenhaag.getmydeck.testsupport.DeckStaticTest;
 import de.ingenhaag.getmydeck.models.deckbot.Region;
 import de.ingenhaag.getmydeck.models.deckbot.Version;
 import de.ingenhaag.getmydeck.models.dto.InfoResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
 
 import java.time.Instant;
 import java.time.OffsetDateTime;
@@ -15,10 +15,7 @@ import java.time.ZoneOffset;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@TestPropertySource(properties = {
-    "getmydeck.persistence.path=classpath:deckbot-data.json"
-})
-public class DeckServiceTest {
+public class DeckServiceTest extends DeckStaticTest {
   public static final String RESERVED_AT = "1627022437";
   public static final String RESERVATION_POSSIBLE = "1626522437";
   public static final String RESERVED_TOO_EARLY = "1626454799";

@@ -6,13 +6,14 @@ import de.ingenhaag.getmydeck.models.deckbot.Version;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.Map;
+import java.util.SortedMap;
 
 public class OfficialInfo {
 
   private OffsetDateTime reservationsStartedAt;
   private OffsetDateTime lastDataUpdate;
   private LocalDate lastDataUpdateDate;
-  private Map<Region, Map<Version, OffsetDateTime>> lastShipments;
+  private SortedMap<Region, SortedMap<Version, OffsetDateTime>> lastShipments;
 
   public OffsetDateTime getReservationsStartedAt() {
     return reservationsStartedAt;
@@ -30,11 +31,11 @@ public class OfficialInfo {
     this.lastDataUpdate = lastDataUpdate;
   }
 
-  public void setLastShipments(Map<Region, Map<Version, OffsetDateTime>> lastShipments) {
+  public void setLastShipments(SortedMap<Region, SortedMap<Version, OffsetDateTime>> lastShipments) {
     this.lastShipments = lastShipments;
   }
 
-  public Map<Region, Map<Version, OffsetDateTime>> getLastShipments() {
+  public SortedMap<Region, SortedMap<Version, OffsetDateTime>> getLastShipments() {
     return lastShipments;
   }
 

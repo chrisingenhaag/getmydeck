@@ -144,13 +144,17 @@ public class DeckService {
     return new ArrayList<>(result);
   }
 
-  private Map<Region, Map<Version, OffsetDateTime>> getDeckBotDataOrDefault() {
+  private SortedMap<Region, SortedMap<Version, OffsetDateTime>> getDeckBotDataOrDefault() {
     final DeckBotData deckBotData = deckDataPersistenceService.getDeckBotData();
     if (Objects.nonNull(deckBotData) && deckBotData.isComplete()) {
       this.officialInfo.setLastDataUpdate(deckBotData.getLastUpdated());
       this.officialInfo.setLastDataUpdateDate(deckBotData.getLastUpdated().toLocalDate());
-      this.officialInfo.setLastShipments(deckBotData.getLastShipments());
-      return deckBotData.getLastShipments();
+
+      final SortedMap<Region, SortedMap<Version, OffsetDateTime>> lastShipments = deckBotData.getLastShipments();
+
+
+      this.officialInfo.setLastShipments(lastShipments);
+      return lastShipments;
     }
     return null;
   }

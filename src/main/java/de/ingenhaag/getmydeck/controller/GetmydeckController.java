@@ -27,32 +27,6 @@ public class GetmydeckController {
   @Autowired
   DeckService deckService;
 
-  @Autowired
-  SteamConfiguration config;
-
-  @GetMapping("/api/v1/info")
-  public InfoResponse getMydeckSetupInfo(
-      @RequestParam("reserved") @Valid @PlausibleDeckPreorderTime OffsetDateTime reserved,
-      @RequestParam("region") Region region,
-      @RequestParam("version") Version version
-  ) {
-    return deckService.getPersonalInfos(reserved, region, version);
-  }
-
-  @GetMapping("/api/v2/regions/{region}")
-  public Map<Version, OffsetDateTime> getRegionInfo(
-      @PathVariable("region") Region region
-  ) {
-    return deckService.getSelectedDeckRegion(region);
-  }
-
-  @GetMapping("/api/v2/regions/{region}/versions/{version}")
-  public OffsetDateTime getRegionVersionInfo(
-      @PathVariable("region") Region region,
-      @PathVariable("version") Version version
-  ) {
-    return deckService.getSelectedDeckLastShipment(region, version);
-  }
   @GetMapping("/api/v2/regions/{region}/versions/{version}/infos/{reserved}")
   public ResponseEntity<InfoResponse> getMydeckSetupInfoV2(
       @PathVariable("reserved") @Valid @PlausibleDeckPreorderTime OffsetDateTime reserved,

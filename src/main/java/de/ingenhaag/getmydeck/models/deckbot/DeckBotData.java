@@ -6,24 +6,22 @@ import de.ingenhaag.getmydeck.models.persistence.DeckBotDataDaySet;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class DeckBotData {
 
   private OffsetDateTime lastUpdated;
-  private Map<Region, Map<Version, OffsetDateTime>> lastShipments;
+  private SortedMap<Region, SortedMap<Version, OffsetDateTime>> lastShipments;
 
   public OffsetDateTime getLastUpdated() {
     return lastUpdated;
   }
 
-  public Map<Region, Map<Version, OffsetDateTime>> getLastShipments() {
+  public SortedMap<Region, SortedMap<Version, OffsetDateTime>> getLastShipments() {
     return lastShipments;
   }
 
-  public void setLastShipments(Map<Region, Map<Version, OffsetDateTime>> lastShipments) {
+  public void setLastShipments(SortedMap<Region, SortedMap<Version, OffsetDateTime>> lastShipments) {
     this.lastShipments = lastShipments;
   }
 
@@ -53,10 +51,10 @@ public class DeckBotData {
     DeckBotData data = new DeckBotData();
     data.setLastUpdated(OffsetDateTime.ofInstant(Instant.ofEpochSecond(Long.parseLong(daySet.getLastUpdated())), ZoneOffset.UTC));
 
-    Map<Region, Map<Version, OffsetDateTime>> resultMap = new HashMap<>();
+    SortedMap<Region, SortedMap<Version, OffsetDateTime>> resultMap = new TreeMap<>();
 
     for(Region region : Region.values()) {
-      Map<Version, OffsetDateTime> regionMap = new HashMap<>();
+      SortedMap<Version, OffsetDateTime> regionMap = new TreeMap<>();
       for(Version version : Version.values()) {
         OffsetDateTime dateTime = OffsetDateTime.ofInstant(Instant.ofEpochSecond(Long.parseLong(daySet.getLastShipments().get(region).get(version))), ZoneOffset.UTC);
         regionMap.put(version, dateTime);

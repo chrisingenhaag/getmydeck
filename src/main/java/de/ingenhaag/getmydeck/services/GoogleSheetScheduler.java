@@ -7,6 +7,7 @@ import de.ingenhaag.getmydeck.models.google.DeckBotSheetResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -19,9 +20,12 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
 @Service
+@ConditionalOnProperty(prefix = "getmydeck.deckbot", value = "scheduler.enabled", havingValue = "true")
 public class GoogleSheetScheduler {
 
   private static final Logger log = LoggerFactory.getLogger(GoogleSheetScheduler.class);
@@ -45,7 +49,7 @@ public class GoogleSheetScheduler {
     final ResponseEntity<DeckBotSheetResponse> response = restTemplate.getForEntity(URI.create(deckBotConfiguration.getUrl()), DeckBotSheetResponse.class);
     if (response.hasBody()) {
       try {
-        Map<Region, Map<Version, OffsetDateTime>> parsedData = new HashMap<>();
+        SortedMap<Region, SortedMap<Version, OffsetDateTime>> parsedData = new TreeMap<>();
         response.getBody().getValues()
             .forEach(strings -> {
               Version version = Version.valueOfSize(strings.get(0));
@@ -55,7 +59,7 @@ public class GoogleSheetScheduler {
               if (parsedData.containsKey(region)) {
                 parsedData.get(region).put(version, stamp);
               } else {
-                Map<Version, OffsetDateTime> versionOffsetDateTimeMap = new HashMap<>();
+                SortedMap<Version, OffsetDateTime> versionOffsetDateTimeMap = new TreeMap<>();
                 versionOffsetDateTimeMap.put(version, stamp);
                 parsedData.put(region, versionOffsetDateTimeMap);
               }

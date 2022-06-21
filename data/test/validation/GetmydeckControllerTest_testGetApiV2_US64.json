@@ -6,18 +6,18 @@
     "lastShipments" : {
       "EU" : {
         "64" : "2021-07-20T22:23:22Z",
-        "512" : "2021-07-19T21:47:21Z",
-        "256" : "2021-07-20T08:20:22Z"
-      },
-      "US" : {
-        "64" : "2021-07-16T22:42:13Z",
-        "512" : "2021-07-16T17:56:32Z",
-        "256" : "2021-07-16T21:32:00Z"
+        "256" : "2021-07-20T08:20:22Z",
+        "512" : "2021-07-19T21:47:21Z"
       },
       "UK" : {
         "64" : "2021-07-19T12:26:56Z",
-        "512" : "2021-07-16T17:32:01Z",
-        "256" : "2021-07-16T18:59:38Z"
+        "256" : "2021-07-16T18:59:38Z",
+        "512" : "2021-07-16T17:32:01Z"
+      },
+      "US" : {
+        "64" : "2021-07-16T22:42:13Z",
+        "256" : "2021-07-16T21:32:00Z",
+        "512" : "2021-07-16T17:56:32Z"
       }
     }
   },
@@ -33,6 +33,9 @@
     "latestOrderSeconds" : 1626475333,
     "latestOrder" : "2021-07-16T22:42:13Z",
     "historicData" : [ {
+      "date" : "2022-06-13",
+      "elapsedTimePercentage" : 3.61
+    }, {
       "date" : "2022-06-09",
       "elapsedTimePercentage" : 3.42
     }, {
@@ -53,9 +56,45 @@
     }, {
       "date" : "2022-05-19",
       "elapsedTimePercentage" : 2.17
+    }, {
+      "date" : "2022-05-16",
+      "elapsedTimePercentage" : 2.01
+    }, {
+      "date" : "2022-05-12",
+      "elapsedTimePercentage" : 1.85
+    }, {
+      "date" : "2022-05-09",
+      "elapsedTimePercentage" : 1.73
+    }, {
+      "date" : "2022-05-05",
+      "elapsedTimePercentage" : 1.62
+    }, {
+      "date" : "2022-05-02",
+      "elapsedTimePercentage" : 1.47
+    }, {
+      "date" : "2022-04-28",
+      "elapsedTimePercentage" : 1.26
+    }, {
+      "date" : "2022-04-25",
+      "elapsedTimePercentage" : 1.01
+    }, {
+      "date" : "2022-04-21",
+      "elapsedTimePercentage" : 0.89
+    }, {
+      "date" : "2022-04-18",
+      "elapsedTimePercentage" : 0.76
+    }, {
+      "date" : "2022-04-14",
+      "elapsedTimePercentage" : 0.63
+    }, {
+      "date" : "2022-04-11",
+      "elapsedTimePercentage" : 0.5
+    }, {
+      "date" : "2022-04-07",
+      "elapsedTimePercentage" : 0.39
     } ],
     "predictiveData" : {
-      "fiveShipmentAverage" : "2022-07-17"
+      "fiveShipmentAverage" : "2022-06-29"
     }
   }
 }

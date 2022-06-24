@@ -23,8 +23,6 @@ public class PersonalInfo {
 
   private List<HistoricDeckbotData> historicData;
 
-  private PredictiveData predictiveData;
-
   public OffsetDateTime getReservedAt() {
     return reservedAt;
   }
@@ -112,11 +110,20 @@ public class PersonalInfo {
     this.historicData = historicData;
   }
 
-  public PredictiveData getPredictiveData() {
-    return predictiveData;
-  }
-
-  public void setPredictiveData(PredictiveData predictiveData) {
-    this.predictiveData = predictiveData;
+  @Override
+  public String toString() {
+    return "PersonalInfo{" +
+        "reservedAt=" + reservedAt +
+        ", region=" + region +
+        ", version=" + version +
+        ", durationReservedAfterStart=" + durationReservedAfterStart +
+        ", durationReservedAfterStartHumanReadable='" + durationReservedAfterStartHumanReadable + '\'' +
+        ", elapsedTimePercentage=" + elapsedTimePercentage +
+        ", prettyText='" + prettyText + '\'' +
+        ", htmlText='" + htmlText + '\'' +
+        ", latestOrderSeconds=" + latestOrderSeconds +
+        ", latestOrder=" + latestOrder +
+        ", historicData=" + historicData +
+        '}';
   }
 }

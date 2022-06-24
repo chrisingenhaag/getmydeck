@@ -43,7 +43,6 @@ public class DeckService {
     personalInfo.setHtmlText(calcHtmlText(personalInfo, region, version, latestOrderSpecificVersion, reservedAt));
     final List<HistoricDeckbotData> historicData = getHistoricData(reservedAt, region, version);
     personalInfo.setHistoricData(historicData);
-    personalInfo.setPredictiveData(calcPredictiveDataFromHistory(elapsedTimePercentage, historicData));
 
     InfoResponse info = new InfoResponse();
     info.setOfficialInfo(officialInfo);
@@ -108,20 +107,6 @@ public class DeckService {
         personalInfo.getDurationReservedAfterStartHumanReadable(),
         calculateDurationBetweenPreorderStartAndLastShipment(latestOrderSpecificVersion),
         personalInfo.getElapsedTimePercentage());
-  }
-
-  private PredictiveData calcPredictiveDataFromHistory(Double currentElapsedTimePercentage, List<HistoricDeckbotData> historicData) {
-    PredictiveData predictiveData = new PredictiveData();
-
-    final Double oldPercentage = historicData.get(4).getElapsedTimePercentage();
-    final LocalDate date = historicData.get(4).getDate();
-    long daysBetween = date.until(LocalDate.now(ZoneOffset.UTC), ChronoUnit.DAYS);
-    Double averageIncreasePerDay = (currentElapsedTimePercentage - oldPercentage) / daysBetween;
-    int daysToGo = 100 - Double.valueOf(currentElapsedTimePercentage / averageIncreasePerDay).intValue() + 1;
-
-    predictiveData.setFiveShipmentAverage(LocalDate.ofInstant(Instant.now().plus(daysToGo, ChronoUnit.DAYS), ZoneOffset.UTC));
-
-    return predictiveData;
   }
 
   private List<HistoricDeckbotData> getHistoricData(OffsetDateTime reservedAt, Region region, Version version) {

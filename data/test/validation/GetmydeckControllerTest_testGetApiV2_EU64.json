@@ -92,9 +92,6 @@
     }, {
       "date" : "2022-04-07",
       "elapsedTimePercentage" : 10.12
-    } ],
-    "predictiveData" : {
-      "fiveShipmentAverage" : "2022-07-13"
-    }
+    } ]
   }
 }

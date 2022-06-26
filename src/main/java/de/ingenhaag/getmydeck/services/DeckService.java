@@ -9,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.*;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class DeckService {
@@ -174,11 +172,7 @@ public class DeckService {
     return String.format("%02d days, %02d hours, %02d minutes and %02d seconds", d, HH, MM, SS);
   }
 
-  public OffsetDateTime getSelectedDeckLastShipment(Region region, Version version) {
+  private OffsetDateTime getSelectedDeckLastShipment(Region region, Version version) {
     return getDeckBotDataOrDefault().get(region).get(version);
-  }
-
-  public Map<Version, OffsetDateTime> getSelectedDeckRegion(Region region) {
-    return getDeckBotDataOrDefault().get(region);
   }
 }

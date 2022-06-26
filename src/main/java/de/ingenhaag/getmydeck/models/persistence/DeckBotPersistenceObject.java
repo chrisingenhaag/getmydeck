@@ -5,7 +5,6 @@ import de.ingenhaag.getmydeck.models.deckbot.DeckBotData;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -36,10 +35,9 @@ public class DeckBotPersistenceObject {
   }
 
   @JsonIgnore
-  public void addOrUpdateNewDeckDataSet(DeckBotData deckBotData) {
+  public void addOrUpdateNewDeckDataSet(DeckBotData deckBotData, LocalDate now) {
     DeckBotDataDaySet dataDaySet = DeckBotDataDaySet.of(deckBotData);
 
-    final LocalDate now = LocalDate.now(ZoneOffset.UTC);
     if(data == null) {
       data = new HashMap<>();
     }

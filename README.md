@@ -18,220 +18,145 @@ docker push
 
 Google sheet from u/fammy https://docs.google.com/spreadsheets/d/1ZaKncig9fce7K0sr1f-E2_sgLH1HuKQ-q3k7clPMOCs/edit?usp=sharing
 
-### Wanted output 
+### Expected sample output
+
+Request:
+
+```bash
+https getmydeck.ingenhaag.dev/api/v2/regions/EU/versions/512/infos/1627022437
+```
+
+Response:
 
 ```json
 {
   "officialInfo": {
-    "reservationsStartedAt": "2021-07-16T17:00:00Z",
-    "lastDataUpdate": "2022-06-12T13:06:32Z",
+    "lastDataUpdate": "2022-06-25T13:30:50Z",
+    "lastDataUpdateDate": "2022-06-25",
     "lastShipments": {
-      "US": {
-        "512": "2021-07-16T17:50:48Z",
-        "256": "2021-07-16T21:05:37Z",
-        "64": "2021-07-16T22:23:52Z"
+      "EU": {
+        "256": "2021-07-23T11:10:02Z",
+        "512": "2021-07-23T18:14:54Z",
+        "64": "2021-07-22T23:45:13Z"
       },
       "UK": {
-        "512": "2021-07-16T17:31:34Z",
-        "256": "2021-07-16T18:45:43Z",
-        "64": "2021-07-19T04:36:57Z"
+        "256": "2021-07-16T19:31:59Z",
+        "512": "2021-07-16T17:41:33Z",
+        "64": "2021-07-20T18:39:44Z"
       },
-      "EU": {
-        "512": "2021-07-19T14:32:00Z",
-        "256": "2021-07-19T16:37:58Z",
-        "64": "2021-07-20T17:01:57Z"
+      "US": {
+        "256": "2021-07-16T23:10:46Z",
+        "512": "2021-07-16T18:12:15Z",
+        "64": "2021-07-17T00:24:42Z"
       }
-    }
+    },
+    "reservationsStartedAt": "2021-07-16T17:00:00Z"
   },
   "personalInfo": {
-    "reservedAt": "2021-07-23T06:40:37Z",
-    "region": "EU",
-    "version": "512",
     "durationReservedAfterStart": "PT157H40M37S",
     "durationReservedAfterStartHumanReadable": "06 days, 13 hours, 40 minutes and 37 seconds",
-    "elapsedTimePercentage": "44.10 %",
-    "prettyText": "It looks like you have a EU 512GB reservation.\nYou reserved your deck 06 days, 13 hours, 40 minutes and 37 seconds after pre-orders opened.\n02 days, 21 hours, 32 minutes and 00 seconds of orders have been processed, and you have 03 days, 16 hours, 08 minutes and 37 seconds of orders to go until it is your turn.\nYou're 44.10 % of the way there!",
-    "htmlText": "<ul>\n  <li>It looks like you have a EU 512GB reservation</li>\n  <li>You reserved your deck 06 days, 13 hours, 40 minutes and 37 seconds after pre-orders opened</li>\n  <li>02 days, 21 hours, 32 minutes and 00 seconds of orders have been processed</li>\n  <li>You have 03 days, 16 hours, 08 minutes and 37 seconds of orders to go until it is your turn</li>\n  <li>You're 44.10 % of the way there!</li>\n</ul>",
-    "latestOrderSeconds": 1626705120,
-    "latestOrder": "2021-07-19T14:32:00Z",
-    "predictiveData": {
-      "fiveWeekAverageTarget": "2022-06-30",
-      "fiveWeekLinearProgressionTarget": "2022-06-26"
-    },
+    "elapsedTimePercentage": 107.33,
     "historicData": [
       {
+        "date": "2022-06-23",
+        "elapsedTimePercentage": 107.33
+      },
+      {
+        "date": "2022-06-20",
+        "elapsedTimePercentage": 78.3
+      },
+      {
+        "date": "2022-06-16",
+        "elapsedTimePercentage": 61.72
+      },
+      {
+        "date": "2022-06-13",
+        "elapsedTimePercentage": 49.42
+      },
+      {
         "date": "2022-06-09",
-        "elapsedTimePercentage": "38.10 %",
-        "elapsedTimePercentageIncrease": "6 %"
+        "elapsedTimePercentage": 44.09
       },
       {
-        "date": "2022-06-05",
-        "elapsedTimePercentage": "32.10 %",
-        "elapsedTimePercentageIncrease": "4 %"
+        "date": "2022-06-06",
+        "elapsedTimePercentage": 38.33
       },
       {
-        "date": "2022-06-01",
-        "elapsedTimePercentage": "28.10 %"
-        "elapsedTimePercentageIncrease": "2 %"
+        "date": "2022-06-02",
+        "elapsedTimePercentage": 30.6
+      },
+      {
+        "date": "2022-05-30",
+        "elapsedTimePercentage": 26.86
+      },
+      {
+        "date": "2022-05-26",
+        "elapsedTimePercentage": 20.7
+      },
+      {
+        "date": "2022-05-23",
+        "elapsedTimePercentage": 16.48
+      },
+      {
+        "date": "2022-05-19",
+        "elapsedTimePercentage": 14.05
+      },
+      {
+        "date": "2022-05-16",
+        "elapsedTimePercentage": 11.97
+      },
+      {
+        "date": "2022-05-12",
+        "elapsedTimePercentage": 10.45
+      },
+      {
+        "date": "2022-05-09",
+        "elapsedTimePercentage": 9.25
+      },
+      {
+        "date": "2022-05-05",
+        "elapsedTimePercentage": 6.64
+      },
+      {
+        "date": "2022-05-02",
+        "elapsedTimePercentage": 3.54
+      },
+      {
+        "date": "2022-04-28",
+        "elapsedTimePercentage": 2.78
+      },
+      {
+        "date": "2022-04-25",
+        "elapsedTimePercentage": 2.27
+      },
+      {
+        "date": "2022-04-21",
+        "elapsedTimePercentage": 1.93
+      },
+      {
+        "date": "2022-04-18",
+        "elapsedTimePercentage": 1.68
+      },
+      {
+        "date": "2022-04-14",
+        "elapsedTimePercentage": 1.41
+      },
+      {
+        "date": "2022-04-11",
+        "elapsedTimePercentage": 1.01
+      },
+      {
+        "date": "2022-04-07",
+        "elapsedTimePercentage": 0.8
       }
-    ]
+    ],
+    "htmlText": "<ul>\n  <li>It looks like you have a EU 512GB reservation</li>\n  <li>You reserved your deck 06 days, 13 hours, 40 minutes and 37 seconds after pre-orders opened</li>\n  <li>07 days, 01 hours, 14 minutes and 54 seconds of orders have been processed</li>\n  <li>You're 107.33 % of the way there</li>\n  <li>Apparently someone was already able to order with a later reservation time than yours</li>\n  <li>You should have received your mail from valve!</li>\n</ul>",
+    "latestOrder": "2021-07-23T18:14:54Z",
+    "latestOrderSeconds": 1627064094,
+    "prettyText": "It looks like you have a EU 512GB reservation.\nYou reserved your deck 06 days, 13 hours, 40 minutes and 37 seconds after pre-orders opened.\n07 days, 01 hours, 14 minutes and 54 seconds of orders have been processed. This is 107.33 % so you should have received your order information from valve.\nCheck your mail and spam folder!",
+    "region": "EU",
+    "reservedAt": "2021-07-23T06:40:37Z",
+    "version": "512"
   }
 }
 ```
-
-### Dump of historical data from 
-
-Email Batch	Model	Region	rtReserveTime
-7-Apr-2022	64GB	US	1626457052
-7-Apr-2022	256GB	US	1626455912
-7-Apr-2022	512GB	US	1626455442
-7-Apr-2022	64GB	UK	1626459354
-7-Apr-2022	256GB	UK	1626455616
-7-Apr-2022	512GB	UK	1626455264
-7-Apr-2022	64GB	EU	1626512299
-7-Apr-2022	256GB	EU	1626460536
-7-Apr-2022	512GB	EU	1626459381
-11-Apr-2022	64GB	US	1626457674
-11-Apr-2022	256GB	US	1626456129
-11-Apr-2022	512GB	US	1626455564
-11-Apr-2022	64GB	UK	1626464119
-11-Apr-2022	256GB	UK	1626455700
-11-Apr-2022	512GB	UK	1626455442
-11-Apr-2022	64GB	EU	1626519900
-11-Apr-2022	256GB	EU	1626463140
-11-Apr-2022	512GB	EU	1626460558
-14-Apr-2022	64GB	US	1626458420
-14-Apr-2022	256GB	US	1626456324
-14-Apr-2022	512GB	US	1626455618
-14-Apr-2022	64GB	UK	1626464058
-14-Apr-2022	256GB	UK	1626455790
-14-Apr-2022	512GB	UK	1626455520
-14-Apr-2022	64GB	EU	1626522051
-14-Apr-2022	256GB	EU	1626464460
-14-Apr-2022	512GB	EU	1626462816
-18-Apr-2022	64GB	US	1626459134
-18-Apr-2022	256GB	US	1626456589
-18-Apr-2022	512GB	US	1626455662
-18-Apr-2022	64GB	UK	1626465042
-18-Apr-2022	256GB	UK	1626455900
-18-Apr-2022	512GB	UK	1626455553
-18-Apr-2022	64GB	EU	1626522051
-18-Apr-2022	256GB	EU	1626465760
-18-Apr-2022	512GB	EU	1626464342
-21-Apr-2022	64GB	US	1626459887
-21-Apr-2022	256GB	US	1626456997
-21-Apr-2022	512GB	US	1626455760
-21-Apr-2022	64GB	UK	1626466115
-21-Apr-2022	256GB	UK	1626455981
-21-Apr-2022	512GB	UK	1626455597
-21-Apr-2022	64GB	EU	1626538932
-21-Apr-2022	256GB	EU	1626467747
-21-Apr-2022	512GB	EU	1626465808
-25-Apr-2022	64GB	US	1626460536
-25-Apr-2022	256GB	US	1626457642
-25-Apr-2022	512GB	US	1626455864
-25-Apr-2022	64GB	UK	1626470445
-25-Apr-2022	256GB	UK	1626456145
-25-Apr-2022	512GB	UK	1626455619
-25-Apr-2022	64GB	EU	1626543299
-25-Apr-2022	256GB	EU	1626470427
-25-Apr-2022	512GB	EU	1626467741
-28-Apr-2022	64GB	US	1626461964
-28-Apr-2022	256GB	US	1626458344
-28-Apr-2022	512GB	US	1626455905
-28-Apr-2022	64GB	UK	1626473809
-28-Apr-2022	256GB	UK	1626456198
-28-Apr-2022	512GB	UK	1626455649
-28-Apr-2022	64GB	EU	1626556148
-28-Apr-2022	256GB	EU	1626474419
-28-Apr-2022	512GB	EU	1626470611
-2-May-2022	64GB	US	1626463177
-2-May-2022	256GB	US	1626459122
-2-May-2022	512GB	US	1626455986
-2-May-2022	64GB	UK	1626479155
-2-May-2022	256GB	UK	1626456352
-2-May-2022	512GB	UK	1626455694
-2-May-2022	64GB	EU	1626567000
-2-May-2022	256GB	EU	1626486563
-2-May-2022	512GB	EU	1626474939
-5-May-2022	64GB	US	1626464015
-5-May-2022	256GB	US	1626459417
-5-May-2022	512GB	US	1626456109
-5-May-2022	64GB	UK	1626505064
-5-May-2022	256GB	UK	1626456685
-5-May-2022	512GB	UK	1626455765
-5-May-2022	64GB	EU	1626597122
-5-May-2022	256GB	EU	1626507340
-5-May-2022	512GB	EU	1626492523
-9-May-2022	64GB	US	1626464639
-9-May-2022	256GB	US	1626460471
-9-May-2022	512GB	US	1626456161
-9-May-2022	64GB	UK	1626514022
-9-May-2022	256GB	UK	1626456968
-9-May-2022	512GB	UK	1626455870
-9-May-2022	64GB	EU	1626612203
-9-May-2022	256GB	EU	1626514121
-9-May-2022	512GB	EU	1626507327
-12-May-2022	64GB	US	1626465334
-12-May-2022	256GB	US	1626461434
-12-May-2022	512GB	US	1626456224
-12-May-2022	64GB	UK	1626519847
-12-May-2022	256GB	UK	1626457282
-12-May-2022	512GB	UK	1626455892
-12-May-2022	64GB	EU	1626619676
-12-May-2022	256GB	EU	1626521894
-12-May-2022	512GB	EU	1626514152
-16-May-2022	64GB	US	1626466264
-16-May-2022	256GB	US	1626462574
-16-May-2022	512GB	US	1626456337
-16-May-2022	64GB	UK	1626529773
-16-May-2022	256GB	UK	1626457633
-16-May-2022	512GB	UK	1626455916
-16-May-2022	64GB	EU	1626635208
-16-May-2022	256GB	EU	1626531960
-16-May-2022	512GB	EU	1626522767
-19-May-2022	64GB	US	1626467142
-19-May-2022	256GB	US	1626463785
-19-May-2022	512GB	US	1626456518
-19-May-2022	64GB	UK	1626539040
-19-May-2022	256GB	UK	1626458168
-19-May-2022	512GB	UK	1626455997
-19-May-2022	64GB	EU	1626643334
-19-May-2022	256GB	EU	1626544984
-19-May-2022	512GB	EU	1626534589
-23-May-2022	64GB	US	1626468276
-23-May-2022	256GB	US	1626464336
-23-May-2022	512GB	US	1626456704
-23-May-2022	64GB	UK	1626552001
-23-May-2022	256GB	UK	1626458732
-23-May-2022	512GB	UK	1626456140
-23-May-2022	64GB	EU	1626687162
-23-May-2022	256GB	EU	1626559463
-23-May-2022	512GB	EU	1626548367
-26-May-2022	64GB	US	1626469197
-26-May-2022	256GB	US	1626465028
-26-May-2022	512GB	US	1626456948
-26-May-2022	64GB	UK	1626562849
-26-May-2022	256GB	UK	1626459130
-26-May-2022	512GB	UK	1626456186
-26-May-2022	64GB	EU	1626702722
-26-May-2022	256GB	EU	1626601467
-26-May-2022	512GB	EU	1626572302
-30-May-2022	64GB	US	1626470474
-30-May-2022	256GB	US	1626465874
-30-May-2022	512GB	US	1626457057
-30-May-2022	64GB	UK	1626604260
-30-May-2022	256GB	UK	1626459404
-30-May-2022	512GB	UK	1626456319
-30-May-2022	64GB	EU	1626719025
-30-May-2022	256GB	EU	1626620087
-30-May-2022	512GB	EU	1626607271
-2-Jun-2022	64GB	US	1626471512
-2-Jun-2022	256GB	US	1626466837
-2-Jun-2022	512GB	US	1626457290
-2-Jun-2022	64GB	UK	1626622497
-2-Jun-2022	256GB	UK	1626460034
-2-Jun-2022	512GB	UK	1626456342
-2-Jun-2022	64GB	EU	1626742716
-2-Jun-2022	256GB	EU	1626639335
-2-Jun-2022	512GB	EU	1626628529

@@ -1,15 +1,13 @@
 package de.ingenhaag.getmydeck.services;
 
-import de.ingenhaag.getmydeck.testsupport.DeckStaticTest;
 import de.ingenhaag.getmydeck.models.deckbot.DeckBotData;
+import de.ingenhaag.getmydeck.testsupport.DeckDataPersistenceBaseTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest
-class DeckDataPersistenceServiceTest extends DeckStaticTest {
+class DeckDataPersistenceServiceTest extends DeckDataPersistenceBaseTest {
   @Autowired
   private DeckDataPersistenceService service;
 

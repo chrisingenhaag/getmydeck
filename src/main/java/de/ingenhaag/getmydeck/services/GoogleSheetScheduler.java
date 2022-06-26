@@ -47,7 +47,7 @@ public class GoogleSheetScheduler {
   @Scheduled(timeUnit = TimeUnit.MINUTES, fixedRate = 1, initialDelay = 2)
   protected void fetchDeckBotData() {
     final ResponseEntity<DeckBotSheetResponse> response = restTemplate.getForEntity(URI.create(deckBotConfiguration.getUrl()), DeckBotSheetResponse.class);
-    if (response.hasBody()) {
+    if (response.hasBody() && response.getBody() != null) {
       try {
         SortedMap<Region, SortedMap<Version, OffsetDateTime>> parsedData = new TreeMap<>();
         response.getBody().getValues()
@@ -68,6 +68,8 @@ public class GoogleSheetScheduler {
       } catch(NullPointerException e) {
         log.error("Error parsing response from googlesheet", e);
       }
+    } else {
+      log.error("Google sheet response evaluated to null with response {}", response);
     }
   }
 }

@@ -9,6 +9,7 @@ import de.ingenhaag.getmydeck.models.deckbot.Region;
 import de.ingenhaag.getmydeck.models.deckbot.Version;
 import de.ingenhaag.getmydeck.models.deckbot.DeckBotData;
 import de.ingenhaag.getmydeck.models.persistence.DeckBotPersistenceObject;
+import org.apache.tomcat.jni.Local;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.util.ResourceUtils;
 
 import javax.annotation.PostConstruct;
 import java.io.*;
+import java.time.Clock;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
@@ -36,6 +38,9 @@ public class DeckDataPersistenceService {
 
   @Autowired
   private ObjectMapper mapper;
+
+  @Autowired
+  private Clock clock;
 
   private DeckBotPersistenceObject deckBotPersistenceObject;
 
@@ -69,7 +74,11 @@ public class DeckDataPersistenceService {
     return currentDeckBotData;
   }
 
-  public void storeDataToDiskAndRefreshObject(DeckBotData deckBotData) {
+  public Map<LocalDate, DeckBotData> getAllDataFromDisk() {
+    return this.deckBotPersistenceObject.getAllDeckData();
+  }
+
+  private void storeDataToDiskAndRefreshObject(DeckBotData deckBotData) {
     try {
       File in = ResourceUtils.getFile(persistenceConfiguration.getPath());
       DeckBotPersistenceObject data;
@@ -81,7 +90,7 @@ public class DeckDataPersistenceService {
         data = mapper.readValue(in, DeckBotPersistenceObject.class);
       }
 
-      data.addOrUpdateNewDeckDataSet(deckBotData);
+      data.addOrUpdateNewDeckDataSet(deckBotData, LocalDate.now(clock));
 
       File file = ResourceUtils.getFile(persistenceConfiguration.getPath());
       mapper.writerWithDefaultPrettyPrinter().writeValue(file, data);
@@ -99,16 +108,12 @@ public class DeckDataPersistenceService {
     }
   }
 
-  public DeckBotData getLatestDataFromDisk() {
+  private DeckBotData getLatestDataFromDisk() {
     final Optional<DeckBotData> latestDeckData = this.deckBotPersistenceObject.getLatestDeckData();
     return latestDeckData.orElse(null);
   }
 
-  public Map<LocalDate, DeckBotData> getAllDataFromDisk() {
-    return this.deckBotPersistenceObject.getAllDeckData();
-  }
-
-  public DeckBotPersistenceObject loadDataFromDisk() throws IOException {
+  private DeckBotPersistenceObject loadDataFromDisk() throws IOException {
     File file = ResourceUtils.getFile(persistenceConfiguration.getPath());
     return mapper.readValue(file, DeckBotPersistenceObject.class);
   }

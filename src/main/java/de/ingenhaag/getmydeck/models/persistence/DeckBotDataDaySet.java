@@ -5,23 +5,23 @@ import de.ingenhaag.getmydeck.models.deckbot.Region;
 import de.ingenhaag.getmydeck.models.deckbot.Version;
 import de.ingenhaag.getmydeck.models.deckbot.DeckBotData;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.TreeMap;
 
 public class DeckBotDataDaySet {
 
   private String lastUpdated;
-  private Map<Region, Map<Version, String>> lastShipments;
+  private TreeMap<Region, Map<Version, String>> lastShipments;
 
   public static DeckBotDataDaySet of(DeckBotData deckBotData) {
     DeckBotDataDaySet data = new DeckBotDataDaySet();
     data.setLastUpdated(String.valueOf(deckBotData.getLastUpdated().toEpochSecond()));
 
-    Map<Region, Map<Version, String>> resultMap = new HashMap<>();
+    TreeMap<Region, Map<Version, String>> resultMap = new TreeMap<>();
 
     for(Region region : Region.values()) {
-      Map<Version, String> regionMap = new HashMap<>();
+      TreeMap<Version, String> regionMap = new TreeMap<>();
       for(Version version : Version.values()) {
         regionMap.put(version, String.valueOf(deckBotData.getLastShipments().get(region).get(version).toEpochSecond()));
       }
@@ -39,7 +39,7 @@ public class DeckBotDataDaySet {
     return lastShipments;
   }
 
-  public void setLastShipments(Map<Region, Map<Version, String>> lastShipments) {
+  public void setLastShipments(TreeMap<Region, Map<Version, String>> lastShipments) {
     this.lastShipments = lastShipments;
   }
 

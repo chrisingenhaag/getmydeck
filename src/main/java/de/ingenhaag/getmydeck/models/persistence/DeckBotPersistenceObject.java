@@ -11,13 +11,13 @@ import java.util.stream.Collectors;
 
 public class DeckBotPersistenceObject {
 
-  private HashMap<LocalDate, DeckBotDataDaySet> data;
+  private TreeMap<LocalDate, DeckBotDataDaySet> data;
 
-  public HashMap<LocalDate, DeckBotDataDaySet> getData() {
+  public TreeMap<LocalDate, DeckBotDataDaySet> getData() {
     return data;
   }
 
-  public void setData(HashMap<LocalDate, DeckBotDataDaySet> data) {
+  public void setData(TreeMap<LocalDate, DeckBotDataDaySet> data) {
     this.data = data;
   }
 
@@ -27,11 +27,13 @@ public class DeckBotPersistenceObject {
   }
 
   @JsonIgnore
-  public Map<LocalDate, DeckBotData> getAllDeckData() {
-    return data.entrySet().stream()
+  public TreeMap<LocalDate, DeckBotData> getAllDeckData() {
+    TreeMap<LocalDate, DeckBotData> result = new TreeMap<>();
+    data.entrySet().stream()
         .sorted(Map.Entry.comparingByKey())
         .map(localDateDeckBotDataDaySetEntry -> Map.entry(localDateDeckBotDataDaySetEntry.getKey(), DeckBotData.of(localDateDeckBotDataDaySetEntry.getValue())))
-        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        .forEach(localDateDeckBotDataEntry -> result.put(localDateDeckBotDataEntry.getKey(), localDateDeckBotDataEntry.getValue()));
+    return result;
   }
 
   @JsonIgnore
@@ -39,7 +41,7 @@ public class DeckBotPersistenceObject {
     DeckBotDataDaySet dataDaySet = DeckBotDataDaySet.of(deckBotData);
 
     if(data == null) {
-      data = new HashMap<>();
+      data = new TreeMap<>();
     }
 
     if(data.containsKey(now)) {
@@ -56,5 +58,10 @@ public class DeckBotPersistenceObject {
         data.replace(tempDate, dataDaySet);
       }
     }
+  }
+
+  public boolean isComplete() {
+    return data.entrySet().stream()
+        .allMatch(localDateDeckBotDataDaySetEntry -> localDateDeckBotDataDaySetEntry.getValue().isComplete());
   }
 }

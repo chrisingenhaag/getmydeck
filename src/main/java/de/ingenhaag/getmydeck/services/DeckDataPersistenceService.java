@@ -5,11 +5,10 @@ import com.fasterxml.jackson.core.exc.StreamWriteException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.ingenhaag.getmydeck.config.PersistenceConfiguration;
+import de.ingenhaag.getmydeck.models.deckbot.DeckBotData;
 import de.ingenhaag.getmydeck.models.deckbot.Region;
 import de.ingenhaag.getmydeck.models.deckbot.Version;
-import de.ingenhaag.getmydeck.models.deckbot.DeckBotData;
 import de.ingenhaag.getmydeck.models.persistence.DeckBotPersistenceObject;
-import org.apache.tomcat.jni.Local;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
 import javax.annotation.PostConstruct;
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.Clock;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -48,8 +49,16 @@ public class DeckDataPersistenceService {
   public void init() {
     try {
       deckBotPersistenceObject = loadDataFromDisk();
+      sanityCheckData();
     } catch (IOException e) {
       log.error("Error loading data from json file", e);
+    }
+  }
+
+  private void sanityCheckData() {
+    if(!deckBotPersistenceObject.isComplete()) {
+      log.error("Loaded json data from filesystem is not complete, check data and restart: {}", deckBotPersistenceObject);
+      System.exit(1);
     }
   }
 
@@ -63,7 +72,7 @@ public class DeckDataPersistenceService {
       storeDataToDiskAndRefreshObject(deckBotData);
       log.info("Success updating deckBotData to {}", this.currentDeckBotData);
     } else {
-      log.info("Data not changed on google sheet, skipping");
+      log.info("Data not changed or not complete on google sheet, skipping");
     }
   }
 

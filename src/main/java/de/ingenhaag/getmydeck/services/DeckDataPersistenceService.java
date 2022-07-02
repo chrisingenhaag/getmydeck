@@ -26,6 +26,7 @@ import java.time.ZoneOffset;
 import java.util.Map;
 import java.util.Optional;
 import java.util.SortedMap;
+import java.util.TreeMap;
 
 @Service
 public class DeckDataPersistenceService {
@@ -83,7 +84,7 @@ public class DeckDataPersistenceService {
     return currentDeckBotData;
   }
 
-  public Map<LocalDate, DeckBotData> getAllDataFromDisk() {
+  public TreeMap<LocalDate, DeckBotData> getAllDataFromDisk() {
     return this.deckBotPersistenceObject.getAllDeckData();
   }
 

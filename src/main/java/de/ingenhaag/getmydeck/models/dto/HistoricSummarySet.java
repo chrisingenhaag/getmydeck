@@ -1,8 +1,10 @@
 package de.ingenhaag.getmydeck.models.dto;
 
+import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
-public class HistoricSummarySet {
+public class HistoricSummarySet implements Serializable {
 
   private List<Long> increaseTimeList;
 
@@ -22,5 +24,26 @@ public class HistoricSummarySet {
 
   public void setIncreaseDateList(List<String> increaseDateList) {
     this.increaseDateList = increaseDateList;
+  }
+
+  @Override
+  public String toString() {
+    return "HistoricSummarySet{" +
+        "increaseTimeList=" + increaseTimeList +
+        ", increaseDateList=" + increaseDateList +
+        '}';
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    HistoricSummarySet that = (HistoricSummarySet) o;
+    return Objects.equals(increaseTimeList, that.increaseTimeList) && Objects.equals(increaseDateList, that.increaseDateList);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(increaseTimeList, increaseDateList);
   }
 }

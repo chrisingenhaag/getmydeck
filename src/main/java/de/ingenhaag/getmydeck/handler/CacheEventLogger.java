@@ -9,11 +9,9 @@ public class CacheEventLogger implements CacheEventListener<Object, Object> {
 
   private static final Logger log = LoggerFactory.getLogger(CacheEventLogger.class);
 
-
   @Override
   public void onEvent(CacheEvent<?, ?> event) {
-
-    log.info("cache event {} {} {}",
-        event.getKey(), event.getOldValue(), event.getNewValue());
+    log.debug("cache event {} {} {} {}",
+        event.getType(), event.getKey(), event.getOldValue(), event.getNewValue());
   }
 }

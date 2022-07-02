@@ -23,6 +23,7 @@ public class DeckService {
 
   private final OfficialInfo officialInfo = new OfficialInfo();
 
+  @Cacheable(value = "personalInfoCache")
   public InfoResponse getPersonalInfos(OffsetDateTime reservedAt, Region region, Version version) {
     this.officialInfo.setReservationsStartedAt(config.getReservationStart());
 

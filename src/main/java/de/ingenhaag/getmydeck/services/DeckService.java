@@ -1,5 +1,6 @@
 package de.ingenhaag.getmydeck.services;
 
+import com.sun.source.tree.Tree;
 import de.ingenhaag.getmydeck.config.SteamConfiguration;
 import de.ingenhaag.getmydeck.models.deckbot.DeckBotData;
 import de.ingenhaag.getmydeck.models.deckbot.Region;
@@ -46,6 +47,49 @@ public class DeckService {
     info.setOfficialInfo(officialInfo);
     info.setPersonalInfo(personalInfo);
     return info;
+  }
+
+  public HistoricSummary getHistoricSummary() {
+    HistoricSummary summary = new HistoricSummary();
+    summary.setLastUpdated(deckDataPersistenceService.getDeckBotData().getLastUpdated());
+    SortedMap<Region, SortedMap<Version, HistoricSummarySet>> regionMap = new TreeMap<>();
+    final TreeMap<LocalDate, DeckBotData> allDataFromDisk = deckDataPersistenceService.getAllDataFromDisk();
+    Arrays.stream(Region.values()).forEach(region -> {
+      SortedMap<Version, HistoricSummarySet> versionMap = new TreeMap<>();
+      Arrays.stream(Version.values()).forEach(version -> {
+       versionMap.put(version, calcHistSummarySetFor(region, version, allDataFromDisk));
+      });
+      regionMap.put(region, versionMap);
+    });
+    summary.setSummary(regionMap);
+    return summary;
+  }
+
+  private HistoricSummarySet calcHistSummarySetFor(Region region, Version version, TreeMap<LocalDate, DeckBotData> allDataFromDisk) {
+    HistoricSummarySet summarySet = new HistoricSummarySet();
+
+    List<String> dateList = new ArrayList<>();
+    List<Long> increaseList = new ArrayList<>();
+
+    long rememberLastTimeStamp = 0L;
+    for (Map.Entry<LocalDate, DeckBotData> entry : allDataFromDisk.entrySet()) {
+      LocalDate date = entry.getKey();
+      DeckBotData deckBotData = entry.getValue();
+      final String prettyDate = String.format("%s-%s", date.getMonthValue(), date.getDayOfMonth());
+      dateList.add(prettyDate);
+      final OffsetDateTime dateTime = deckBotData.getLastShipments().get(region).get(version);
+      if (increaseList.size() == 0) {
+        increaseList.add(0L);
+      } else {
+        increaseList.add(
+            dateTime.toEpochSecond() - rememberLastTimeStamp);
+      }
+      rememberLastTimeStamp = dateTime.toEpochSecond();
+    }
+
+    summarySet.setIncreaseDateList(dateList);
+    summarySet.setIncreaseTimeList(increaseList);
+    return summarySet;
   }
 
   private String calcHtmlText(PersonalInfo personalInfo, Region region, Version version, OffsetDateTime latestOrderSpecificVersion, OffsetDateTime reservedAt) {

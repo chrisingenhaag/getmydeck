@@ -2,6 +2,7 @@ package de.ingenhaag.getmydeck.controller;
 
 import de.ingenhaag.getmydeck.config.SteamConfiguration;
 import de.ingenhaag.getmydeck.config.validation.PlausibleDeckPreorderTime;
+import de.ingenhaag.getmydeck.models.dto.HistoricSummary;
 import de.ingenhaag.getmydeck.models.dto.InfoResponse;
 import de.ingenhaag.getmydeck.models.deckbot.Region;
 import de.ingenhaag.getmydeck.models.deckbot.Version;
@@ -17,7 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 @RestController
 @Timed(histogram = true)
@@ -34,6 +38,11 @@ public class GetmydeckController {
       @PathVariable("version") Version version
   ) {
     return ResponseEntity.ok(deckService.getPersonalInfos(reserved, region, version));
+  }
+
+  @GetMapping("/api/v2/summary")
+  public ResponseEntity<HistoricSummary> getHistoricSummary() {
+    return ResponseEntity.ok(deckService.getHistoricSummary());
   }
 
 }

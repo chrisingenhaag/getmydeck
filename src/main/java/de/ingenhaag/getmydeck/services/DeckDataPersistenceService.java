@@ -72,7 +72,7 @@ public class DeckDataPersistenceService {
       storeDataToDiskAndRefreshObject(deckBotData);
       log.info("Success updating deckBotData to {}", this.currentDeckBotData);
     } else {
-      log.info("Data not changed or not complete on google sheet, skipping");
+      log.debug("Data not changed or not complete on google sheet, skipping");
     }
   }
 

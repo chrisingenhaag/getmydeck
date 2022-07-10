@@ -101,8 +101,8 @@ public class DeckService {
               <ul>
                 <li>It looks like you have a %s %sGB reservation</li>
                 <li>You reserved your deck %s after pre-orders opened</li>
-                <li>%s of orders have been processed</li>
-                <li>You have %s of orders to go until it is your turn</li>
+                <li>%s worth of pre-orders have been processed</li>
+                <li>You have %s worth of pre-orders to go until it is your turn (not real time)</li>
                 <li>You're %s %% of the way there!</li>
               </ul>""",
           region,
@@ -116,7 +116,7 @@ public class DeckService {
               <ul>
                 <li>It looks like you have a %s %sGB reservation</li>
                 <li>You reserved your deck %s after pre-orders opened</li>
-                <li>%s of orders have been processed</li>
+                <li>%s worth of pre-orders have been processed</li>
                 <li>You're %s %% of the way there</li>
                 <li>Apparently someone was already able to order with a later reservation time than yours</li>
                 <li>You should have received your mail from valve!</li>
@@ -133,7 +133,7 @@ public class DeckService {
       return String.format("""
               It looks like you have a %s %sGB reservation. 
               You reserved your deck %s after pre-orders opened. 
-              %s of orders have been processed, and you have %s of orders to go until it is your turn. 
+              %s worth of pre-orders have been processed (not real time), and you have %s of pre-orders to go until it is your turn. 
               You're %s %% of the way there!""",
           region,
           version.getVersion(),
@@ -145,7 +145,7 @@ public class DeckService {
     return String.format("""
               It looks like you have a %s %sGB reservation. 
               You reserved your deck %s after pre-orders opened. 
-              %s of orders have been processed. This is %s %% so you should have received your order information from valve. 
+              %s worth of pre-orders have been processed (not real time). This is %s %% so you should have received your order information from valve. 
               Check your mail and spam folder!""",
         region,
         version.getVersion(),

@@ -7,7 +7,6 @@ import de.ingenhaag.getmydeck.models.deckbot.Region;
 import de.ingenhaag.getmydeck.models.deckbot.Version;
 import de.ingenhaag.getmydeck.models.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.*;
@@ -23,7 +22,6 @@ public class DeckService {
 
   private final OfficialInfo officialInfo = new OfficialInfo();
 
-  @Cacheable(value = "personalInfoCache")
   public InfoResponse getPersonalInfos(OffsetDateTime reservedAt, Region region, Version version) {
     this.officialInfo.setReservationsStartedAt(config.getReservationStart());
 
@@ -51,7 +49,6 @@ public class DeckService {
     return info;
   }
 
-  @Cacheable(value = "historicSummaryCache")
   public HistoricSummary getHistoricSummary() {
     HistoricSummary summary = new HistoricSummary();
     summary.setLastUpdated(deckDataPersistenceService.getDeckBotData().getLastUpdated());

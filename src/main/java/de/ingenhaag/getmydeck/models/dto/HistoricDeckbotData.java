@@ -6,6 +6,8 @@ public class HistoricDeckbotData {
   private LocalDate date;
   private Double elapsedTimePercentage;
 
+  private Double increasedPercentage;
+
   public LocalDate getDate() {
     return date;
   }
@@ -22,11 +24,20 @@ public class HistoricDeckbotData {
     this.elapsedTimePercentage = elapsedTimePercentage;
   }
 
+  public Double getIncreasedPercentage() {
+    return increasedPercentage;
+  }
+
+  public void setIncreasedPercentage(Double increasedPercentage) {
+    this.increasedPercentage = increasedPercentage;
+  }
+
   @Override
   public String toString() {
     return "HistoricDeckbotData{" +
         "date=" + date +
         ", elapsedTimePercentage=" + elapsedTimePercentage +
+        ", increasedPercentage=" + increasedPercentage +
         '}';
   }
 }

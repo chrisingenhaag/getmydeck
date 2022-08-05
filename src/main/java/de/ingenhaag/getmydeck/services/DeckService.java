@@ -157,13 +157,20 @@ public class DeckService {
     final Map<LocalDate, DeckBotData> allDataFromDisk = deckDataPersistenceService.getAllDataFromDisk();
     final Set<LocalDate> dates = allDataFromDisk.keySet();
     final Iterator<LocalDate> it = dates.iterator();
+
+    double lastPercentage = 0.;
     while(it.hasNext()) {
       final LocalDate next = it.next();
       final DeckBotData deckBotData = allDataFromDisk.get(next);
 
       HistoricDeckbotData historicDeckbotData = new HistoricDeckbotData();
       historicDeckbotData.setDate(next);
-      historicDeckbotData.setElapsedTimePercentage(calculateElapsedTimePercentage(reservedAt, deckBotData.getLastShipments().get(region).get(version)));
+      final Double elapsedTimePercentage = calculateElapsedTimePercentage(reservedAt, deckBotData.getLastShipments().get(region).get(version));
+      historicDeckbotData.setElapsedTimePercentage(elapsedTimePercentage);
+
+      historicDeckbotData.setIncreasedPercentage((double) ((int) ((elapsedTimePercentage - lastPercentage) * 100)) / (100));
+
+      lastPercentage = elapsedTimePercentage;
 
       result.add(historicDeckbotData);
     }

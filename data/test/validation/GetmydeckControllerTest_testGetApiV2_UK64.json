@@ -34,64 +34,84 @@
     "latestOrder" : "2021-07-19T12:26:56Z",
     "historicData" : [ {
       "date" : "2022-06-13",
-      "elapsedTimePercentage" : 42.77
+      "elapsedTimePercentage" : 42.77,
+      "increasedPercentage" : 4.97
     }, {
       "date" : "2022-06-09",
-      "elapsedTimePercentage" : 37.8
+      "elapsedTimePercentage" : 37.8,
+      "increasedPercentage" : 6.42
     }, {
       "date" : "2022-06-06",
-      "elapsedTimePercentage" : 31.37
+      "elapsedTimePercentage" : 31.37,
+      "increasedPercentage" : 1.83
     }, {
       "date" : "2022-06-02",
-      "elapsedTimePercentage" : 29.54
+      "elapsedTimePercentage" : 29.54,
+      "increasedPercentage" : 3.21
     }, {
       "date" : "2022-05-30",
-      "elapsedTimePercentage" : 26.33
+      "elapsedTimePercentage" : 26.33,
+      "increasedPercentage" : 7.29
     }, {
       "date" : "2022-05-26",
-      "elapsedTimePercentage" : 19.03
+      "elapsedTimePercentage" : 19.03,
+      "increasedPercentage" : 1.91
     }, {
       "date" : "2022-05-23",
-      "elapsedTimePercentage" : 17.12
+      "elapsedTimePercentage" : 17.12,
+      "increasedPercentage" : 2.28
     }, {
       "date" : "2022-05-19",
-      "elapsedTimePercentage" : 14.84
+      "elapsedTimePercentage" : 14.84,
+      "increasedPercentage" : 1.64
     }, {
       "date" : "2022-05-16",
-      "elapsedTimePercentage" : 13.2
+      "elapsedTimePercentage" : 13.2,
+      "increasedPercentage" : 1.75
     }, {
       "date" : "2022-05-12",
-      "elapsedTimePercentage" : 11.45
+      "elapsedTimePercentage" : 11.45,
+      "increasedPercentage" : 1.01
     }, {
       "date" : "2022-05-09",
-      "elapsedTimePercentage" : 10.43
+      "elapsedTimePercentage" : 10.43,
+      "increasedPercentage" : 1.58
     }, {
       "date" : "2022-05-05",
-      "elapsedTimePercentage" : 8.85
+      "elapsedTimePercentage" : 8.85,
+      "increasedPercentage" : 4.55
     }, {
       "date" : "2022-05-02",
-      "elapsedTimePercentage" : 4.29
+      "elapsedTimePercentage" : 4.29,
+      "increasedPercentage" : 0.95
     }, {
       "date" : "2022-04-28",
-      "elapsedTimePercentage" : 3.34
+      "elapsedTimePercentage" : 3.34,
+      "increasedPercentage" : 0.58
     }, {
       "date" : "2022-04-25",
-      "elapsedTimePercentage" : 2.75
+      "elapsedTimePercentage" : 2.75,
+      "increasedPercentage" : 0.76
     }, {
       "date" : "2022-04-21",
-      "elapsedTimePercentage" : 1.99
+      "elapsedTimePercentage" : 1.99,
+      "increasedPercentage" : 0.18
     }, {
       "date" : "2022-04-18",
-      "elapsedTimePercentage" : 1.8
+      "elapsedTimePercentage" : 1.8,
+      "increasedPercentage" : 0.17
     }, {
       "date" : "2022-04-14",
-      "elapsedTimePercentage" : 1.63
+      "elapsedTimePercentage" : 1.63,
+      "increasedPercentage" : -0.01
     }, {
       "date" : "2022-04-11",
-      "elapsedTimePercentage" : 1.64
+      "elapsedTimePercentage" : 1.64,
+      "increasedPercentage" : 0.83
     }, {
       "date" : "2022-04-07",
-      "elapsedTimePercentage" : 0.8
+      "elapsedTimePercentage" : 0.8,
+      "increasedPercentage" : 0.8
     } ]
   }
 }

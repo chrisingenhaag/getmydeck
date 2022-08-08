@@ -5,6 +5,7 @@ import de.cronn.assertions.validationfile.FileExtensions;
 import de.cronn.assertions.validationfile.junit5.JUnit5ValidationFileAssertions;
 import de.ingenhaag.getmydeck.models.deckbot.Region;
 import de.ingenhaag.getmydeck.models.deckbot.Version;
+import de.ingenhaag.getmydeck.models.dto.HistoricSummary;
 import de.ingenhaag.getmydeck.models.dto.InfoResponse;
 import de.ingenhaag.getmydeck.services.DeckServiceTest;
 import org.junit.jupiter.api.Test;
@@ -99,6 +100,21 @@ class GetmydeckControllerTest implements JUnit5ValidationFileAssertions {
             .accept(MediaType.APPLICATION_JSON))
         .andDo(print())
         .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  void testGetHistoricSummary() throws Exception {
+
+    final MvcResult mvcResult = mvc.perform( MockMvcRequestBuilders
+            .get("/api/v2/summary")
+            .accept(MediaType.APPLICATION_JSON))
+        .andDo(print())
+        .andExpect(status().isOk())
+        .andReturn();
+
+    final HistoricSummary summary = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), HistoricSummary.class);
+
+    assertWithFile(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(summary));
   }
 
 }

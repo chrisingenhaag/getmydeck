@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 public class HistoricDeckbotData {
   private LocalDate date;
+  private Long elapsedSeconds;
   private Double elapsedTimePercentage;
 
   private Double increasedPercentage;
@@ -14,6 +15,14 @@ public class HistoricDeckbotData {
 
   public void setDate(LocalDate date) {
     this.date = date;
+  }
+
+  public Long getElapsedSeconds() {
+    return elapsedSeconds;
+  }
+
+  public void setElapsedSeconds(Long elapsedSeconds) {
+    this.elapsedSeconds = elapsedSeconds;
   }
 
   public Double getElapsedTimePercentage() {
@@ -36,6 +45,7 @@ public class HistoricDeckbotData {
   public String toString() {
     return "HistoricDeckbotData{" +
         "date=" + date +
+        ", elapsedSeconds=" + elapsedSeconds +
         ", elapsedTimePercentage=" + elapsedTimePercentage +
         ", increasedPercentage=" + increasedPercentage +
         '}';

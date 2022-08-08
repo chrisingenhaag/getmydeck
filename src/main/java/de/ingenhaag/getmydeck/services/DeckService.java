@@ -66,29 +66,22 @@ public class DeckService {
   }
 
   private HistoricSummarySet calcHistSummarySetFor(Region region, Version version, TreeMap<LocalDate, DeckBotData> allDataFromDisk) {
-    HistoricSummarySet summarySet = new HistoricSummarySet();
+    SortedMap<LocalDate, HistoricSummaryEntry> entries = new TreeMap<>();
 
-    List<String> dateList = new ArrayList<>();
-    List<Long> increaseList = new ArrayList<>();
+    for (Map.Entry<LocalDate, DeckBotData> data : allDataFromDisk.entrySet()) {
+      LocalDate date = data.getKey();
+      DeckBotData deckBotData = data.getValue();
 
-    long rememberLastTimeStamp = 0L;
-    for (Map.Entry<LocalDate, DeckBotData> entry : allDataFromDisk.entrySet()) {
-      LocalDate date = entry.getKey();
-      DeckBotData deckBotData = entry.getValue();
-      final String prettyDate = String.format("%s-%s", date.getMonthValue(), date.getDayOfMonth());
-      dateList.add(prettyDate);
-      final OffsetDateTime dateTime = deckBotData.getLastShipments().get(region).get(version);
-      if (increaseList.size() == 0) {
-        increaseList.add(0L);
-      } else {
-        increaseList.add(
-            dateTime.toEpochSecond() - rememberLastTimeStamp);
-      }
-      rememberLastTimeStamp = dateTime.toEpochSecond();
+      HistoricSummaryEntry entry = new HistoricSummaryEntry();
+      entry.setLastOrderSeconds(allDataFromDisk.get(date).getLastShipments().get(region).get(version).toEpochSecond());
+
+      entries.put(date, entry);
     }
 
-    summarySet.setIncreaseDateList(dateList);
-    summarySet.setIncreaseTimeList(increaseList);
+
+
+    HistoricSummarySet summarySet = new HistoricSummarySet();
+    summarySet.setEntries(entries);
     return summarySet;
   }
 
@@ -168,6 +161,9 @@ public class DeckService {
       final Double elapsedTimePercentage = calculateElapsedTimePercentage(reservedAt, deckBotData.getLastShipments().get(region).get(version));
       historicDeckbotData.setElapsedTimePercentage(elapsedTimePercentage);
 
+      final Long elapsedSeconds =  calculateElapsedTimeSeconds(deckBotData.getLastShipments().get(region).get(version));
+      historicDeckbotData.setElapsedSeconds(elapsedSeconds);
+
       historicDeckbotData.setIncreasedPercentage((double) ((int) ((elapsedTimePercentage - lastPercentage) * 100)) / (100));
 
       lastPercentage = elapsedTimePercentage;
@@ -213,6 +209,10 @@ public class DeckService {
 
     double percentage = (double) diffToLastShipment.getSeconds() * 100 / diffToMyPersonalReservation.getSeconds();
     return (double) ((int) (percentage * 100)) / (100);
+  }
+
+  private Long calculateElapsedTimeSeconds(OffsetDateTime latestOrderSpecificVersion) {
+    return Duration.between(config.getReservationStart(), latestOrderSpecificVersion).getSeconds();
   }
 
   private String humanReadableDuration(Duration duration) {

@@ -40,10 +40,8 @@ public class GetmydeckController {
     return ResponseEntity.ok(deckService.getPersonalInfos(reserved, region, version));
   }
 
-  /*
   @GetMapping("/api/v2/summary")
   public ResponseEntity<HistoricSummary> getHistoricSummary() {
     return ResponseEntity.ok(deckService.getHistoricSummary());
   }
-  */
 }

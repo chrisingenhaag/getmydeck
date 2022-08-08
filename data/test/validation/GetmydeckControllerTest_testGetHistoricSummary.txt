@@ -1,0 +1,587 @@
+{
+  "lastUpdated" : "2022-06-13T17:34:46Z",
+  "summary" : {
+    "EU" : {
+      "64" : {
+        "entries" : {
+          "2022-04-07" : {
+            "lastOrderSeconds" : 1626512299
+          },
+          "2022-04-11" : {
+            "lastOrderSeconds" : 1626519900
+          },
+          "2022-04-14" : {
+            "lastOrderSeconds" : 1626522051
+          },
+          "2022-04-18" : {
+            "lastOrderSeconds" : 1626522051
+          },
+          "2022-04-21" : {
+            "lastOrderSeconds" : 1626538932
+          },
+          "2022-04-25" : {
+            "lastOrderSeconds" : 1626543299
+          },
+          "2022-04-28" : {
+            "lastOrderSeconds" : 1626556148
+          },
+          "2022-05-02" : {
+            "lastOrderSeconds" : 1626567000
+          },
+          "2022-05-05" : {
+            "lastOrderSeconds" : 1626597122
+          },
+          "2022-05-09" : {
+            "lastOrderSeconds" : 1626612203
+          },
+          "2022-05-12" : {
+            "lastOrderSeconds" : 1626619676
+          },
+          "2022-05-16" : {
+            "lastOrderSeconds" : 1626635208
+          },
+          "2022-05-19" : {
+            "lastOrderSeconds" : 1626643334
+          },
+          "2022-05-23" : {
+            "lastOrderSeconds" : 1626687162
+          },
+          "2022-05-26" : {
+            "lastOrderSeconds" : 1626702722
+          },
+          "2022-05-30" : {
+            "lastOrderSeconds" : 1626719025
+          },
+          "2022-06-02" : {
+            "lastOrderSeconds" : 1626742716
+          },
+          "2022-06-06" : {
+            "lastOrderSeconds" : 1626778746
+          },
+          "2022-06-09" : {
+            "lastOrderSeconds" : 1626800517
+          },
+          "2022-06-13" : {
+            "lastOrderSeconds" : 1626819802
+          }
+        }
+      },
+      "256" : {
+        "entries" : {
+          "2022-04-07" : {
+            "lastOrderSeconds" : 1626460536
+          },
+          "2022-04-11" : {
+            "lastOrderSeconds" : 1626463140
+          },
+          "2022-04-14" : {
+            "lastOrderSeconds" : 1626464460
+          },
+          "2022-04-18" : {
+            "lastOrderSeconds" : 1626465760
+          },
+          "2022-04-21" : {
+            "lastOrderSeconds" : 1626467747
+          },
+          "2022-04-25" : {
+            "lastOrderSeconds" : 1626470427
+          },
+          "2022-04-28" : {
+            "lastOrderSeconds" : 1626474419
+          },
+          "2022-05-02" : {
+            "lastOrderSeconds" : 1626486563
+          },
+          "2022-05-05" : {
+            "lastOrderSeconds" : 1626507340
+          },
+          "2022-05-09" : {
+            "lastOrderSeconds" : 1626514121
+          },
+          "2022-05-12" : {
+            "lastOrderSeconds" : 1626521894
+          },
+          "2022-05-16" : {
+            "lastOrderSeconds" : 1626531960
+          },
+          "2022-05-19" : {
+            "lastOrderSeconds" : 1626544984
+          },
+          "2022-05-23" : {
+            "lastOrderSeconds" : 1626559463
+          },
+          "2022-05-26" : {
+            "lastOrderSeconds" : 1626601467
+          },
+          "2022-05-30" : {
+            "lastOrderSeconds" : 1626620087
+          },
+          "2022-06-02" : {
+            "lastOrderSeconds" : 1626639335
+          },
+          "2022-06-06" : {
+            "lastOrderSeconds" : 1626686058
+          },
+          "2022-06-09" : {
+            "lastOrderSeconds" : 1626712678
+          },
+          "2022-06-13" : {
+            "lastOrderSeconds" : 1626769222
+          }
+        }
+      },
+      "512" : {
+        "entries" : {
+          "2022-04-07" : {
+            "lastOrderSeconds" : 1626459381
+          },
+          "2022-04-11" : {
+            "lastOrderSeconds" : 1626460558
+          },
+          "2022-04-14" : {
+            "lastOrderSeconds" : 1626462816
+          },
+          "2022-04-18" : {
+            "lastOrderSeconds" : 1626464342
+          },
+          "2022-04-21" : {
+            "lastOrderSeconds" : 1626465808
+          },
+          "2022-04-25" : {
+            "lastOrderSeconds" : 1626467741
+          },
+          "2022-04-28" : {
+            "lastOrderSeconds" : 1626470611
+          },
+          "2022-05-02" : {
+            "lastOrderSeconds" : 1626474939
+          },
+          "2022-05-05" : {
+            "lastOrderSeconds" : 1626492523
+          },
+          "2022-05-09" : {
+            "lastOrderSeconds" : 1626507327
+          },
+          "2022-05-12" : {
+            "lastOrderSeconds" : 1626514152
+          },
+          "2022-05-16" : {
+            "lastOrderSeconds" : 1626522767
+          },
+          "2022-05-19" : {
+            "lastOrderSeconds" : 1626534589
+          },
+          "2022-05-23" : {
+            "lastOrderSeconds" : 1626548367
+          },
+          "2022-05-26" : {
+            "lastOrderSeconds" : 1626572302
+          },
+          "2022-05-30" : {
+            "lastOrderSeconds" : 1626607271
+          },
+          "2022-06-02" : {
+            "lastOrderSeconds" : 1626628529
+          },
+          "2022-06-06" : {
+            "lastOrderSeconds" : 1626672424
+          },
+          "2022-06-09" : {
+            "lastOrderSeconds" : 1626705120
+          },
+          "2022-06-13" : {
+            "lastOrderSeconds" : 1626731241
+          }
+        }
+      }
+    },
+    "UK" : {
+      "64" : {
+        "entries" : {
+          "2022-04-07" : {
+            "lastOrderSeconds" : 1626459354
+          },
+          "2022-04-11" : {
+            "lastOrderSeconds" : 1626464119
+          },
+          "2022-04-14" : {
+            "lastOrderSeconds" : 1626464058
+          },
+          "2022-04-18" : {
+            "lastOrderSeconds" : 1626465042
+          },
+          "2022-04-21" : {
+            "lastOrderSeconds" : 1626466115
+          },
+          "2022-04-25" : {
+            "lastOrderSeconds" : 1626470445
+          },
+          "2022-04-28" : {
+            "lastOrderSeconds" : 1626473809
+          },
+          "2022-05-02" : {
+            "lastOrderSeconds" : 1626479155
+          },
+          "2022-05-05" : {
+            "lastOrderSeconds" : 1626505064
+          },
+          "2022-05-09" : {
+            "lastOrderSeconds" : 1626514022
+          },
+          "2022-05-12" : {
+            "lastOrderSeconds" : 1626519847
+          },
+          "2022-05-16" : {
+            "lastOrderSeconds" : 1626529773
+          },
+          "2022-05-19" : {
+            "lastOrderSeconds" : 1626539040
+          },
+          "2022-05-23" : {
+            "lastOrderSeconds" : 1626552001
+          },
+          "2022-05-26" : {
+            "lastOrderSeconds" : 1626562849
+          },
+          "2022-05-30" : {
+            "lastOrderSeconds" : 1626604260
+          },
+          "2022-06-02" : {
+            "lastOrderSeconds" : 1626622497
+          },
+          "2022-06-06" : {
+            "lastOrderSeconds" : 1626632906
+          },
+          "2022-06-09" : {
+            "lastOrderSeconds" : 1626669417
+          },
+          "2022-06-13" : {
+            "lastOrderSeconds" : 1626697616
+          }
+        }
+      },
+      "256" : {
+        "entries" : {
+          "2022-04-07" : {
+            "lastOrderSeconds" : 1626455616
+          },
+          "2022-04-11" : {
+            "lastOrderSeconds" : 1626455700
+          },
+          "2022-04-14" : {
+            "lastOrderSeconds" : 1626455790
+          },
+          "2022-04-18" : {
+            "lastOrderSeconds" : 1626455900
+          },
+          "2022-04-21" : {
+            "lastOrderSeconds" : 1626455981
+          },
+          "2022-04-25" : {
+            "lastOrderSeconds" : 1626456145
+          },
+          "2022-04-28" : {
+            "lastOrderSeconds" : 1626456198
+          },
+          "2022-05-02" : {
+            "lastOrderSeconds" : 1626456352
+          },
+          "2022-05-05" : {
+            "lastOrderSeconds" : 1626456685
+          },
+          "2022-05-09" : {
+            "lastOrderSeconds" : 1626456968
+          },
+          "2022-05-12" : {
+            "lastOrderSeconds" : 1626457282
+          },
+          "2022-05-16" : {
+            "lastOrderSeconds" : 1626457633
+          },
+          "2022-05-19" : {
+            "lastOrderSeconds" : 1626458168
+          },
+          "2022-05-23" : {
+            "lastOrderSeconds" : 1626458732
+          },
+          "2022-05-26" : {
+            "lastOrderSeconds" : 1626459130
+          },
+          "2022-05-30" : {
+            "lastOrderSeconds" : 1626459404
+          },
+          "2022-06-02" : {
+            "lastOrderSeconds" : 1626460034
+          },
+          "2022-06-06" : {
+            "lastOrderSeconds" : 1626460515
+          },
+          "2022-06-09" : {
+            "lastOrderSeconds" : 1626461143
+          },
+          "2022-06-13" : {
+            "lastOrderSeconds" : 1626461978
+          }
+        }
+      },
+      "512" : {
+        "entries" : {
+          "2022-04-07" : {
+            "lastOrderSeconds" : 1626455264
+          },
+          "2022-04-11" : {
+            "lastOrderSeconds" : 1626455442
+          },
+          "2022-04-14" : {
+            "lastOrderSeconds" : 1626455520
+          },
+          "2022-04-18" : {
+            "lastOrderSeconds" : 1626455553
+          },
+          "2022-04-21" : {
+            "lastOrderSeconds" : 1626455597
+          },
+          "2022-04-25" : {
+            "lastOrderSeconds" : 1626455619
+          },
+          "2022-04-28" : {
+            "lastOrderSeconds" : 1626455649
+          },
+          "2022-05-02" : {
+            "lastOrderSeconds" : 1626455694
+          },
+          "2022-05-05" : {
+            "lastOrderSeconds" : 1626455765
+          },
+          "2022-05-09" : {
+            "lastOrderSeconds" : 1626455870
+          },
+          "2022-05-12" : {
+            "lastOrderSeconds" : 1626455892
+          },
+          "2022-05-16" : {
+            "lastOrderSeconds" : 1626455916
+          },
+          "2022-05-19" : {
+            "lastOrderSeconds" : 1626455997
+          },
+          "2022-05-23" : {
+            "lastOrderSeconds" : 1626456140
+          },
+          "2022-05-26" : {
+            "lastOrderSeconds" : 1626456186
+          },
+          "2022-05-30" : {
+            "lastOrderSeconds" : 1626456319
+          },
+          "2022-06-02" : {
+            "lastOrderSeconds" : 1626456342
+          },
+          "2022-06-06" : {
+            "lastOrderSeconds" : 1626456513
+          },
+          "2022-06-09" : {
+            "lastOrderSeconds" : 1626456694
+          },
+          "2022-06-13" : {
+            "lastOrderSeconds" : 1626456721
+          }
+        }
+      }
+    },
+    "US" : {
+      "64" : {
+        "entries" : {
+          "2022-04-07" : {
+            "lastOrderSeconds" : 1626457052
+          },
+          "2022-04-11" : {
+            "lastOrderSeconds" : 1626457674
+          },
+          "2022-04-14" : {
+            "lastOrderSeconds" : 1626458420
+          },
+          "2022-04-18" : {
+            "lastOrderSeconds" : 1626459134
+          },
+          "2022-04-21" : {
+            "lastOrderSeconds" : 1626459887
+          },
+          "2022-04-25" : {
+            "lastOrderSeconds" : 1626460536
+          },
+          "2022-04-28" : {
+            "lastOrderSeconds" : 1626461964
+          },
+          "2022-05-02" : {
+            "lastOrderSeconds" : 1626463177
+          },
+          "2022-05-05" : {
+            "lastOrderSeconds" : 1626464015
+          },
+          "2022-05-09" : {
+            "lastOrderSeconds" : 1626464639
+          },
+          "2022-05-12" : {
+            "lastOrderSeconds" : 1626465334
+          },
+          "2022-05-16" : {
+            "lastOrderSeconds" : 1626466264
+          },
+          "2022-05-19" : {
+            "lastOrderSeconds" : 1626467142
+          },
+          "2022-05-23" : {
+            "lastOrderSeconds" : 1626468276
+          },
+          "2022-05-26" : {
+            "lastOrderSeconds" : 1626469197
+          },
+          "2022-05-30" : {
+            "lastOrderSeconds" : 1626470474
+          },
+          "2022-06-02" : {
+            "lastOrderSeconds" : 1626471512
+          },
+          "2022-06-06" : {
+            "lastOrderSeconds" : 1626472746
+          },
+          "2022-06-09" : {
+            "lastOrderSeconds" : 1626474232
+          },
+          "2022-06-13" : {
+            "lastOrderSeconds" : 1626475333
+          }
+        }
+      },
+      "256" : {
+        "entries" : {
+          "2022-04-07" : {
+            "lastOrderSeconds" : 1626455912
+          },
+          "2022-04-11" : {
+            "lastOrderSeconds" : 1626456129
+          },
+          "2022-04-14" : {
+            "lastOrderSeconds" : 1626456324
+          },
+          "2022-04-18" : {
+            "lastOrderSeconds" : 1626456589
+          },
+          "2022-04-21" : {
+            "lastOrderSeconds" : 1626456997
+          },
+          "2022-04-25" : {
+            "lastOrderSeconds" : 1626457642
+          },
+          "2022-04-28" : {
+            "lastOrderSeconds" : 1626458344
+          },
+          "2022-05-02" : {
+            "lastOrderSeconds" : 1626459122
+          },
+          "2022-05-05" : {
+            "lastOrderSeconds" : 1626459417
+          },
+          "2022-05-09" : {
+            "lastOrderSeconds" : 1626460471
+          },
+          "2022-05-12" : {
+            "lastOrderSeconds" : 1626461434
+          },
+          "2022-05-16" : {
+            "lastOrderSeconds" : 1626462574
+          },
+          "2022-05-19" : {
+            "lastOrderSeconds" : 1626463785
+          },
+          "2022-05-23" : {
+            "lastOrderSeconds" : 1626464336
+          },
+          "2022-05-26" : {
+            "lastOrderSeconds" : 1626465028
+          },
+          "2022-05-30" : {
+            "lastOrderSeconds" : 1626465874
+          },
+          "2022-06-02" : {
+            "lastOrderSeconds" : 1626466837
+          },
+          "2022-06-06" : {
+            "lastOrderSeconds" : 1626468183
+          },
+          "2022-06-09" : {
+            "lastOrderSeconds" : 1626469537
+          },
+          "2022-06-13" : {
+            "lastOrderSeconds" : 1626471120
+          }
+        }
+      },
+      "512" : {
+        "entries" : {
+          "2022-04-07" : {
+            "lastOrderSeconds" : 1626455442
+          },
+          "2022-04-11" : {
+            "lastOrderSeconds" : 1626455564
+          },
+          "2022-04-14" : {
+            "lastOrderSeconds" : 1626455618
+          },
+          "2022-04-18" : {
+            "lastOrderSeconds" : 1626455662
+          },
+          "2022-04-21" : {
+            "lastOrderSeconds" : 1626455760
+          },
+          "2022-04-25" : {
+            "lastOrderSeconds" : 1626455864
+          },
+          "2022-04-28" : {
+            "lastOrderSeconds" : 1626455905
+          },
+          "2022-05-02" : {
+            "lastOrderSeconds" : 1626455986
+          },
+          "2022-05-05" : {
+            "lastOrderSeconds" : 1626456109
+          },
+          "2022-05-09" : {
+            "lastOrderSeconds" : 1626456161
+          },
+          "2022-05-12" : {
+            "lastOrderSeconds" : 1626456224
+          },
+          "2022-05-16" : {
+            "lastOrderSeconds" : 1626456337
+          },
+          "2022-05-19" : {
+            "lastOrderSeconds" : 1626456518
+          },
+          "2022-05-23" : {
+            "lastOrderSeconds" : 1626456704
+          },
+          "2022-05-26" : {
+            "lastOrderSeconds" : 1626456948
+          },
+          "2022-05-30" : {
+            "lastOrderSeconds" : 1626457057
+          },
+          "2022-06-02" : {
+            "lastOrderSeconds" : 1626457290
+          },
+          "2022-06-06" : {
+            "lastOrderSeconds" : 1626457638
+          },
+          "2022-06-09" : {
+            "lastOrderSeconds" : 1626457848
+          },
+          "2022-06-13" : {
+            "lastOrderSeconds" : 1626458192
+          }
+        }
+      }
+    }
+  }
+}

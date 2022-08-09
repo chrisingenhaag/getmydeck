@@ -5,7 +5,7 @@ getmydeck:
 
   deckbot:
     scheduler:
-      enabled: true
+      enabled: ${DECKBOT_SCHEDULER_ENABLED:false}
     google-api-key: ***REMOVED***
     sheet-id: 1ZaKncig9fce7K0sr1f-E2_sgLH1HuKQ-q3k7clPMOCs
     sheet-data-location: "deckbot!A1:C9"
@@ -15,6 +15,12 @@ getmydeck:
   persistence:
     path: ${DECKBOT_DATA_PATH:classpath:deckbot-data.json}
     create-if-not-exists: ${DECKBOT_DATA_PATH_CREATE_IF_NOT_EXISTS:false}
+
+spring:
+  data:
+    mongodb:
+      uri: ${DECKBOT_MONGODB_URI:mongodb://getmydeck:password123@localhost:27017/getmydeck}
+      auto-index-creation: true
 
 management:
   endpoints:

@@ -31,15 +31,17 @@ public class GoogleSheetScheduler {
   private final RestTemplate restTemplate;
   private final DeckBotConfiguration deckBotConfiguration;
   private DeckDataPersistenceService persistenceService;
+  private SteamDeckMongoService mongoPersistenceService;
 
   @Autowired
   public GoogleSheetScheduler(RestTemplateBuilder builder,
                               DeckBotConfiguration deckBotConfiguration,
-                              DeckDataPersistenceService persistenceService) {
+                              DeckDataPersistenceService persistenceService,
+                              SteamDeckMongoService mongoPersistenceService) {
     this.restTemplate = builder.build();
     this.deckBotConfiguration = deckBotConfiguration;
     this.persistenceService = persistenceService;
-
+    this.mongoPersistenceService = mongoPersistenceService;
   }
 
   @Scheduled(timeUnit = TimeUnit.MINUTES, fixedRate = 1, initialDelay = 2)
@@ -63,6 +65,7 @@ public class GoogleSheetScheduler {
               }
             });
         persistenceService.updateParsedDataIfChanged(parsedData);
+        mongoPersistenceService.updateParsedDataIfChanged(parsedData);
       } catch(NullPointerException e) {
         log.error("Error parsing response from googlesheet", e);
       }

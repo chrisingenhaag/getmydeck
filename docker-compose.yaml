@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  mongodb:
+    image: 'bitnami/mongodb:latest'
+    volumes:
+      - /Users/christian/workspaces/docker/getmydeck/mongodb:/bitnami/mongodb
+    ports:
+      - "127.0.0.1:27017:27017"
+    environment:
+      - MONGODB_ROOT_PASSWORD=password123
+      - MONGODB_USERNAME=getmydeck
+      - MONGODB_PASSWORD=password123
+      - MONGODB_DATABASE=getmydeck

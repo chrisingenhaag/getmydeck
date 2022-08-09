@@ -6,9 +6,12 @@ import de.ingenhaag.getmydeck.models.dto.HistoricSummary;
 import de.ingenhaag.getmydeck.models.dto.InfoResponse;
 import de.ingenhaag.getmydeck.models.deckbot.Region;
 import de.ingenhaag.getmydeck.models.deckbot.Version;
+import de.ingenhaag.getmydeck.models.persistence.mongo.SteamDeckQueueRepository;
 import de.ingenhaag.getmydeck.services.DeckService;
+import de.ingenhaag.getmydeck.services.SteamDeckMongoService;
 import io.micrometer.core.annotation.Timed;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +32,9 @@ import java.util.TreeMap;
 public class GetmydeckController {
 
   @Autowired
+  SteamDeckMongoService mongoService;
+
+  @Autowired
   DeckService deckService;
 
   @GetMapping("/api/v2/regions/{region}/versions/{version}/infos/{reserved}")
@@ -43,5 +49,11 @@ public class GetmydeckController {
   @GetMapping("/api/v2/summary")
   public ResponseEntity<HistoricSummary> getHistoricSummary() {
     return ResponseEntity.ok(deckService.getHistoricSummary());
+  }
+
+  @GetMapping("/api/v2/triggerMigration")
+  public ResponseEntity<Void> triggerMigration() {
+    mongoService.migrateDataToMongo();
+    return ResponseEntity.accepted().build();
   }
 }

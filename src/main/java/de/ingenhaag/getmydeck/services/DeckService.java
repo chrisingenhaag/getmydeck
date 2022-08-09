@@ -1,11 +1,10 @@
 package de.ingenhaag.getmydeck.services;
 
-import com.sun.source.tree.Tree;
 import de.ingenhaag.getmydeck.config.SteamConfiguration;
-import de.ingenhaag.getmydeck.models.deckbot.DeckBotData;
 import de.ingenhaag.getmydeck.models.deckbot.Region;
 import de.ingenhaag.getmydeck.models.deckbot.Version;
 import de.ingenhaag.getmydeck.models.dto.*;
+import de.ingenhaag.getmydeck.models.persistence.mongo.SteamDeckQueueDayEntry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,30 +15,33 @@ import java.util.*;
 public class DeckService {
 
   @Autowired
-  private DeckDataPersistenceService deckDataPersistenceService;
+  private SteamDeckMongoService steamDeckMongoService;
+
   @Autowired
   private SteamConfiguration config;
 
-  private final OfficialInfo officialInfo = new OfficialInfo();
-
   public InfoResponse getPersonalInfos(OffsetDateTime reservedAt, Region region, Version version) {
-    this.officialInfo.setReservationsStartedAt(config.getReservationStart());
+    SteamDeckQueueDayEntry latestOrderSpecificVersion = steamDeckMongoService.getLatestData(region, version);
 
-    OffsetDateTime latestOrderSpecificVersion = getSelectedDeckLastShipment(region, version);
+    OfficialInfo officialInfo = new OfficialInfo();
+    officialInfo.setReservationsStartedAt(config.getReservationStart());
+    officialInfo.setLastDataUpdate(getOffsetDateTime(latestOrderSpecificVersion));
+    officialInfo.setLastDataUpdateDate(latestOrderSpecificVersion.getDayOfBatch());
+    officialInfo.setLastShipments(computeLastShipments());
 
     PersonalInfo personalInfo = new PersonalInfo();
     personalInfo.setRegion(region);
     personalInfo.setVersion(version);
-    personalInfo.setLatestOrderSeconds(latestOrderSpecificVersion.toEpochSecond());
-    personalInfo.setLatestOrder(latestOrderSpecificVersion);
+    personalInfo.setLatestOrderSeconds(latestOrderSpecificVersion.getLatestOrder());
+    personalInfo.setLatestOrder(getOffsetDateTime(latestOrderSpecificVersion));
 
     personalInfo.setReservedAt(reservedAt);
     personalInfo.setDurationReservedAfterStart(getDurationBetweenStartAndPersonalReservation(reservedAt));
     personalInfo.setDurationReservedAfterStartHumanReadable(humanReadableDuration(getDurationBetweenStartAndPersonalReservation(reservedAt)));
-    final Double elapsedTimePercentage = calculateElapsedTimePercentage(reservedAt, latestOrderSpecificVersion);
+    final Double elapsedTimePercentage = calculateElapsedTimePercentage(reservedAt, getOffsetDateTime(latestOrderSpecificVersion));
     personalInfo.setElapsedTimePercentage(elapsedTimePercentage);
-    personalInfo.setPrettyText(calcPrettyText(personalInfo, region, version, latestOrderSpecificVersion, reservedAt));
-    personalInfo.setHtmlText(calcHtmlText(personalInfo, region, version, latestOrderSpecificVersion, reservedAt));
+    personalInfo.setPrettyText(calcPrettyText(personalInfo, region, version, getOffsetDateTime(latestOrderSpecificVersion), reservedAt));
+    personalInfo.setHtmlText(calcHtmlText(personalInfo, region, version, getOffsetDateTime(latestOrderSpecificVersion), reservedAt));
     final List<HistoricDeckbotData> historicData = getHistoricData(reservedAt, region, version);
     personalInfo.setHistoricData(historicData);
 
@@ -49,15 +51,17 @@ public class DeckService {
     return info;
   }
 
+  private OffsetDateTime getOffsetDateTime(SteamDeckQueueDayEntry latestOrderSpecificVersion) {
+    return OffsetDateTime.ofInstant(Instant.ofEpochSecond(latestOrderSpecificVersion.getLatestOrder()), ZoneOffset.UTC);
+  }
+
   public HistoricSummary getHistoricSummary() {
     HistoricSummary summary = new HistoricSummary();
-    summary.setLastUpdated(deckDataPersistenceService.getDeckBotData().getLastUpdated());
     SortedMap<Region, SortedMap<Version, HistoricSummarySet>> regionMap = new TreeMap<>();
-    final TreeMap<LocalDate, DeckBotData> allDataFromDisk = deckDataPersistenceService.getAllDataFromDisk();
     Arrays.stream(Region.values()).forEach(region -> {
       SortedMap<Version, HistoricSummarySet> versionMap = new TreeMap<>();
       Arrays.stream(Version.values()).forEach(version -> {
-       versionMap.put(version, calcHistSummarySetFor(region, version, allDataFromDisk));
+       versionMap.put(version, calcHistSummarySetFor(region, version));
       });
       regionMap.put(region, versionMap);
     });
@@ -65,15 +69,17 @@ public class DeckService {
     return summary;
   }
 
-  private HistoricSummarySet calcHistSummarySetFor(Region region, Version version, TreeMap<LocalDate, DeckBotData> allDataFromDisk) {
+  private HistoricSummarySet calcHistSummarySetFor(Region region, Version version) {
     SortedMap<LocalDate, HistoricSummaryEntry> entries = new TreeMap<>();
 
-    for (Map.Entry<LocalDate, DeckBotData> data : allDataFromDisk.entrySet()) {
-      LocalDate date = data.getKey();
-      DeckBotData deckBotData = data.getValue();
+    for (SteamDeckQueueDayEntry data : steamDeckMongoService.getAllDataFromQueue(region, version)) {
+      LocalDate date = data.getDayOfBatch();
 
       HistoricSummaryEntry entry = new HistoricSummaryEntry();
-      entry.setLastOrderSeconds(allDataFromDisk.get(date).getLastShipments().get(region).get(version).toEpochSecond());
+      entry.setLastOrderSeconds(data.getLatestOrder());
+      entry.setLastUpdate(getOffsetDateTime(data));
+      // TODO
+      //entry.setElapsedSeconds();
 
       entries.put(date, entry);
     }
@@ -147,21 +153,16 @@ public class DeckService {
   private List<HistoricDeckbotData> getHistoricData(OffsetDateTime reservedAt, Region region, Version version) {
     List<HistoricDeckbotData> result = new ArrayList<>();
 
-    final Map<LocalDate, DeckBotData> allDataFromDisk = deckDataPersistenceService.getAllDataFromDisk();
-    final Set<LocalDate> dates = allDataFromDisk.keySet();
-    final Iterator<LocalDate> it = dates.iterator();
+    final List<SteamDeckQueueDayEntry> allDataFromQueue = steamDeckMongoService.getAllDataFromQueue(region, version);
 
     double lastPercentage = 0.;
-    while(it.hasNext()) {
-      final LocalDate next = it.next();
-      final DeckBotData deckBotData = allDataFromDisk.get(next);
-
+    for(SteamDeckQueueDayEntry entry : allDataFromQueue) {
       HistoricDeckbotData historicDeckbotData = new HistoricDeckbotData();
-      historicDeckbotData.setDate(next);
-      final Double elapsedTimePercentage = calculateElapsedTimePercentage(reservedAt, deckBotData.getLastShipments().get(region).get(version));
+      historicDeckbotData.setDate(entry.getDayOfBatch());
+      final Double elapsedTimePercentage = calculateElapsedTimePercentage(reservedAt, getOffsetDateTime(entry));
       historicDeckbotData.setElapsedTimePercentage(elapsedTimePercentage);
 
-      final Long elapsedSeconds =  calculateElapsedTimeSeconds(deckBotData.getLastShipments().get(region).get(version));
+      final Long elapsedSeconds =  calculateElapsedTimeSeconds(getOffsetDateTime(entry));
       historicDeckbotData.setElapsedSeconds(elapsedSeconds);
 
       historicDeckbotData.setIncreasedPercentage((double) ((int) ((elapsedTimePercentage - lastPercentage) * 100)) / (100));
@@ -174,19 +175,19 @@ public class DeckService {
     return new ArrayList<>(result);
   }
 
-  private SortedMap<Region, SortedMap<Version, OffsetDateTime>> getDeckBotDataOrDefault() {
-    final DeckBotData deckBotData = deckDataPersistenceService.getDeckBotData();
-    if (Objects.nonNull(deckBotData) && deckBotData.isComplete()) {
-      this.officialInfo.setLastDataUpdate(deckBotData.getLastUpdated());
-      this.officialInfo.setLastDataUpdateDate(deckBotData.getLastUpdated().toLocalDate());
+  private SortedMap<Region, SortedMap<Version, OffsetDateTime>> computeLastShipments() {
 
-      final SortedMap<Region, SortedMap<Version, OffsetDateTime>> lastShipments = deckBotData.getLastShipments();
+    final SortedMap<Region, SortedMap<Version, OffsetDateTime>> lastShipments = new TreeMap<>();
 
+    Arrays.stream(Region.values()).forEach(region -> {
+      SortedMap<Version, OffsetDateTime> versionMap = new TreeMap<>();
+      Arrays.stream(Version.values()).forEach(version -> {
+        versionMap.put(version, getOffsetDateTime(steamDeckMongoService.getLatestData(region, version)));
+      });
+      lastShipments.put(region, versionMap);
+    });
 
-      this.officialInfo.setLastShipments(lastShipments);
-      return lastShipments;
-    }
-    return null;
+    return lastShipments;
   }
 
   private Duration getDurationBetweenStartAndPersonalReservation(OffsetDateTime reservedAt) {
@@ -221,9 +222,5 @@ public class DeckService {
     long MM = duration.toMinutesPart();
     long SS = duration.toSecondsPart();
     return String.format("%02d days, %02d hours, %02d minutes and %02d seconds", d, HH, MM, SS);
-  }
-
-  private OffsetDateTime getSelectedDeckLastShipment(Region region, Version version) {
-    return getDeckBotDataOrDefault().get(region).get(version);
   }
 }

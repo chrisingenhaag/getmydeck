@@ -52,7 +52,11 @@ public class DeckService {
   }
 
   private OffsetDateTime getOffsetDateTime(SteamDeckQueueDayEntry latestOrderSpecificVersion) {
-    return OffsetDateTime.ofInstant(Instant.ofEpochSecond(latestOrderSpecificVersion.getLatestOrder()), ZoneOffset.UTC);
+    return getOffsetDateTime(latestOrderSpecificVersion.getLatestOrder());
+  }
+
+  private OffsetDateTime getOffsetDateTime(long epochSecond) {
+    return OffsetDateTime.ofInstant(Instant.ofEpochSecond(epochSecond), ZoneOffset.UTC);
   }
 
   public HistoricSummary getHistoricSummary() {
@@ -77,7 +81,8 @@ public class DeckService {
 
       HistoricSummaryEntry entry = new HistoricSummaryEntry();
       entry.setLastOrderSeconds(data.getLatestOrder());
-      entry.setLastUpdate(getOffsetDateTime(data));
+      // not possible as lastmodified by spring-data mongo db can´t be time mocked
+      // entry.setLastUpdate(getOffsetDateTime(data.getLastModified().toEpochSecond(ZoneOffset.UTC)));
       // TODO
       //entry.setElapsedSeconds();
 

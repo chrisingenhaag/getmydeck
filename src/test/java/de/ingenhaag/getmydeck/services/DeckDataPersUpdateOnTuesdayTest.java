@@ -3,6 +3,7 @@ package de.ingenhaag.getmydeck.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import de.ingenhaag.getmydeck.models.deckbot.Region;
 import de.ingenhaag.getmydeck.models.deckbot.Version;
+import de.ingenhaag.getmydeck.models.persistence.mongo.SteamDeckQueueDayEntry;
 import de.ingenhaag.getmydeck.testsupport.DeckDataPersistenceBaseTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,12 +15,13 @@ import java.time.*;
 import java.util.SortedMap;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class DeckDataPersUpdateOnTuesdayTest extends DeckDataPersistenceBaseTest {
   @Autowired
-  private DeckDataPersistenceService service;
+  private SteamDeckMongoService service;
 
   //Mock your clock bean
   @MockBean
@@ -40,7 +42,8 @@ class DeckDataPersUpdateOnTuesdayTest extends DeckDataPersistenceBaseTest {
     final SortedMap<Region, SortedMap<Version, OffsetDateTime>> changedDataFromGoogle = getSampleData(stringUpdateDate);
     service.updateParsedDataIfChanged(changedDataFromGoogle);
 
-    assertFalse(service.getAllDataFromDisk().containsKey(updateDate));
+    final SteamDeckQueueDayEntry latestData = service.getLatestData(Region.UK, Version.S256);
+    assertNotEquals(latestData.getDayOfBatch(), updateDate);
   }
 
 }

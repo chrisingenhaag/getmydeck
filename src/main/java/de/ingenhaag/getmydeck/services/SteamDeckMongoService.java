@@ -32,7 +32,7 @@ public class SteamDeckMongoService {
   SteamDeckQueueRepository repo;
 
   public SteamDeckQueueDayEntry getLatestData(Region region, Version version) {
-    return repo.findFirstByRegionAndVersionOrderByDayOfBatchAsc(region, version);
+    return repo.findFirstByRegionAndVersionOrderByDayOfBatchDesc(region, version);
   }
 
   public List<SteamDeckQueueDayEntry> getAllDataFromQueue(Region region, Version version) {
@@ -53,7 +53,7 @@ public class SteamDeckMongoService {
             day.setLatestOrder(offsetDateTime.toEpochSecond());
             repo.save(day);
           } else {
-            final SteamDeckQueueDayEntry dayOfBatch = repo.findFirstByRegionAndVersionOrderByDayOfBatchAsc(region, version);
+            final SteamDeckQueueDayEntry dayOfBatch = repo.findFirstByRegionAndVersionOrderByDayOfBatchDesc(region, version);
             updateIfNewer(offsetDateTime, dayOfBatch);
           }
         } else {

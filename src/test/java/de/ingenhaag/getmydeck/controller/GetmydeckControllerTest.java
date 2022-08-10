@@ -8,36 +8,41 @@ import de.ingenhaag.getmydeck.models.deckbot.Version;
 import de.ingenhaag.getmydeck.models.dto.HistoricSummary;
 import de.ingenhaag.getmydeck.models.dto.InfoResponse;
 import de.ingenhaag.getmydeck.services.DeckServiceTest;
+import de.ingenhaag.getmydeck.testsupport.AbstractMongoContainerIntegrationTest;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.stream.Stream;
 
 import static de.ingenhaag.getmydeck.services.DeckServiceTest.RESERVED_TOO_EARLY;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
 @AutoConfigureMockMvc
-class GetmydeckControllerTest implements JUnit5ValidationFileAssertions {
+class GetmydeckControllerTest extends AbstractMongoContainerIntegrationTest implements JUnit5ValidationFileAssertions {
 
   @Autowired
   private MockMvc mvc;
 
   @Autowired
   private ObjectMapper objectMapper;
+
+  @BeforeEach
+  void each() {
+    resetDataBase();
+  }
 
   @ParameterizedTest
   @MethodSource("getAllIterations")
@@ -51,6 +56,7 @@ class GetmydeckControllerTest implements JUnit5ValidationFileAssertions {
         .andExpect(status().isOk())
         .andReturn();
     final InfoResponse infoResponse = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), InfoResponse.class);
+    infoResponse.getOfficialInfo().setLastDataUpdate(OffsetDateTime.ofInstant(Instant.ofEpochSecond(1655141686), ZoneOffset.UTC));
 
     assertWithFileWithSuffix(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(infoResponse), region+version.getVersion(), FileExtensions.JSON);
   }

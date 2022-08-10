@@ -53,6 +53,7 @@ public class SteamDeckMongoService {
             day.setLatestOrder(offsetDateTime.toEpochSecond());
             repo.save(day);
           } else {
+            // TODO maybe add check for not jumping over a missing day, this here assumes last monday exists
             final SteamDeckQueueDayEntry dayOfBatch = repo.findFirstByRegionAndVersionOrderByDayOfBatchDesc(region, version);
             updateIfNewer(offsetDateTime, dayOfBatch);
           }

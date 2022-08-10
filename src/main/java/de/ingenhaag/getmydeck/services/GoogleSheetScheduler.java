@@ -64,7 +64,6 @@ public class GoogleSheetScheduler {
                 parsedData.put(region, versionOffsetDateTimeMap);
               }
             });
-        persistenceService.updateParsedDataIfChanged(parsedData);
         mongoPersistenceService.updateParsedDataIfChanged(parsedData);
       } catch(NullPointerException e) {
         log.error("Error parsing response from googlesheet", e);

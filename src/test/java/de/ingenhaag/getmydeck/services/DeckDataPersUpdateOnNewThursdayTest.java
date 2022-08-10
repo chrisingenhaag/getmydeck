@@ -3,7 +3,6 @@ package de.ingenhaag.getmydeck.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import de.ingenhaag.getmydeck.testsupport.DeckDataPersistenceBaseTest;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
 class DeckDataPersUpdateOnNewThursdayTest extends DeckDataPersistenceBaseTest {
   @Autowired

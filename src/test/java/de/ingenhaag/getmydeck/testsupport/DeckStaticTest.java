@@ -5,5 +5,5 @@ import org.springframework.test.context.TestPropertySource;
 @TestPropertySource(properties = {
     "getmydeck.deckbot.scheduler.enabled=false"
 })
-public class DeckStaticTest {
+public class DeckStaticTest extends AbstractMongoContainerIntegrationTest {
 }

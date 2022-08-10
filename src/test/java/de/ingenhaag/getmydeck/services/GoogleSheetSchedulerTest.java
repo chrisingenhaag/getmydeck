@@ -1,5 +1,7 @@
 package de.ingenhaag.getmydeck.services;
 
+import de.ingenhaag.getmydeck.testsupport.AbstractMongoContainerIntegrationTest;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -8,12 +10,11 @@ import org.springframework.test.context.TestPropertySource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
 @TestPropertySource(properties = {
     "getmydeck.persistence.path=build/deckbot-data.json",
     "getmydeck.persistence.create-if-not-exists=true"
 })
-class GoogleSheetSchedulerTest {
+class GoogleSheetSchedulerTest extends AbstractMongoContainerIntegrationTest {
 
   @Autowired
   private DeckDataPersistenceService service;
@@ -23,6 +24,7 @@ class GoogleSheetSchedulerTest {
 
   @Test
   void getDeckBotData() {
+    resetDataBase();
     scheduler.fetchDeckBotData();
     assertTrue(service.getDeckBotData().isComplete());
   }

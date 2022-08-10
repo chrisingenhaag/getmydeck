@@ -5,22 +5,26 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.ingenhaag.getmydeck.models.deckbot.Region;
 import de.ingenhaag.getmydeck.models.deckbot.Version;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
 import java.time.OffsetDateTime;
 import java.util.SortedMap;
 
-@SpringBootTest
 @TestPropertySource(properties = {
     "getmydeck.deckbot.scheduler.enabled=false",
     "getmydeck.persistence.path=classpath:deckbot-data-persistence-tests.json",
 })
-public class DeckDataPersistenceBaseTest {
+public class DeckDataPersistenceBaseTest extends AbstractMongoContainerIntegrationTest {
 
   @Autowired
   ObjectMapper mapper;
+
+  @BeforeEach
+  void before() {
+    resetDataBase();
+  }
 
   public SortedMap<Region, SortedMap<Version, OffsetDateTime>> getSampleData(String date) throws JsonProcessingException {
     Double random = Math.random() * 10000;

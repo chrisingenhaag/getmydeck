@@ -1,31 +1,58 @@
 package de.ingenhaag.getmydeck.services;
 
+import de.ingenhaag.getmydeck.models.deckbot.Region;
+import de.ingenhaag.getmydeck.models.deckbot.Version;
 import de.ingenhaag.getmydeck.testsupport.AbstractMongoContainerIntegrationTest;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.time.Clock;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.util.Arrays;
 
-@TestPropertySource(properties = {
-    "getmydeck.persistence.path=build/deckbot-data.json",
-    "getmydeck.persistence.create-if-not-exists=true"
-})
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(MockitoExtension.class)
 class GoogleSheetSchedulerTest extends AbstractMongoContainerIntegrationTest {
 
   @Autowired
-  private DeckDataPersistenceService service;
+  private SteamDeckMongoService service;
 
   @Autowired
   private GoogleSheetScheduler scheduler;
 
+
+  //Mock your clock bean
+  @MockBean
+  private Clock clock;
+
+  //field that will contain the fixed clock
+  private Clock fixedClock;
+
   @Test
   void getDeckBotData() {
+    fixedClock = Clock.fixed(Instant.parse("2022-08-08T19:00:00.00Z"), ZoneOffset.UTC);
+    when(clock.getZone()).thenReturn(ZoneOffset.UTC);
+    when(clock.instant()).thenReturn(fixedClock.instant());
+
     resetDataBase();
+
+    Arrays.stream(Region.values()).forEach(region -> {
+      Arrays.stream(Version.values()).forEach(version -> {
+        assertEquals(service.getAllDataFromQueue(region, version).size(), 20);
+      });
+    });
+
     scheduler.fetchDeckBotData();
-    assertTrue(service.getDeckBotData().isComplete());
-  }
+
+    Arrays.stream(Region.values()).forEach(region -> {
+      Arrays.stream(Version.values()).forEach(version -> {
+        assertEquals(service.getAllDataFromQueue(region, version).size(), 21);
+      });
+    });}
 }

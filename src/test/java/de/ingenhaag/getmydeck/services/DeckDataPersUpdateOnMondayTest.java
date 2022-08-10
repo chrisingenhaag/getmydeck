@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import de.ingenhaag.getmydeck.models.deckbot.DeckBotData;
 import de.ingenhaag.getmydeck.models.deckbot.Region;
 import de.ingenhaag.getmydeck.models.deckbot.Version;
+import de.ingenhaag.getmydeck.models.persistence.mongo.SteamDeckQueueDayEntry;
 import de.ingenhaag.getmydeck.testsupport.DeckDataPersistenceBaseTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,7 +23,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class DeckDataPersUpdateOnMondayTest extends DeckDataPersistenceBaseTest {
   @Autowired
-  private DeckDataPersistenceService service;
+  private SteamDeckMongoService service;
 
   //Mock your clock bean
   @MockBean
@@ -43,10 +44,14 @@ class DeckDataPersUpdateOnMondayTest extends DeckDataPersistenceBaseTest {
     final SortedMap<Region, SortedMap<Version, OffsetDateTime>> changedDataFromGoogle = getSampleData(instantExpected);
     service.updateParsedDataIfChanged(changedDataFromGoogle);
 
-    final Map<LocalDate, DeckBotData> allDataFromDisk = service.getAllDataFromDisk();
-    assertTrue(allDataFromDisk.containsKey(dateExpected));
+    final SteamDeckQueueDayEntry latestData = service.getLatestData(Region.EU, Version.S512);
 
-    assertEquals(allDataFromDisk.get(dateExpected).getLastShipments(), changedDataFromGoogle);
+    assertEquals(latestData.getDayOfBatch(), dateExpected);
 
+    changedDataFromGoogle.forEach((region, versionOffsetDateTimeSortedMap) -> {
+      versionOffsetDateTimeSortedMap.forEach((version, offsetDateTime) -> {
+        assertEquals(service.getLatestData(region, version).getLatestOrder(), changedDataFromGoogle.get(region).get(version).toEpochSecond());
+      });
+    });
   }
 }

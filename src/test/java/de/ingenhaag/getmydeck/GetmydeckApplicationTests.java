@@ -1,10 +1,9 @@
 package de.ingenhaag.getmydeck;
 
+import de.ingenhaag.getmydeck.testsupport.AbstractMongoContainerIntegrationTest;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class GetmydeckApplicationTests {
+class GetmydeckApplicationTests extends AbstractMongoContainerIntegrationTest {
 
 	@Test
 	void contextLoads() {

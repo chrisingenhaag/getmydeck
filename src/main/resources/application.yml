@@ -5,7 +5,7 @@ getmydeck:
 
   deckbot:
     scheduler:
-      enabled: ${DECKBOT_SCHEDULER_ENABLED:false}
+      enabled: ${DECKBOT_SCHEDULER_ENABLED:true}
     google-api-key: ***REMOVED***
     sheet-id: 1ZaKncig9fce7K0sr1f-E2_sgLH1HuKQ-q3k7clPMOCs
     sheet-data-location: "deckbot!A1:C9"

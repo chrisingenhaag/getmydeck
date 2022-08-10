@@ -9,7 +9,13 @@ image: registry.gitlab.com/cin/custom-images:eclipse-temurin-git-17-jdk
 # runtime for each build is more reliable since the runtime is completely
 # isolated from any previous builds.
 variables:
+  DOCKER_HOST: tcp://docker:2375
+  DOCKER_TLS_CERTDIR: ""
+  DOCKER_DRIVER: overlay2
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+
+services:
+  - docker:dind
 
 before_script:
   - export GRADLE_USER_HOME=`pwd`/.gradle
@@ -20,7 +26,10 @@ stages:
 
 build:
   stage: build
-  script: ./gradlew --build-cache build
+  tags:
+    - docker
+  script:
+    - ./gradlew --build-cache build
   artifacts:
     reports:
       junit: build/test-results/test/*.xml
@@ -36,10 +45,8 @@ build:
 
 release:
   stage: release
-  variables:
-    DOCKER_HOST: tcp://docker:2375
-  services:
-  - docker:dind
+  tags:
+    - docker
   before_script:
     - eval `ssh-agent -s`
     - echo "${SSH_PRIVATE_KEY}" | tr -d '\r' | ssh-add - > /dev/null # add ssh ke

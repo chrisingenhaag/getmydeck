@@ -15,7 +15,7 @@ variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
 
 services:
-  - name: docker:dind
+  - name: docker:dind-stable
     alias: localhost
     command: ["--tls=false"]
 

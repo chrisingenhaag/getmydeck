@@ -28,7 +28,7 @@ stages:
 build:
   stage: build
   tags:
-    - docker
+    - gitlab-org-docker
   script:
     - ./gradlew --build-cache build
   artifacts:
@@ -47,7 +47,7 @@ build:
 release:
   stage: release
   tags:
-    - docker
+    - gitlab-org-docker
   before_script:
     - eval `ssh-agent -s`
     - echo "${SSH_PRIVATE_KEY}" | tr -d '\r' | ssh-add - > /dev/null # add ssh ke

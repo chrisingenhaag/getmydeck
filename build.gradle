@@ -44,8 +44,9 @@ bootBuildImage {
 	publish = !project.version.contains("-SNAPSHOT")
 	docker {
 		publishRegistry {
-			url = "https://registry.gitlab.com/v2/"
-			token = System.getenv("CI_REGISTRY_TOKEN")
+			url = System.getenv("CI_REGISTRY") ?: "n/a"
+			username = System.getenv("CI_REGISTRY_USER") ?: "n/a"
+			password = System.getenv("CI_REGISTRY_PASSWORD") ?: "n/a"
 		}
 	}
 }

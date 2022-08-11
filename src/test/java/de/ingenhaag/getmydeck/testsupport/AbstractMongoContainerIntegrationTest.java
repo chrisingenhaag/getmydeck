@@ -14,6 +14,7 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
+import java.time.Duration;
 import java.util.Map;
 
 @SpringBootTest
@@ -27,6 +28,7 @@ public class AbstractMongoContainerIntegrationTest {
         DockerImageName.parse("bitnami/mongodb:latest")
     )
         .withExposedPorts(27017)
+        .withStartupTimeout(Duration.ofMinutes(3))
         .withEnv(Map.of("MONGODB_ROOT_PASSWORD", "password123",
             "MONGODB_USERNAME", "getmydeck",
             "MONGODB_PASSWORD", "password123",

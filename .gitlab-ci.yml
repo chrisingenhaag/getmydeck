@@ -35,14 +35,7 @@ build:
     reports:
       junit: build/test-results/test/*.xml
     paths:
-      - build/reports/test
-      - build/libs/*.jar
-  cache:
-    key: "$CI_COMMIT_REF_NAME"
-    policy: push
-    paths:
-      - build
-      - .gradle
+      - $CI_PROJECT_DIR/build/reports/test
 
 release:
   stage: release

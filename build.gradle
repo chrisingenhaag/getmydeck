@@ -44,9 +44,6 @@ bootBuildImage {
 	publish = !project.version.contains("-SNAPSHOT")
 	docker {
 		publishRegistry {
-			url = System.getenv("CI_REGISTRY")
-			username = System.getenv("CI_REGISTRY_USER")
-			password = System.getenv("CI_REGISTRY_PASSWORD")
 			token = System.getenv("CI_REGISTRY_TOKEN")
 		}
 	}

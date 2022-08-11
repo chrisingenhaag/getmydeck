@@ -3,23 +3,17 @@ package de.ingenhaag.getmydeck.testsupport;
 
 import de.ingenhaag.getmydeck.models.persistence.mongo.SteamDeckQueueRepository;
 import de.ingenhaag.getmydeck.services.SteamDeckMongoService;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
-import java.time.Duration;
 import java.util.Map;
 
 @SpringBootTest
-@Testcontainers
 public class AbstractMongoContainerIntegrationTest {
 
   static final GenericContainer MONGODB_CONTAINER;

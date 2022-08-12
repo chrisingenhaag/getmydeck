@@ -8,14 +8,17 @@ import de.ingenhaag.getmydeck.models.deckbot.Version;
 import de.ingenhaag.getmydeck.models.dto.HistoricSummary;
 import de.ingenhaag.getmydeck.models.dto.InfoResponse;
 import de.ingenhaag.getmydeck.services.DeckServiceTest;
+import de.ingenhaag.getmydeck.services.SteamDeckMongoService;
 import de.ingenhaag.getmydeck.testsupport.AbstractMongoContainerIntegrationTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -27,6 +30,7 @@ import java.time.ZoneOffset;
 import java.util.stream.Stream;
 
 import static de.ingenhaag.getmydeck.services.DeckServiceTest.RESERVED_TOO_EARLY;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -39,9 +43,13 @@ class GetmydeckControllerTest extends AbstractMongoContainerIntegrationTest impl
   @Autowired
   private ObjectMapper objectMapper;
 
+  @SpyBean
+  SteamDeckMongoService database;
+
   @BeforeEach
   void each() {
     resetDataBase();
+    //Mockito.reset(service);
   }
 
   @ParameterizedTest
@@ -59,6 +67,8 @@ class GetmydeckControllerTest extends AbstractMongoContainerIntegrationTest impl
     infoResponse.getOfficialInfo().setLastDataUpdate(OffsetDateTime.ofInstant(Instant.ofEpochSecond(1655141686), ZoneOffset.UTC));
 
     assertWithFileWithSuffix(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(infoResponse), region+version.getVersion(), FileExtensions.JSON);
+
+    assertEquals(12, Mockito.mockingDetails(database).getInvocations().size());
   }
 
   private static Stream<Arguments> getAllIterations() {
@@ -121,6 +131,8 @@ class GetmydeckControllerTest extends AbstractMongoContainerIntegrationTest impl
     final HistoricSummary summary = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), HistoricSummary.class);
 
     assertWithFile(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(summary));
+
+    assertEquals(10, Mockito.mockingDetails(database).getInvocations().size());
   }
 
 }

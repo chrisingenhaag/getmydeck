@@ -13,6 +13,8 @@ public class OfficialInfo {
   private OffsetDateTime reservationsStartedAt;
   private OffsetDateTime lastDataUpdate;
   private LocalDate lastDataUpdateDate;
+
+  @Deprecated(forRemoval = true)
   private SortedMap<Region, SortedMap<Version, OffsetDateTime>> lastShipments;
 
   public OffsetDateTime getReservationsStartedAt() {
@@ -31,10 +33,12 @@ public class OfficialInfo {
     this.lastDataUpdate = lastDataUpdate;
   }
 
+  @Deprecated(forRemoval = true)
   public void setLastShipments(SortedMap<Region, SortedMap<Version, OffsetDateTime>> lastShipments) {
     this.lastShipments = lastShipments;
   }
 
+  @Deprecated(forRemoval = true)
   public SortedMap<Region, SortedMap<Version, OffsetDateTime>> getLastShipments() {
     return lastShipments;
   }

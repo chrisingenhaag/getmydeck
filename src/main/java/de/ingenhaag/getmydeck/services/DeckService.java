@@ -32,6 +32,8 @@ public class DeckService {
     PersonalInfo personalInfo = new PersonalInfo();
     personalInfo.setRegion(region);
     personalInfo.setVersion(version);
+    personalInfo.setLastDataUpdate(latestOrderSpecificVersion.getLastModified().atOffset(ZoneOffset.UTC));
+    personalInfo.setLastBatchDate(latestOrderSpecificVersion.getDayOfBatch());
     personalInfo.setLatestOrderSeconds(latestOrderSpecificVersion.getLatestOrder());
     personalInfo.setLatestOrder(getOffsetDateTime(latestOrderSpecificVersion));
 

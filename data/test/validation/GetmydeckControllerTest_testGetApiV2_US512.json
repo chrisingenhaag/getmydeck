@@ -32,6 +32,8 @@
     "htmlText" : "<ul>\n  <li>It looks like you have a US 512GB reservation</li>\n  <li>You reserved your deck 06 days, 13 hours, 40 minutes and 37 seconds after pre-orders opened</li>\n  <li>00 days, 00 hours, 56 minutes and 32 seconds worth of pre-orders have been processed</li>\n  <li>You have 06 days, 12 hours, 44 minutes and 05 seconds worth of pre-orders to go until it is your turn (not real time)</li>\n  <li>You're 0.59 % of the way there!</li>\n</ul>",
     "latestOrderSeconds" : 1626458192,
     "latestOrder" : "2021-07-16T17:56:32Z",
+    "lastDataUpdate" : "2022-06-13T17:34:46Z",
+    "lastBatchDate" : "2022-06-13",
     "historicData" : [ {
       "date" : "2022-06-13",
       "elapsedSeconds" : 3392,

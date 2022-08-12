@@ -11,7 +11,10 @@ import java.util.SortedMap;
 public class OfficialInfo {
 
   private OffsetDateTime reservationsStartedAt;
+
+  @Deprecated(forRemoval = true)
   private OffsetDateTime lastDataUpdate;
+  @Deprecated(forRemoval = true)
   private LocalDate lastDataUpdateDate;
 
   @Deprecated(forRemoval = true)
@@ -24,11 +27,12 @@ public class OfficialInfo {
   public void setReservationsStartedAt(OffsetDateTime reservationsStartedAt) {
     this.reservationsStartedAt = reservationsStartedAt;
   }
-
+  @Deprecated(forRemoval = true)
   public OffsetDateTime getLastDataUpdate() {
     return lastDataUpdate;
   }
 
+  @Deprecated(forRemoval = true)
   public void setLastDataUpdate(OffsetDateTime lastDataUpdate) {
     this.lastDataUpdate = lastDataUpdate;
   }
@@ -43,10 +47,12 @@ public class OfficialInfo {
     return lastShipments;
   }
 
+  @Deprecated(forRemoval = true)
   public LocalDate getLastDataUpdateDate() {
     return lastDataUpdateDate;
   }
 
+  @Deprecated(forRemoval = true)
   public void setLastDataUpdateDate(LocalDate lastDataUpdateDate) {
     this.lastDataUpdateDate = lastDataUpdateDate;
   }

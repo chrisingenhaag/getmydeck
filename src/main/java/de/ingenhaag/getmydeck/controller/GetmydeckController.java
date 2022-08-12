@@ -32,9 +32,6 @@ import java.util.TreeMap;
 public class GetmydeckController {
 
   @Autowired
-  SteamDeckMongoService mongoService;
-
-  @Autowired
   DeckService deckService;
 
   @GetMapping("/api/v2/regions/{region}/versions/{version}/infos/{reserved}")
@@ -49,11 +46,5 @@ public class GetmydeckController {
   @GetMapping("/api/v2/summary")
   public ResponseEntity<HistoricSummary> getHistoricSummary() {
     return ResponseEntity.ok(deckService.getHistoricSummary());
-  }
-
-  @GetMapping("/api/v2/triggerMigration")
-  public ResponseEntity<Void> triggerMigration() {
-    mongoService.migrateDataToMongo();
-    return ResponseEntity.accepted().build();
   }
 }

@@ -51,7 +51,8 @@ public class SteamDeckMongoService {
             day.setRegion(region);
             day.setVersion(version);
             day.setLatestOrder(offsetDateTime.toEpochSecond());
-            repo.save(day);
+            final SteamDeckQueueDayEntry savedEntity = repo.save(day);
+            log.info("Saving set for new day cause mon or thu {}", savedEntity);
           } else {
             // TODO maybe add check for not jumping over a missing day, this here assumes last monday exists
             final SteamDeckQueueDayEntry dayOfBatch = repo.findFirstByRegionAndVersionOrderByDayOfBatchDesc(region, version);
@@ -68,7 +69,8 @@ public class SteamDeckMongoService {
   private void updateIfNewer(OffsetDateTime offsetDateTime, SteamDeckQueueDayEntry entry) {
     if(!entry.getLatestOrder().equals(offsetDateTime.toEpochSecond())) {
       entry.setLatestOrder(offsetDateTime.toEpochSecond());
-      repo.save(entry);
+      final SteamDeckQueueDayEntry savedEntity = repo.save(entry);
+      log.info("object newer, update it in database {}", savedEntity);
     } else {
       log.info("object not newer, ignoring");
     }

@@ -50,7 +50,6 @@ public class AbstractMongoContainerIntegrationTest {
 
   @DynamicPropertySource
   static void registerPgProperties(DynamicPropertyRegistry registry) {
-    ;
     registry.add("spring.data.mongodb.uri",
         () -> String.format("mongodb://getmydeck:password123@%s:%d/getmydeck",
             MONGODB_CONTAINER.getHost(),

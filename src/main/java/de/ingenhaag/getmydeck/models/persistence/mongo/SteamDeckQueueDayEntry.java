@@ -69,4 +69,16 @@ public class SteamDeckQueueDayEntry {
   public void setLatestOrder(Long latestOrder) {
     this.latestOrder = latestOrder;
   }
+
+  @Override
+  public String toString() {
+    return "SteamDeckQueueDayEntry{" +
+        "id='" + id + '\'' +
+        ", region=" + region +
+        ", version=" + version +
+        ", dayOfBatch=" + dayOfBatch +
+        ", latestOrder=" + latestOrder +
+        ", lastModified=" + lastModified +
+        '}';
+  }
 }

@@ -20,7 +20,7 @@ public class AbstractMongoContainerIntegrationTest {
 
   static {
     MONGODB_CONTAINER = new GenericContainer<>(
-        DockerImageName.parse("bitnami/mongodb:latest")
+        DockerImageName.parse("bitnami/mongodb:4.4")
     )
         .withExposedPorts(27017)
         .waitingFor(Wait.forLogMessage(".*Waiting for connections.*\\n", 1))

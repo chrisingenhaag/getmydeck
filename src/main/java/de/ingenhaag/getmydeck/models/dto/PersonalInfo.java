@@ -4,6 +4,7 @@ import de.ingenhaag.getmydeck.models.deckbot.Region;
 import de.ingenhaag.getmydeck.models.deckbot.Version;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.List;
 
@@ -20,6 +21,10 @@ public class PersonalInfo {
   private String htmlText;
   private long latestOrderSeconds;
   private OffsetDateTime latestOrder;
+
+  private OffsetDateTime lastDataUpdate;
+
+  private LocalDate lastBatchDate;
 
   private List<HistoricDeckbotData> historicData;
 
@@ -102,6 +107,22 @@ public class PersonalInfo {
     return latestOrder;
   }
 
+  public OffsetDateTime getLastDataUpdate() {
+    return lastDataUpdate;
+  }
+
+  public void setLastDataUpdate(OffsetDateTime lastDataUpdate) {
+    this.lastDataUpdate = lastDataUpdate;
+  }
+
+  public LocalDate getLastBatchDate() {
+    return lastBatchDate;
+  }
+
+  public void setLastBatchDate(LocalDate lastBatchDate) {
+    this.lastBatchDate = lastBatchDate;
+  }
+
   public List<HistoricDeckbotData> getHistoricData() {
     return historicData;
   }
@@ -123,6 +144,8 @@ public class PersonalInfo {
         ", htmlText='" + htmlText + '\'' +
         ", latestOrderSeconds=" + latestOrderSeconds +
         ", latestOrder=" + latestOrder +
+        ", lastDataUpdate=" + lastDataUpdate +
+        ", lastBatchDate=" + lastBatchDate +
         ", historicData=" + historicData +
         '}';
   }

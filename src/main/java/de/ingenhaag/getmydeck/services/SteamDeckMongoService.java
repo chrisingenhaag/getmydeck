@@ -72,7 +72,7 @@ public class SteamDeckMongoService {
       final SteamDeckQueueDayEntry savedEntity = repo.save(entry);
       log.info("object newer, update it in database {}", savedEntity);
     } else {
-      log.info("object not newer, ignoring");
+      log.debug("object not newer, ignoring");
     }
   }
 

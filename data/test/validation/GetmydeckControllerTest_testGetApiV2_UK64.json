@@ -32,6 +32,8 @@
     "htmlText" : "<ul>\n  <li>It looks like you have a UK 64GB reservation</li>\n  <li>You reserved your deck 06 days, 13 hours, 40 minutes and 37 seconds after pre-orders opened</li>\n  <li>02 days, 19 hours, 26 minutes and 56 seconds worth of pre-orders have been processed</li>\n  <li>You have 03 days, 18 hours, 13 minutes and 41 seconds worth of pre-orders to go until it is your turn (not real time)</li>\n  <li>You're 42.77 % of the way there!</li>\n</ul>",
     "latestOrderSeconds" : 1626697616,
     "latestOrder" : "2021-07-19T12:26:56Z",
+    "lastDataUpdate" : "2022-06-13T17:34:46Z",
+    "lastBatchDate" : "2022-06-13",
     "historicData" : [ {
       "date" : "2022-06-13",
       "elapsedSeconds" : 242816,

@@ -2,6 +2,7 @@ package de.ingenhaag.getmydeck.services;
 
 import de.ingenhaag.getmydeck.models.deckbot.Region;
 import de.ingenhaag.getmydeck.models.deckbot.Version;
+import de.ingenhaag.getmydeck.models.persistence.mongo.DayOfBatchOnly;
 import de.ingenhaag.getmydeck.models.persistence.mongo.SteamDeckQueueDayEntry;
 import de.ingenhaag.getmydeck.models.persistence.mongo.SteamDeckQueueRepository;
 import org.slf4j.Logger;
@@ -15,6 +16,8 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.SortedMap;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 public class SteamDeckMongoService {
@@ -39,6 +42,14 @@ public class SteamDeckMongoService {
     return repo.findByRegionAndVersionOrderByDayOfBatchAsc(region, version);
   };
 
+  public List<LocalDate> getAllDayOfBatches() {
+    final List<DayOfBatchOnly> list = repo.findDistinctBy();
+
+    return list.stream()
+        .flatMap(dayOfBatchOnly -> Stream.of(dayOfBatchOnly.getDayOfBatch()))
+        .distinct()
+        .collect(Collectors.toList());
+  }
   public void updateParsedDataIfChanged(SortedMap<Region, SortedMap<Version, OffsetDateTime>> parsedData) {
     final LocalDate now = LocalDate.now(clock);
 
@@ -74,6 +85,10 @@ public class SteamDeckMongoService {
     } else {
       log.debug("object not newer, ignoring");
     }
+  }
+
+  public void deleteDataSet(LocalDate day, Region region, Version version) {
+    repo.deleteByRegionAndVersionAndDayOfBatch(region,version,day);
   }
 
   public void migrateDataToMongo() {

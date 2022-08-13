@@ -1,0 +1,240 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "GetMyDeck",
+    "version" : "v2"
+  },
+  "servers" : [ {
+    "url" : "https://getmydeck.ingenhaag.dev",
+    "description" : "production"
+  } ],
+  "paths" : {
+    "/api/v2/summary" : {
+      "get" : {
+        "tags" : [ "getmydeck-controller" ],
+        "operationId" : "getHistoricSummary",
+        "responses" : {
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/HistoricSummary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/regions/{region}/versions/{version}/infos/{reserved}" : {
+      "get" : {
+        "tags" : [ "getmydeck-controller" ],
+        "operationId" : "getPersonalInfoResponse",
+        "parameters" : [ {
+          "name" : "reserved",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }, {
+          "name" : "region",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "EU", "UK", "US" ]
+          }
+        }, {
+          "name" : "version",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/InfoResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "HistoricSummary" : {
+        "type" : "object",
+        "properties" : {
+          "summary" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "object",
+              "additionalProperties" : {
+                "$ref" : "#/components/schemas/HistoricSummarySet"
+              }
+            }
+          }
+        }
+      },
+      "HistoricSummaryEntry" : {
+        "type" : "object",
+        "properties" : {
+          "lastOrderSeconds" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "elapsedSeconds" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "lastUpdate" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }
+      },
+      "HistoricSummarySet" : {
+        "type" : "object",
+        "properties" : {
+          "entries" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "$ref" : "#/components/schemas/HistoricSummaryEntry"
+            }
+          }
+        }
+      },
+      "HistoricDeckbotData" : {
+        "type" : "object",
+        "properties" : {
+          "date" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "elapsedSeconds" : {
+            "type" : "integer",
+            "format" : "int64",
+            "nullable" : true
+          },
+          "elapsedTimePercentage" : {
+            "type" : "number",
+            "format" : "double",
+            "nullable" : true
+          },
+          "increasedPercentage" : {
+            "type" : "number",
+            "format" : "double",
+            "nullable" : true
+          }
+        }
+      },
+      "InfoResponse" : {
+        "type" : "object",
+        "properties" : {
+          "officialInfo" : {
+            "$ref" : "#/components/schemas/OfficialInfo"
+          },
+          "personalInfo" : {
+            "$ref" : "#/components/schemas/PersonalInfo"
+          }
+        }
+      },
+      "OfficialInfo" : {
+        "type" : "object",
+        "properties" : {
+          "reservationsStartedAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }
+      },
+      "PersonalInfo" : {
+        "type" : "object",
+        "properties" : {
+          "reservedAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "region" : {
+            "type" : "string",
+            "enum" : [ "EU", "UK", "US" ]
+          },
+          "version" : {
+            "type" : "string",
+            "enum" : [ "64", "256", "512" ]
+          },
+          "durationReservedAfterStart" : {
+            "type" : "string",
+            "description" : "String representation of Duration, not yet openapi standard",
+            "example" : "PT157H40M37S"
+          },
+          "durationReservedAfterStartHumanReadable" : {
+            "type" : "string"
+          },
+          "elapsedTimePercentage" : {
+            "type" : "number",
+            "format" : "double"
+          },
+          "prettyText" : {
+            "type" : "string"
+          },
+          "htmlText" : {
+            "type" : "string"
+          },
+          "latestOrderSeconds" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "latestOrder" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "lastDataUpdate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "lastBatchDate" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "historicData" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/HistoricDeckbotData"
+            }
+          }
+        }
+      }
+    }
+  }
+}

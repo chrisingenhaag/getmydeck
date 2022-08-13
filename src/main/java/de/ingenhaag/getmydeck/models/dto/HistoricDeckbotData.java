@@ -1,6 +1,8 @@
 package de.ingenhaag.getmydeck.models.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.v3.oas.annotations.media.Schema;
+import org.springframework.lang.Nullable;
 
 import java.time.LocalDate;
 
@@ -20,6 +22,10 @@ public class HistoricDeckbotData {
     this.date = date;
   }
 
+  @Schema(
+      nullable = true
+  )
+  @Nullable
   public Long getElapsedSeconds() {
     return elapsedSeconds;
   }
@@ -28,6 +34,10 @@ public class HistoricDeckbotData {
     this.elapsedSeconds = elapsedSeconds;
   }
 
+  @Schema(
+      nullable = true
+  )
+  @Nullable
   public Double getElapsedTimePercentage() {
     return elapsedTimePercentage;
   }
@@ -36,6 +46,10 @@ public class HistoricDeckbotData {
     this.elapsedTimePercentage = elapsedTimePercentage;
   }
 
+  @Schema(
+      nullable = true
+  )
+  @Nullable
   public Double getIncreasedPercentage() {
     return increasedPercentage;
   }

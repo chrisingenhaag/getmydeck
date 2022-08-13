@@ -2,6 +2,7 @@ package de.ingenhaag.getmydeck.models.dto;
 
 import de.ingenhaag.getmydeck.models.deckbot.Region;
 import de.ingenhaag.getmydeck.models.deckbot.Version;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -13,6 +14,7 @@ public class PersonalInfo {
   private OffsetDateTime reservedAt;
   private Region region;
   private Version version;
+
   private Duration durationReservedAfterStart;
   private String durationReservedAfterStartHumanReadable;
   private Double elapsedTimePercentage;
@@ -55,6 +57,11 @@ public class PersonalInfo {
     this.durationReservedAfterStart = durationReservedAfterStart;
   }
 
+  @Schema(
+      type = "string",
+      description = "String representation of Duration, not yet openapi standard",
+      example = "PT157H40M37S"
+  )
   public Duration getDurationReservedAfterStart() {
     return durationReservedAfterStart;
   }

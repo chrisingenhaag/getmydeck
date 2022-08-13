@@ -27,7 +27,6 @@ public class DeckService {
     officialInfo.setReservationsStartedAt(config.getReservationStart());
     officialInfo.setLastDataUpdate(latestOrderSpecificVersion.getLastModified().atOffset(ZoneOffset.UTC));
     officialInfo.setLastDataUpdateDate(latestOrderSpecificVersion.getDayOfBatch());
-    officialInfo.setLastShipments(computeLastShipments());
 
     PersonalInfo personalInfo = new PersonalInfo();
     personalInfo.setRegion(region);
@@ -192,21 +191,6 @@ public class DeckService {
 
     result.sort(Comparator.comparing(HistoricDeckbotData::getDate).reversed());
     return new ArrayList<>(result);
-  }
-
-  private SortedMap<Region, SortedMap<Version, OffsetDateTime>> computeLastShipments() {
-
-    final SortedMap<Region, SortedMap<Version, OffsetDateTime>> lastShipments = new TreeMap<>();
-
-    Arrays.stream(Region.values()).forEach(region -> {
-      SortedMap<Version, OffsetDateTime> versionMap = new TreeMap<>();
-      Arrays.stream(Version.values()).forEach(version -> {
-        versionMap.put(version, getOffsetDateTime(steamDeckMongoService.getLatestData(region, version)));
-      });
-      lastShipments.put(region, versionMap);
-    });
-
-    return lastShipments;
   }
 
   private Duration getDurationBetweenStartAndPersonalReservation(OffsetDateTime reservedAt) {

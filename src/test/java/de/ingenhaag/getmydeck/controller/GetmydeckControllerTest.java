@@ -71,7 +71,7 @@ class GetmydeckControllerTest extends AbstractMongoContainerIntegrationTest impl
 
     assertWithFileWithSuffix(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(infoResponse), region+version.getVersion(), FileExtensions.JSON);
 
-    assertEquals(14, Mockito.mockingDetails(database).getInvocations().size());
+    assertEquals(5, Mockito.mockingDetails(database).getInvocations().size());
   }
 
   private static Stream<Arguments> getAllIterations() {

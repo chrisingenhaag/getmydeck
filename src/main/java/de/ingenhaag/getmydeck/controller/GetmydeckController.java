@@ -7,6 +7,10 @@ import de.ingenhaag.getmydeck.models.dto.HistoricSummary;
 import de.ingenhaag.getmydeck.models.dto.InfoResponse;
 import de.ingenhaag.getmydeck.services.DeckService;
 import io.micrometer.core.annotation.Timed;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.servers.Server;
+import io.swagger.v3.oas.annotations.servers.Servers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -17,6 +21,15 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.time.OffsetDateTime;
 
+@OpenAPIDefinition(
+    info = @Info(title = "GetMyDeck", version = "v2"),
+    servers = {
+        @Server(
+            url = "https://getmydeck.ingenhaag.dev",
+            description = "production"
+        )
+    }
+)
 @RestController
 @Timed(histogram = true)
 @Validated
@@ -26,7 +39,7 @@ public class GetmydeckController {
   DeckService deckService;
 
   @GetMapping("/api/v2/regions/{region}/versions/{version}/infos/{reserved}")
-  public ResponseEntity<InfoResponse> getMydeckSetupInfoV2(
+  public ResponseEntity<InfoResponse> getPersonalInfoResponse(
       @PathVariable("reserved") @Valid @PlausibleDeckPreorderTime OffsetDateTime reserved,
       @PathVariable("region") Region region,
       @PathVariable("version") Version version

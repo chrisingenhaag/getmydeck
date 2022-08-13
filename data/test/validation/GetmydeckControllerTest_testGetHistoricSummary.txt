@@ -445,9 +445,6 @@
           "2022-06-06" : {
             "lastOrderSeconds" : 1626472746
           },
-          "2022-06-09" : {
-            "lastOrderSeconds" : 1626474232
-          },
           "2022-06-13" : {
             "lastOrderSeconds" : 1626475333
           }

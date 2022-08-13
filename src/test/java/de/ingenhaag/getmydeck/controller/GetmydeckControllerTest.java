@@ -25,6 +25,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.stream.Stream;
@@ -49,7 +50,8 @@ class GetmydeckControllerTest extends AbstractMongoContainerIntegrationTest impl
   @BeforeEach
   void each() {
     resetDataBase();
-    //Mockito.reset(service);
+    LocalDate dayToRemove = LocalDate.of(2022, 6, 9);
+    database.deleteDataSet(dayToRemove, Region.US, Version.S64);
   }
 
   @ParameterizedTest
@@ -69,7 +71,7 @@ class GetmydeckControllerTest extends AbstractMongoContainerIntegrationTest impl
 
     assertWithFileWithSuffix(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(infoResponse), region+version.getVersion(), FileExtensions.JSON);
 
-    assertEquals(12, Mockito.mockingDetails(database).getInvocations().size());
+    assertEquals(14, Mockito.mockingDetails(database).getInvocations().size());
   }
 
   private static Stream<Arguments> getAllIterations() {
@@ -133,7 +135,7 @@ class GetmydeckControllerTest extends AbstractMongoContainerIntegrationTest impl
 
     assertWithFile(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(summary));
 
-    assertEquals(10, Mockito.mockingDetails(database).getInvocations().size());
+    assertEquals(11, Mockito.mockingDetails(database).getInvocations().size());
   }
 
 }

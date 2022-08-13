@@ -162,10 +162,15 @@ public class DeckService {
 
     final List<SteamDeckQueueDayEntry> allDataFromQueue = steamDeckMongoService.getAllDataFromQueue(region, version);
 
+    final List<LocalDate> allDayOfBatches = steamDeckMongoService.getAllDayOfBatches();
+
     double lastPercentage = 0.;
     for(SteamDeckQueueDayEntry entry : allDataFromQueue) {
       HistoricDeckbotData historicDeckbotData = new HistoricDeckbotData();
       historicDeckbotData.setDate(entry.getDayOfBatch());
+
+      allDayOfBatches.remove(entry.getDayOfBatch());
+
       final Double elapsedTimePercentage = calculateElapsedTimePercentage(reservedAt, getOffsetDateTime(entry));
       historicDeckbotData.setElapsedTimePercentage(elapsedTimePercentage);
 
@@ -178,6 +183,13 @@ public class DeckService {
 
       result.add(historicDeckbotData);
     }
+
+    allDayOfBatches.forEach(localDate -> {
+      HistoricDeckbotData emptyHistoricData = new HistoricDeckbotData();
+      emptyHistoricData.setDate(localDate);
+      result.add(emptyHistoricData);
+    });
+
     result.sort(Comparator.comparing(HistoricDeckbotData::getDate).reversed());
     return new ArrayList<>(result);
   }

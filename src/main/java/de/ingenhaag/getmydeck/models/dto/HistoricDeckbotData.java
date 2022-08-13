@@ -1,7 +1,10 @@
 package de.ingenhaag.getmydeck.models.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.time.LocalDate;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class HistoricDeckbotData {
   private LocalDate date;
   private Long elapsedSeconds;

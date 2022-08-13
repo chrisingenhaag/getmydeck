@@ -17,6 +17,8 @@ public interface SteamDeckQueueRepository extends MongoRepository<SteamDeckQueue
 
   SteamDeckQueueDayEntry findFirstByRegionAndVersionOrderByDayOfBatchDesc(Region region, Version version);
 
+  List<DayOfBatchOnly> findDistinctBy();
 
+  void deleteByRegionAndVersionAndDayOfBatch(Region region, Version version, LocalDate dayOfBatch);
 
 }

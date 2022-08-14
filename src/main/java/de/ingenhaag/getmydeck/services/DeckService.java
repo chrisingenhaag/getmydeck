@@ -25,8 +25,6 @@ public class DeckService {
 
     OfficialInfo officialInfo = new OfficialInfo();
     officialInfo.setReservationsStartedAt(config.getReservationStart());
-    officialInfo.setLastDataUpdate(latestOrderSpecificVersion.getLastModified().atOffset(ZoneOffset.UTC));
-    officialInfo.setLastDataUpdateDate(latestOrderSpecificVersion.getDayOfBatch());
 
     PersonalInfo personalInfo = new PersonalInfo();
     personalInfo.setRegion(region);

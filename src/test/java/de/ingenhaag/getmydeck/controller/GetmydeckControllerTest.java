@@ -66,7 +66,6 @@ class GetmydeckControllerTest extends AbstractMongoContainerIntegrationTest impl
         .andExpect(status().isOk())
         .andReturn();
     final InfoResponse infoResponse = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), InfoResponse.class);
-    infoResponse.getOfficialInfo().setLastDataUpdate(OffsetDateTime.ofInstant(Instant.ofEpochSecond(1655141686), ZoneOffset.UTC));
     infoResponse.getPersonalInfo().setLastDataUpdate(OffsetDateTime.ofInstant(Instant.ofEpochSecond(1655141686), ZoneOffset.UTC));
 
     assertWithFileWithSuffix(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(infoResponse), region+version.getVersion(), FileExtensions.JSON);

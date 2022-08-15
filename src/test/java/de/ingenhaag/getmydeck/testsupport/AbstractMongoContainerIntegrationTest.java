@@ -32,7 +32,7 @@ public class AbstractMongoContainerIntegrationTest {
   }
 
   @Autowired
-  SteamDeckMongoService mongoService;
+  SteamDeckMongoService migrateDataToMongo;
 
   @Autowired
   SteamDeckQueueRepository repo;
@@ -40,7 +40,7 @@ public class AbstractMongoContainerIntegrationTest {
   public void resetDataBase() {
     try {
       repo.deleteAll();
-      mongoService.migrateDataToMongo();
+      migrateDataToMongo.migrateDataToMongo();
     } catch(Exception e) {
       e.printStackTrace();
     }

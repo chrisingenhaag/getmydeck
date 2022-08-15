@@ -28,10 +28,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 
-	implementation 'org.springframework.boot:spring-boot-starter-cache'
-	implementation 'javax.cache:cache-api'
-	implementation 'org.ehcache:ehcache'
-
 	implementation 'org.springdoc:springdoc-openapi-webmvc-core:1.6.9'
 
 	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'

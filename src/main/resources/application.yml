@@ -21,9 +21,6 @@ springdoc:
     path: /api/openapi-docs
 
 spring:
-  cache:
-    jcache:
-      config: classpath:ehcache.xml
   data:
     mongodb:
       uri: ${DECKBOT_MONGODB_URI:mongodb://getmydeck:password123@localhost:27017/getmydeck}

@@ -8,6 +8,9 @@ import de.ingenhaag.getmydeck.models.persistence.mongo.SteamDeckQueueRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import java.time.*;
@@ -32,6 +35,9 @@ public class SteamDeckMongoService {
   @Autowired
   SteamDeckQueueRepository repo;
 
+  @Autowired
+  CacheManager cacheManager;
+
   public SteamDeckQueueDayEntry getLatestData(Region region, Version version) {
     return repo.findFirstByRegionAndVersionOrderByDayOfBatchDesc(region, version);
   }
@@ -40,6 +46,7 @@ public class SteamDeckMongoService {
     return repo.findByRegionAndVersionOrderByDayOfBatchAsc(region, version);
   };
 
+  @Cacheable(value = "allBatchDays")
   public List<LocalDate> getAllDayOfBatches() {
     final List<DayOfBatchOnly> list = repo.findDistinctBy();
 
@@ -64,6 +71,7 @@ public class SteamDeckMongoService {
 
             final SteamDeckQueueDayEntry lastKnownBatch = repo.findFirstByRegionAndVersionOrderByDayOfBatchDesc(region, version);
             if(!lastKnownBatch.getLatestOrder().equals(offsetDateTime.toEpochSecond())) {
+              triggerAllBatchDayInvalidation();
               repo.save(newDay);
             }
           } else {
@@ -78,6 +86,7 @@ public class SteamDeckMongoService {
               newPastDay.setVersion(version);
               newPastDay.setLatestOrder(offsetDateTime.toEpochSecond());
               log.info("Saving new past day {}", newPastDay);
+              triggerAllBatchDayInvalidation();
               repo.save(newPastDay);
             }
           }
@@ -108,6 +117,7 @@ public class SteamDeckMongoService {
 
   public void deleteDataSet(LocalDate day, Region region, Version version) {
     repo.deleteByRegionAndVersionAndDayOfBatch(region,version,day);
+    triggerAllBatchDayInvalidation();
   }
 
   public void migrateDataToMongo() {
@@ -125,5 +135,14 @@ public class SteamDeckMongoService {
         });
       });
     });
+    triggerAllBatchDayInvalidation();
+  }
+
+  private void triggerAllBatchDayInvalidation() {
+    final Cache allBatchDays = cacheManager.getCache("allBatchDays");
+    if(allBatchDays != null) {
+      allBatchDays.invalidate();
+    }
+    log.info("Trigger cache invalidation for allBatchDays");
   }
 }

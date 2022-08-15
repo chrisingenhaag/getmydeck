@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.*;
+import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.stream.Collectors;
@@ -66,25 +67,42 @@ public class SteamDeckMongoService {
               repo.save(newDay);
             }
           } else {
-            // TODO maybe add check for not jumping over a missing day, this here assumes last monday exists
-            final SteamDeckQueueDayEntry dayOfBatch = repo.findFirstByRegionAndVersionOrderByDayOfBatchDesc(region, version);
-            updateIfNewer(offsetDateTime, dayOfBatch);
+            LocalDate lastMondayOrThursday = calcLastMondayOrThursday();
+            if (repo.existsByRegionAndVersionAndDayOfBatch(region, version, lastMondayOrThursday)) {
+              final SteamDeckQueueDayEntry dayOfBatch = repo.findFirstByRegionAndVersionOrderByDayOfBatchDesc(region, version);
+              updateIfOffsetDiffers(offsetDateTime, dayOfBatch);
+            } else {
+              SteamDeckQueueDayEntry newPastDay = new SteamDeckQueueDayEntry();
+              newPastDay.setDayOfBatch(now);
+              newPastDay.setRegion(region);
+              newPastDay.setVersion(version);
+              newPastDay.setLatestOrder(offsetDateTime.toEpochSecond());
+              log.info("Saving new past day {}", newPastDay);
+              repo.save(newPastDay);
+            }
           }
         } else {
           final SteamDeckQueueDayEntry entry = repo.findByRegionAndVersionAndDayOfBatch(region, version, now);
-          updateIfNewer(offsetDateTime, entry);
+          updateIfOffsetDiffers(offsetDateTime, entry);
         }
       });
     });
   }
 
-  private void updateIfNewer(OffsetDateTime offsetDateTime, SteamDeckQueueDayEntry entry) {
+  private LocalDate calcLastMondayOrThursday() {
+    final LocalDate lastMonday = LocalDate.now(clock).with(TemporalAdjusters.previous(DayOfWeek.MONDAY));
+    final LocalDate lastThursday = LocalDate.now(clock).with(TemporalAdjusters.previous(DayOfWeek.THURSDAY));
+
+    return lastThursday.isAfter(lastMonday) ? lastThursday : lastMonday;
+  }
+
+  private void updateIfOffsetDiffers(OffsetDateTime offsetDateTime, SteamDeckQueueDayEntry entry) {
     if(!entry.getLatestOrder().equals(offsetDateTime.toEpochSecond())) {
       entry.setLatestOrder(offsetDateTime.toEpochSecond());
       final SteamDeckQueueDayEntry savedEntity = repo.save(entry);
-      log.info("object newer, update it in database {}", savedEntity);
+      log.info("offset differs, update it in database {}", savedEntity);
     } else {
-      log.debug("object not newer, ignoring");
+      log.debug("object not differing, ignoring");
     }
   }
 

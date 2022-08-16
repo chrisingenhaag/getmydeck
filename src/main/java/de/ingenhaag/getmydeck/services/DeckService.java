@@ -39,10 +39,12 @@ public class DeckService {
     personalInfo.setDurationReservedAfterStartHumanReadable(humanReadableDuration(getDurationBetweenStartAndPersonalReservation(reservedAt)));
     final Double elapsedTimePercentage = calculateElapsedTimePercentage(reservedAt, getOffsetDateTime(latestOrderSpecificVersion));
     personalInfo.setElapsedTimePercentage(elapsedTimePercentage);
-    personalInfo.setPrettyText(calcPrettyText(personalInfo, region, version, getOffsetDateTime(latestOrderSpecificVersion), reservedAt));
-    personalInfo.setHtmlText(calcHtmlText(personalInfo, region, version, getOffsetDateTime(latestOrderSpecificVersion), reservedAt));
+
     final List<HistoricDeckbotData> historicData = getHistoricData(reservedAt, region, version);
     personalInfo.setHistoricData(historicData);
+
+    personalInfo.setPrettyText(calcPrettyText(personalInfo, region, version, getOffsetDateTime(latestOrderSpecificVersion), reservedAt));
+    personalInfo.setHtmlText(calcHtmlText(personalInfo, region, version, getOffsetDateTime(latestOrderSpecificVersion), reservedAt));
 
     InfoResponse info = new InfoResponse();
     info.setOfficialInfo(officialInfo);
@@ -96,61 +98,92 @@ public class DeckService {
   }
 
   private String calcHtmlText(PersonalInfo personalInfo, Region region, Version version, OffsetDateTime latestOrderSpecificVersion, OffsetDateTime reservedAt) {
+    final Optional<HistoricDeckbotData> latestHistoricEntry = personalInfo.getHistoricData()
+        .stream()
+        .filter(historicDeckbotData -> historicDeckbotData.getDate().equals(personalInfo.getLastBatchDate()))
+        .findFirst();
+
+    Duration latestIncrease = null;
+    if (latestHistoricEntry.isPresent() && latestHistoricEntry.get().getElapsedSeconds() != null) {
+      latestIncrease = Duration.ofSeconds(latestHistoricEntry.get().getElapsedSeconds());
+    }
+
     if(personalInfo.getElapsedTimePercentage() < 100.) {
       return String.format("""
               <ul>
-                <li>It looks like you have a %s %sGB reservation</li>
-                <li>You reserved your deck %s after pre-orders opened</li>
+                <li>You placed a %s %sGB reservation on %s (UTC)</li>
+                <li>That is %s after pre-orders opened</li>
                 <li>%s worth of pre-orders have been processed</li>
+                <li>Thats %s worth of pre-orders more than last batch</li>
                 <li>You have %s worth of pre-orders to go until it is your turn (not real time)</li>
                 <li>You're %s %% of the way there!</li>
               </ul>""",
           region,
           version.getVersion(),
+          personalInfo.getReservedAt(),
           personalInfo.getDurationReservedAfterStartHumanReadable(),
           calculateDurationBetweenPreorderStartAndLastShipment(latestOrderSpecificVersion),
+          latestIncrease != null ? humanReadableDuration(latestIncrease) : '-',
           calculateDurationBetweenLastShipmentAndMyReservation(reservedAt, latestOrderSpecificVersion),
           personalInfo.getElapsedTimePercentage());
     }
     return String.format("""
               <ul>
-                <li>It looks like you have a %s %sGB reservation</li>
-                <li>You reserved your deck %s after pre-orders opened</li>
+                <li>You placed a %s %sGB reservation on %s (UTC)</li>
+                <li>That is %s after pre-orders opened</li>
                 <li>%s worth of pre-orders have been processed</li>
+                <li>Thats %s worth of pre-orders more than last batch</li>
                 <li>You're %s %% of the way there</li>
                 <li>Apparently someone was already able to order with a later reservation time than yours</li>
                 <li>You should have received your mail from valve!</li>
               </ul>""",
         region,
         version.getVersion(),
+        personalInfo.getReservedAt(),
         personalInfo.getDurationReservedAfterStartHumanReadable(),
         calculateDurationBetweenPreorderStartAndLastShipment(latestOrderSpecificVersion),
+        latestIncrease != null ? humanReadableDuration(latestIncrease) : '-',
         personalInfo.getElapsedTimePercentage());
   }
 
   private String calcPrettyText(PersonalInfo personalInfo, Region region, Version version, OffsetDateTime latestOrderSpecificVersion, OffsetDateTime reservedAt) {
+    final Optional<HistoricDeckbotData> latestHistoricEntry = personalInfo.getHistoricData()
+        .stream()
+        .filter(historicDeckbotData -> historicDeckbotData.getDate().equals(personalInfo.getLastBatchDate()))
+        .findFirst();
+
+    Duration latestIncrease = null;
+    if (latestHistoricEntry.isPresent() && latestHistoricEntry.get().getElapsedSeconds() != null) {
+      latestIncrease = Duration.ofSeconds(latestHistoricEntry.get().getElapsedSeconds());
+    }
+
     if(personalInfo.getElapsedTimePercentage() < 100.) {
       return String.format("""
-              It looks like you have a %s %sGB reservation. 
-              You reserved your deck %s after pre-orders opened. 
-              %s worth of pre-orders have been processed (not real time), and you have %s of pre-orders to go until it is your turn. 
+              You placed a %s %sGB reservation on %s (UTC). That is %s after pre-orders opened. 
+              %s worth of pre-orders have been processed (not real time). 
+              Thats %s worth of pre-orders more than last batch and you have %s of pre-orders to go until it is your turn. 
               You're %s %% of the way there!""",
           region,
           version.getVersion(),
+          personalInfo.getReservedAt(),
           personalInfo.getDurationReservedAfterStartHumanReadable(),
           calculateDurationBetweenPreorderStartAndLastShipment(latestOrderSpecificVersion),
           calculateDurationBetweenLastShipmentAndMyReservation(reservedAt, latestOrderSpecificVersion),
+          latestIncrease != null ? humanReadableDuration(latestIncrease) : '-',
           personalInfo.getElapsedTimePercentage());
     }
     return String.format("""
-              It looks like you have a %s %sGB reservation. 
-              You reserved your deck %s after pre-orders opened. 
-              %s worth of pre-orders have been processed (not real time). This is %s %% so you should have received your order information from valve. 
+              You placed a %s %sGB reservation on %s (UTC). You reserved your deck %s after pre-orders opened. 
+              %s worth of pre-orders have been processed (not real time). 
+              Thats %s worth of pre-orders more than last batch.  
+              This is %s %% so you should have received your order information from valve. 
               Check your mail and spam folder!""",
         region,
         version.getVersion(),
+        personalInfo.getReservedAt(),
         personalInfo.getDurationReservedAfterStartHumanReadable(),
         calculateDurationBetweenPreorderStartAndLastShipment(latestOrderSpecificVersion),
+        latestIncrease != null ? humanReadableDuration(latestIncrease) : '-',
         personalInfo.getElapsedTimePercentage());
   }
 

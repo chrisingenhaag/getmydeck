@@ -9,8 +9,8 @@
     "durationReservedAfterStart" : "PT157H40M37S",
     "durationReservedAfterStartHumanReadable" : "06 days, 13 hours, 40 minutes and 37 seconds",
     "elapsedTimePercentage" : 3.61,
-    "prettyText" : "You placed a US 64GB reservation on 2021-07-23T06:40:37Z (UTC). That is 06 days, 13 hours, 40 minutes and 37 seconds after pre-orders opened.\n00 days, 05 hours, 42 minutes and 13 seconds worth of pre-orders have been processed (not real time).\nThats 06 days, 07 hours, 58 minutes and 24 seconds worth of pre-orders more than last batch and you have 00 days, 05 hours, 42 minutes and 13 seconds of pre-orders to go until it is your turn.\nYou're 3.61 % of the way there!",
-    "htmlText" : "<ul>\n  <li>You placed a US 64GB reservation on 2021-07-23T06:40:37Z (UTC)</li>\n  <li>That is 06 days, 13 hours, 40 minutes and 37 seconds after pre-orders opened</li>\n  <li>00 days, 05 hours, 42 minutes and 13 seconds worth of pre-orders have been processed</li>\n  <li>Thats 00 days, 05 hours, 42 minutes and 13 seconds worth of pre-orders more than last batch</li>\n  <li>You have 06 days, 07 hours, 58 minutes and 24 seconds worth of pre-orders to go until it is your turn (not real time)</li>\n  <li>You're 3.61 % of the way there!</li>\n</ul>",
+    "prettyText" : "You placed a US 64GB reservation on 2021-07-23T06:40:37Z (UTC). That is 06 days, 13 hours, 40 minutes and 37 seconds after pre-orders opened.\n00 days, 05 hours, 42 minutes and 13 seconds worth of pre-orders have been processed (not real time).\nThats 06 days, 07 hours, 58 minutes and 24 seconds worth of pre-orders more than last batch and you have 00 days, 00 hours, 43 minutes and 07 seconds of pre-orders to go until it is your turn.\nYou're 3.61 % of the way there!",
+    "htmlText" : "<ul>\n  <li>You placed a US 64GB reservation on 2021-07-23T06:40:37Z (UTC)</li>\n  <li>That is 06 days, 13 hours, 40 minutes and 37 seconds after pre-orders opened</li>\n  <li>00 days, 05 hours, 42 minutes and 13 seconds worth of pre-orders have been processed</li>\n  <li>Thats 00 days, 00 hours, 43 minutes and 07 seconds worth of pre-orders more than last batch</li>\n  <li>You have 06 days, 07 hours, 58 minutes and 24 seconds worth of pre-orders to go until it is your turn (not real time)</li>\n  <li>You're 3.61 % of the way there!</li>\n</ul>",
     "latestOrderSeconds" : 1626475333,
     "latestOrder" : "2021-07-16T22:42:13Z",
     "lastDataUpdate" : "2022-06-13T17:34:46Z",
@@ -19,99 +19,118 @@
       "date" : "2022-06-13",
       "elapsedSeconds" : 20533,
       "elapsedTimePercentage" : 3.61,
-      "increasedPercentage" : 0.44
+      "increasedPercentage" : 0.44,
+      "increasedSeconds" : 2587
     }, {
       "date" : "2022-06-09"
     }, {
       "date" : "2022-06-06",
       "elapsedSeconds" : 17946,
       "elapsedTimePercentage" : 3.16,
-      "increasedPercentage" : 0.22
+      "increasedPercentage" : 0.22,
+      "increasedSeconds" : 1234
     }, {
       "date" : "2022-06-02",
       "elapsedSeconds" : 16712,
       "elapsedTimePercentage" : 2.94,
-      "increasedPercentage" : 0.18
+      "increasedPercentage" : 0.18,
+      "increasedSeconds" : 1038
     }, {
       "date" : "2022-05-30",
       "elapsedSeconds" : 15674,
       "elapsedTimePercentage" : 2.76,
-      "increasedPercentage" : 0.23
+      "increasedPercentage" : 0.23,
+      "increasedSeconds" : 1277
     }, {
       "date" : "2022-05-26",
       "elapsedSeconds" : 14397,
       "elapsedTimePercentage" : 2.53,
-      "increasedPercentage" : 0.15
+      "increasedPercentage" : 0.15,
+      "increasedSeconds" : 921
     }, {
       "date" : "2022-05-23",
       "elapsedSeconds" : 13476,
       "elapsedTimePercentage" : 2.37,
-      "increasedPercentage" : 0.2
+      "increasedPercentage" : 0.2,
+      "increasedSeconds" : 1134
     }, {
       "date" : "2022-05-19",
       "elapsedSeconds" : 12342,
       "elapsedTimePercentage" : 2.17,
-      "increasedPercentage" : 0.16
+      "increasedPercentage" : 0.16,
+      "increasedSeconds" : 878
     }, {
       "date" : "2022-05-16",
       "elapsedSeconds" : 11464,
       "elapsedTimePercentage" : 2.01,
-      "increasedPercentage" : 0.15
+      "increasedPercentage" : 0.15,
+      "increasedSeconds" : 930
     }, {
       "date" : "2022-05-12",
       "elapsedSeconds" : 10534,
       "elapsedTimePercentage" : 1.85,
-      "increasedPercentage" : 0.12
+      "increasedPercentage" : 0.12,
+      "increasedSeconds" : 695
     }, {
       "date" : "2022-05-09",
       "elapsedSeconds" : 9839,
       "elapsedTimePercentage" : 1.73,
-      "increasedPercentage" : 0.1
+      "increasedPercentage" : 0.1,
+      "increasedSeconds" : 624
     }, {
       "date" : "2022-05-05",
       "elapsedSeconds" : 9215,
       "elapsedTimePercentage" : 1.62,
-      "increasedPercentage" : 0.15
+      "increasedPercentage" : 0.15,
+      "increasedSeconds" : 838
     }, {
       "date" : "2022-05-02",
       "elapsedSeconds" : 8377,
       "elapsedTimePercentage" : 1.47,
-      "increasedPercentage" : 0.2
+      "increasedPercentage" : 0.2,
+      "increasedSeconds" : 1213
     }, {
       "date" : "2022-04-28",
       "elapsedSeconds" : 7164,
       "elapsedTimePercentage" : 1.26,
-      "increasedPercentage" : 0.25
+      "increasedPercentage" : 0.25,
+      "increasedSeconds" : 1428
     }, {
       "date" : "2022-04-25",
       "elapsedSeconds" : 5736,
       "elapsedTimePercentage" : 1.01,
-      "increasedPercentage" : 0.12
+      "increasedPercentage" : 0.12,
+      "increasedSeconds" : 649
     }, {
       "date" : "2022-04-21",
       "elapsedSeconds" : 5087,
       "elapsedTimePercentage" : 0.89,
-      "increasedPercentage" : 0.13
+      "increasedPercentage" : 0.13,
+      "increasedSeconds" : 753
     }, {
       "date" : "2022-04-18",
       "elapsedSeconds" : 4334,
       "elapsedTimePercentage" : 0.76,
-      "increasedPercentage" : 0.13
+      "increasedPercentage" : 0.13,
+      "increasedSeconds" : 714
     }, {
       "date" : "2022-04-14",
       "elapsedSeconds" : 3620,
       "elapsedTimePercentage" : 0.63,
-      "increasedPercentage" : 0.13
+      "increasedPercentage" : 0.13,
+      "increasedSeconds" : 746
     }, {
       "date" : "2022-04-11",
       "elapsedSeconds" : 2874,
       "elapsedTimePercentage" : 0.5,
-      "increasedPercentage" : 0.1
+      "increasedPercentage" : 0.1,
+      "increasedSeconds" : 622
     }, {
       "date" : "2022-04-07",
       "elapsedSeconds" : 2252,
       "elapsedTimePercentage" : 0.39,
-      "increasedPercentage" : 0.39
+      "increasedPercentage" : 0.39,
+      "increasedSeconds" : 2252
     } ]
   }
 }

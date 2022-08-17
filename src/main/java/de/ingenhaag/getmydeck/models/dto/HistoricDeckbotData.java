@@ -14,6 +14,8 @@ public class HistoricDeckbotData {
 
   private Double increasedPercentage;
 
+  private Long increasedSeconds;
+
   public LocalDate getDate() {
     return date;
   }
@@ -58,6 +60,14 @@ public class HistoricDeckbotData {
     this.increasedPercentage = increasedPercentage;
   }
 
+  public Long getIncreasedSeconds() {
+    return increasedSeconds;
+  }
+
+  public void setIncreasedSeconds(Long increasedSeconds) {
+    this.increasedSeconds = increasedSeconds;
+  }
+
   @Override
   public String toString() {
     return "HistoricDeckbotData{" +
@@ -65,6 +75,7 @@ public class HistoricDeckbotData {
         ", elapsedSeconds=" + elapsedSeconds +
         ", elapsedTimePercentage=" + elapsedTimePercentage +
         ", increasedPercentage=" + increasedPercentage +
+        ", increasedSeconds=" + increasedSeconds +
         '}';
   }
 }

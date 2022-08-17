@@ -104,8 +104,8 @@ public class DeckService {
         .findFirst();
 
     Duration latestIncrease = null;
-    if (latestHistoricEntry.isPresent() && latestHistoricEntry.get().getElapsedSeconds() != null) {
-      latestIncrease = Duration.ofSeconds(latestHistoricEntry.get().getElapsedSeconds());
+    if (latestHistoricEntry.isPresent() && latestHistoricEntry.get().getIncreasedSeconds() != null) {
+      latestIncrease = Duration.ofSeconds(latestHistoricEntry.get().getIncreasedSeconds());
     }
 
     if(personalInfo.getElapsedTimePercentage() < 100.) {
@@ -153,8 +153,8 @@ public class DeckService {
         .findFirst();
 
     Duration latestIncrease = null;
-    if (latestHistoricEntry.isPresent() && latestHistoricEntry.get().getElapsedSeconds() != null) {
-      latestIncrease = Duration.ofSeconds(latestHistoricEntry.get().getElapsedSeconds());
+    if (latestHistoricEntry.isPresent() && latestHistoricEntry.get().getIncreasedSeconds() != null) {
+      latestIncrease = Duration.ofSeconds(latestHistoricEntry.get().getIncreasedSeconds());
     }
 
     if(personalInfo.getElapsedTimePercentage() < 100.) {
@@ -195,6 +195,7 @@ public class DeckService {
     final List<LocalDate> allDayOfBatches = steamDeckMongoService.getAllDayOfBatches();
 
     double lastPercentage = 0.;
+    long lastSeconds = 0l;
     for(SteamDeckQueueDayEntry entry : allDataFromQueue) {
       HistoricDeckbotData historicDeckbotData = new HistoricDeckbotData();
       historicDeckbotData.setDate(entry.getDayOfBatch());
@@ -207,8 +208,10 @@ public class DeckService {
       final Long elapsedSeconds =  calculateElapsedTimeSeconds(getOffsetDateTime(entry));
       historicDeckbotData.setElapsedSeconds(elapsedSeconds);
 
-      historicDeckbotData.setIncreasedPercentage((double) ((int) ((elapsedTimePercentage - lastPercentage) * 100)) / (100));
+      historicDeckbotData.setIncreasedSeconds(elapsedSeconds - lastSeconds);
+      lastSeconds = elapsedSeconds;
 
+      historicDeckbotData.setIncreasedPercentage((double) ((int) ((elapsedTimePercentage - lastPercentage) * 100)) / (100));
       lastPercentage = elapsedTimePercentage;
 
       result.add(historicDeckbotData);

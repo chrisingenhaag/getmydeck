@@ -155,6 +155,10 @@
             "type" : "number",
             "format" : "double",
             "nullable" : true
+          },
+          "increasedSeconds" : {
+            "type" : "integer",
+            "format" : "int64"
           }
         }
       },

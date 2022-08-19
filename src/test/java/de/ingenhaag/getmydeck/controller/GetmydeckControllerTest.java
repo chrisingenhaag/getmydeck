@@ -121,6 +121,17 @@ class GetmydeckControllerTest extends AbstractMongoContainerIntegrationTest impl
   }
 
   @Test
+  void testGetApiV2TooFarFutureReservation() throws Exception {
+    OffsetDateTime future = OffsetDateTime.now(ZoneOffset.UTC).plusDays(2);
+
+    mvc.perform( MockMvcRequestBuilders
+            .get("/api/v2/regions/EU/versions/512/infos/"+future.toEpochSecond())
+            .accept(MediaType.APPLICATION_JSON))
+        .andDo(print())
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
   void testGetHistoricSummary() throws Exception {
 
     final MvcResult mvcResult = mvc.perform( MockMvcRequestBuilders

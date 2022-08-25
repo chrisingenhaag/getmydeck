@@ -8,10 +8,17 @@ import de.ingenhaag.getmydeck.models.dto.InfoResponse;
 import de.ingenhaag.getmydeck.services.DeckService;
 import io.micrometer.core.annotation.Timed;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.annotations.servers.Servers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,15 +45,43 @@ public class GetmydeckController {
   @Autowired
   DeckService deckService;
 
-  @GetMapping("/api/v2/regions/{region}/versions/{version}/infos/{reserved}")
+  @Operation(
+      parameters = {
+          @Parameter(
+              name = "reservationTimestamp",
+              example = "1627022437",
+              description = "Time in seconds from 1.1.1970",
+              schema = @Schema(
+                  format = "[0-9]{10}",
+                  minLength = 10,
+                  maxLength = 10,
+                  minimum = "1626454800",
+                  exclusiveMinimum = true
+              )
+          )
+      },
+      responses = {
+          @ApiResponse(
+              responseCode = "400",
+              description = "Bad request if reservationTimestamp is before official reservation start or in the future"
+          )
+      }
+  )
+  @GetMapping(
+      path = "/api/v2/regions/{region}/versions/{version}/infos/{reservationTimestamp}",
+      produces = MediaType.APPLICATION_JSON_VALUE
+  )
   public ResponseEntity<InfoResponse> getPersonalInfoResponse(
-      @PathVariable("reserved") @Valid @PlausibleDeckPreorderTime OffsetDateTime reserved,
+      @PathVariable("reservationTimestamp") @Valid @PlausibleDeckPreorderTime OffsetDateTime reservationTimestamp,
       @PathVariable("region") Region region,
       @PathVariable("version") Version version
   ) {
-    return ResponseEntity.ok(deckService.getPersonalInfos(reserved, region, version));
+    return ResponseEntity.ok(deckService.getPersonalInfos(reservationTimestamp, region, version));
   }
 
+  @Operation(
+      hidden = true
+  )
   @GetMapping("/api/v2/summary")
   public ResponseEntity<HistoricSummary> getHistoricSummary() {
     return ResponseEntity.ok(deckService.getHistoricSummary());

@@ -113,7 +113,7 @@ public class DeckService {
               <ul>
                 <li>You placed a %s %sGB reservation on %s (UTC)</li>
                 <li>That is %s after pre-orders opened</li>
-                <li>%s worth of pre-orders have been processed</li>
+                <li>%s worth of pre-orders have been processed (last known order: %s)</li>
                 <li>That`s %s more than last batch</li>
                 <li>You have %s worth of pre-orders to go until it is your turn (not real time)</li>
                 <li>You're %s %% of the way there!</li>
@@ -123,6 +123,7 @@ public class DeckService {
           personalInfo.getReservedAt(),
           personalInfo.getDurationReservedAfterStartHumanReadable(),
           calculateDurationBetweenPreorderStartAndLastShipment(latestOrderSpecificVersion),
+          personalInfo.getLatestOrder(),
           latestIncrease != null ? humanReadableDuration(latestIncrease) : '-',
           calculateDurationBetweenLastShipmentAndMyReservation(reservedAt, latestOrderSpecificVersion),
           personalInfo.getElapsedTimePercentage());
@@ -131,7 +132,7 @@ public class DeckService {
               <ul>
                 <li>You placed a %s %sGB reservation on %s (UTC)</li>
                 <li>That is %s after pre-orders opened</li>
-                <li>%s worth of pre-orders have been processed</li>
+                <li>%s worth of pre-orders have been processed (last known order: %s)</li>
                 <li>That`s %s more than last batch</li>
                 <li>You're %s %% of the way there</li>
                 <li>Apparently someone was already able to order with a later reservation time than yours</li>
@@ -142,6 +143,7 @@ public class DeckService {
         personalInfo.getReservedAt(),
         personalInfo.getDurationReservedAfterStartHumanReadable(),
         calculateDurationBetweenPreorderStartAndLastShipment(latestOrderSpecificVersion),
+        personalInfo.getLatestOrder(),
         latestIncrease != null ? humanReadableDuration(latestIncrease) : '-',
         personalInfo.getElapsedTimePercentage());
   }
@@ -160,8 +162,8 @@ public class DeckService {
     if(personalInfo.getElapsedTimePercentage() < 100.) {
       return String.format("""
               You placed a %s %sGB reservation on %s (UTC). That is %s after pre-orders opened. 
-              %s worth of pre-orders have been processed (not real time). 
-              That`s %s more than last batch and you have %s of pre-orders to go until it is your turn. 
+              %s worth of pre-orders have been processed (last known order: %s). 
+              That`s %s more than last batch and you have %s of pre-orders to go until it is your turn (not real time). 
               You're %s %% of the way there!""",
           region,
           version.getVersion(),
@@ -169,12 +171,13 @@ public class DeckService {
           personalInfo.getDurationReservedAfterStartHumanReadable(),
           calculateDurationBetweenPreorderStartAndLastShipment(latestOrderSpecificVersion),
           calculateDurationBetweenLastShipmentAndMyReservation(reservedAt, latestOrderSpecificVersion),
+          personalInfo.getLatestOrder(),
           latestIncrease != null ? humanReadableDuration(latestIncrease) : '-',
           personalInfo.getElapsedTimePercentage());
     }
     return String.format("""
               You placed a %s %sGB reservation on %s (UTC). You reserved your deck %s after pre-orders opened. 
-              %s worth of pre-orders have been processed (not real time). 
+              %s worth of pre-orders have been processed (last known order: %s). 
               That`s %s more than last batch.  
               This is %s %% so you should have received your email by the end of this order day. 
               Check your mail and spam folder!""",
@@ -183,6 +186,7 @@ public class DeckService {
         personalInfo.getReservedAt(),
         personalInfo.getDurationReservedAfterStartHumanReadable(),
         calculateDurationBetweenPreorderStartAndLastShipment(latestOrderSpecificVersion),
+        personalInfo.getLatestOrder(),
         latestIncrease != null ? humanReadableDuration(latestIncrease) : '-',
         personalInfo.getElapsedTimePercentage());
   }

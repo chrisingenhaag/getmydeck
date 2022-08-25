@@ -135,7 +135,7 @@ public class DeckService {
                 <li>That`s %s more than last batch</li>
                 <li>You're %s %% of the way there</li>
                 <li>Apparently someone was already able to order with a later reservation time than yours</li>
-                <li>You should have received your mail from valve!</li>
+                <li>You should have received your email by the end of this order day!</li>
               </ul>""",
         region,
         version.getVersion(),
@@ -176,7 +176,7 @@ public class DeckService {
               You placed a %s %sGB reservation on %s (UTC). You reserved your deck %s after pre-orders opened. 
               %s worth of pre-orders have been processed (not real time). 
               That`s %s more than last batch.  
-              This is %s %% so you should have received your order information from valve. 
+              This is %s %% so you should have received your email by the end of this order day. 
               Check your mail and spam folder!""",
         region,
         version.getVersion(),

@@ -19,6 +19,7 @@ public class DeckServiceTest extends DeckStaticTest {
   public static final String RESERVED_AT = "1627022437";
   public static final String RESERVATION_POSSIBLE = "1626522437";
   public static final String RESERVED_TOO_EARLY = "1626454799";
+  public static final Object RESERVED_AT_PAST = "1626798102";
   @Autowired
   private DeckService service;
 

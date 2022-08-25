@@ -1,0 +1,140 @@
+{
+  "officialInfo" : {
+    "reservationsStartedAt" : "2021-07-16T17:00:00Z"
+  },
+  "personalInfo" : {
+    "reservedAt" : "2021-07-20T16:21:42Z",
+    "region" : "EU",
+    "version" : "256",
+    "durationReservedAfterStart" : "PT95H21M42S",
+    "durationReservedAfterStartHumanReadable" : "03 days, 23 hours, 21 minutes and 42 seconds",
+    "elapsedTimePercentage" : 91.58,
+    "prettyText" : "You placed a EU 256GB reservation on 2021-07-20T16:21:42Z (UTC). That is 03 days, 23 hours, 21 minutes and 42 seconds after pre-orders opened.\n03 days, 15 hours, 20 minutes and 22 seconds worth of pre-orders have been processed (not real time).\nThat`s 00 days, 08 hours, 01 minutes and 20 seconds more than last batch and you have 00 days, 15 hours, 42 minutes and 24 seconds of pre-orders to go until it is your turn.\nYou're 91.58 % of the way there!",
+    "htmlText" : "<ul>\n  <li>You placed a EU 256GB reservation on 2021-07-20T16:21:42Z (UTC)</li>\n  <li>That is 03 days, 23 hours, 21 minutes and 42 seconds after pre-orders opened</li>\n  <li>03 days, 15 hours, 20 minutes and 22 seconds worth of pre-orders have been processed</li>\n  <li>That`s 00 days, 15 hours, 42 minutes and 24 seconds more than last batch</li>\n  <li>You have 00 days, 08 hours, 01 minutes and 20 seconds worth of pre-orders to go until it is your turn (not real time)</li>\n  <li>You're 91.58 % of the way there!</li>\n</ul>",
+    "latestOrderSeconds" : 1626769222,
+    "latestOrder" : "2021-07-20T08:20:22Z",
+    "lastDataUpdate" : "2022-06-13T17:34:46Z",
+    "lastBatchDate" : "2022-06-13",
+    "historicData" : [ {
+      "date" : "2022-06-13",
+      "elapsedSeconds" : 314422,
+      "elapsedTimePercentage" : 91.58,
+      "increasedPercentage" : 16.47,
+      "increasedSeconds" : 56544
+    }, {
+      "date" : "2022-06-09",
+      "elapsedSeconds" : 257878,
+      "elapsedTimePercentage" : 75.11,
+      "increasedPercentage" : 7.75,
+      "increasedSeconds" : 26620
+    }, {
+      "date" : "2022-06-06",
+      "elapsedSeconds" : 231258,
+      "elapsedTimePercentage" : 67.36,
+      "increasedPercentage" : 13.61,
+      "increasedSeconds" : 46723
+    }, {
+      "date" : "2022-06-02",
+      "elapsedSeconds" : 184535,
+      "elapsedTimePercentage" : 53.75,
+      "increasedPercentage" : 5.61,
+      "increasedSeconds" : 19248
+    }, {
+      "date" : "2022-05-30",
+      "elapsedSeconds" : 165287,
+      "elapsedTimePercentage" : 48.14,
+      "increasedPercentage" : 5.42,
+      "increasedSeconds" : 18620
+    }, {
+      "date" : "2022-05-26",
+      "elapsedSeconds" : 146667,
+      "elapsedTimePercentage" : 42.72,
+      "increasedPercentage" : 12.23,
+      "increasedSeconds" : 42004
+    }, {
+      "date" : "2022-05-23",
+      "elapsedSeconds" : 104663,
+      "elapsedTimePercentage" : 30.48,
+      "increasedPercentage" : 4.21,
+      "increasedSeconds" : 14479
+    }, {
+      "date" : "2022-05-19",
+      "elapsedSeconds" : 90184,
+      "elapsedTimePercentage" : 26.26,
+      "increasedPercentage" : 3.79,
+      "increasedSeconds" : 13024
+    }, {
+      "date" : "2022-05-16",
+      "elapsedSeconds" : 77160,
+      "elapsedTimePercentage" : 22.47,
+      "increasedPercentage" : 2.93,
+      "increasedSeconds" : 10066
+    }, {
+      "date" : "2022-05-12",
+      "elapsedSeconds" : 67094,
+      "elapsedTimePercentage" : 19.54,
+      "increasedPercentage" : 2.26,
+      "increasedSeconds" : 7773
+    }, {
+      "date" : "2022-05-09",
+      "elapsedSeconds" : 59321,
+      "elapsedTimePercentage" : 17.27,
+      "increasedPercentage" : 1.96,
+      "increasedSeconds" : 6781
+    }, {
+      "date" : "2022-05-05",
+      "elapsedSeconds" : 52540,
+      "elapsedTimePercentage" : 15.3,
+      "increasedPercentage" : 6.05,
+      "increasedSeconds" : 20777
+    }, {
+      "date" : "2022-05-02",
+      "elapsedSeconds" : 31763,
+      "elapsedTimePercentage" : 9.25,
+      "increasedPercentage" : 3.54,
+      "increasedSeconds" : 12144
+    }, {
+      "date" : "2022-04-28",
+      "elapsedSeconds" : 19619,
+      "elapsedTimePercentage" : 5.71,
+      "increasedPercentage" : 1.16,
+      "increasedSeconds" : 3992
+    }, {
+      "date" : "2022-04-25",
+      "elapsedSeconds" : 15627,
+      "elapsedTimePercentage" : 4.55,
+      "increasedPercentage" : 0.77,
+      "increasedSeconds" : 2680
+    }, {
+      "date" : "2022-04-21",
+      "elapsedSeconds" : 12947,
+      "elapsedTimePercentage" : 3.77,
+      "increasedPercentage" : 0.58,
+      "increasedSeconds" : 1987
+    }, {
+      "date" : "2022-04-18",
+      "elapsedSeconds" : 10960,
+      "elapsedTimePercentage" : 3.19,
+      "increasedPercentage" : 0.37,
+      "increasedSeconds" : 1300
+    }, {
+      "date" : "2022-04-14",
+      "elapsedSeconds" : 9660,
+      "elapsedTimePercentage" : 2.81,
+      "increasedPercentage" : 0.39,
+      "increasedSeconds" : 1320
+    }, {
+      "date" : "2022-04-11",
+      "elapsedSeconds" : 8340,
+      "elapsedTimePercentage" : 2.42,
+      "increasedPercentage" : 0.75,
+      "increasedSeconds" : 2604
+    }, {
+      "date" : "2022-04-07",
+      "elapsedSeconds" : 5736,
+      "elapsedTimePercentage" : 1.67,
+      "increasedPercentage" : 1.67,
+      "increasedSeconds" : 5736
+    } ]
+  }
+}

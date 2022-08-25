@@ -9,77 +9,47 @@
     "description" : "production"
   } ],
   "paths" : {
-    "/api/v2/summary" : {
-      "get" : {
-        "tags" : [ "getmydeck-controller" ],
-        "operationId" : "getHistoricSummary",
-        "responses" : {
-          "400" : {
-            "description" : "Bad Request",
-            "content" : {
-              "*/*" : {
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
-          },
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "*/*" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/HistoricSummary"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v2/regions/{region}/versions/{version}/infos/{reserved}" : {
+    "/api/v2/regions/{region}/versions/{version}/infos/{reservationTimestamp}" : {
       "get" : {
         "tags" : [ "getmydeck-controller" ],
         "operationId" : "getPersonalInfoResponse",
         "parameters" : [ {
-          "name" : "reserved",
+          "name" : "reservationTimestamp",
           "in" : "path",
+          "description" : "Time in seconds from 1.1.1970",
           "required" : true,
           "schema" : {
+            "minimum" : 1626454800,
+            "exclusiveMinimum" : true,
+            "maxLength" : 10,
+            "minLength" : 10,
             "type" : "string",
-            "format" : "date-time"
-          }
+            "format" : "[0-9]{10}"
+          },
+          "example" : 1627022437
         }, {
           "name" : "region",
           "in" : "path",
           "required" : true,
           "schema" : {
-            "type" : "string",
-            "enum" : [ "EU", "UK", "US" ]
+            "$ref" : "#/components/schemas/Region"
           }
         }, {
           "name" : "version",
           "in" : "path",
           "required" : true,
           "schema" : {
-            "type" : "string"
+            "$ref" : "#/components/schemas/Version"
           }
         } ],
         "responses" : {
           "400" : {
-            "description" : "Bad Request",
-            "content" : {
-              "*/*" : {
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
+            "description" : "Bad request if reservationTimestamp is before official reservation start or in the future"
           },
           "200" : {
             "description" : "OK",
             "content" : {
-              "*/*" : {
+              "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/InfoResponse"
                 }
@@ -92,54 +62,21 @@
   },
   "components" : {
     "schemas" : {
-      "HistoricSummary" : {
-        "type" : "object",
-        "properties" : {
-          "summary" : {
-            "type" : "object",
-            "additionalProperties" : {
-              "type" : "object",
-              "additionalProperties" : {
-                "$ref" : "#/components/schemas/HistoricSummarySet"
-              }
-            }
-          }
-        }
+      "Region" : {
+        "type" : "string",
+        "enum" : [ "EU", "UK", "US" ]
       },
-      "HistoricSummaryEntry" : {
-        "type" : "object",
-        "properties" : {
-          "lastOrderSeconds" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "elapsedSeconds" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
-          "lastUpdate" : {
-            "type" : "string",
-            "format" : "date-time"
-          }
-        }
-      },
-      "HistoricSummarySet" : {
-        "type" : "object",
-        "properties" : {
-          "entries" : {
-            "type" : "object",
-            "additionalProperties" : {
-              "$ref" : "#/components/schemas/HistoricSummaryEntry"
-            }
-          }
-        }
+      "Version" : {
+        "type" : "string",
+        "enum" : [ "64", "256", "512" ]
       },
       "HistoricDeckbotData" : {
         "type" : "object",
         "properties" : {
           "date" : {
             "type" : "string",
-            "format" : "date"
+            "format" : "date",
+            "example" : "2022-08-15"
           },
           "elapsedSeconds" : {
             "type" : "integer",
@@ -178,7 +115,9 @@
         "properties" : {
           "reservationsStartedAt" : {
             "type" : "string",
-            "format" : "date-time"
+            "description" : "UTC time",
+            "format" : "date-time",
+            "example" : "2021-07-16T17:00:00Z"
           }
         }
       },
@@ -187,15 +126,15 @@
         "properties" : {
           "reservedAt" : {
             "type" : "string",
-            "format" : "date-time"
+            "description" : "UTC time",
+            "format" : "date-time",
+            "example" : "2021-07-23T06:40:37Z"
           },
           "region" : {
-            "type" : "string",
-            "enum" : [ "EU", "UK", "US" ]
+            "$ref" : "#/components/schemas/Region"
           },
           "version" : {
-            "type" : "string",
-            "enum" : [ "64", "256", "512" ]
+            "$ref" : "#/components/schemas/Version"
           },
           "durationReservedAfterStart" : {
             "type" : "string",
@@ -203,7 +142,9 @@
             "example" : "PT157H40M37S"
           },
           "durationReservedAfterStartHumanReadable" : {
-            "type" : "string"
+            "type" : "string",
+            "description" : "String representation of Duration, not yet openapi standard",
+            "example" : "PT7H40M37S"
           },
           "elapsedTimePercentage" : {
             "type" : "number",
@@ -216,12 +157,19 @@
             "type" : "string"
           },
           "latestOrderSeconds" : {
+            "minimum" : 1626454800,
+            "exclusiveMinimum" : true,
+            "maxLength" : 10,
+            "minLength" : 10,
             "type" : "integer",
-            "format" : "int64"
+            "format" : "int64",
+            "example" : 1626819802
           },
           "latestOrder" : {
             "type" : "string",
-            "format" : "date-time"
+            "description" : "UTC time",
+            "format" : "date-time",
+            "example" : "2021-07-23T06:40:37Z"
           },
           "lastDataUpdate" : {
             "type" : "string",
@@ -229,7 +177,8 @@
           },
           "lastBatchDate" : {
             "type" : "string",
-            "format" : "date"
+            "format" : "date",
+            "example" : "2022-04-15"
           },
           "historicData" : {
             "type" : "array",

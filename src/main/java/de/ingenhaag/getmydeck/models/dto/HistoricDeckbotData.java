@@ -16,6 +16,9 @@ public class HistoricDeckbotData {
 
   private Long increasedSeconds;
 
+  @Schema(
+      example = "2022-08-15"
+  )
   public LocalDate getDate() {
     return date;
   }

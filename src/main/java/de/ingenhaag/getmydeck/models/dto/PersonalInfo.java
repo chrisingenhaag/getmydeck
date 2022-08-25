@@ -30,6 +30,10 @@ public class PersonalInfo {
 
   private List<HistoricDeckbotData> historicData;
 
+  @Schema(
+      example = "2021-07-23T06:40:37Z",
+      description = "UTC time"
+  )
   public OffsetDateTime getReservedAt() {
     return reservedAt;
   }
@@ -70,6 +74,11 @@ public class PersonalInfo {
     this.durationReservedAfterStartHumanReadable = durationReservedAfterStartHumanReadable;
   }
 
+  @Schema(
+      type = "string",
+      description = "String representation of Duration, not yet openapi standard",
+      example = "PT7H40M37S"
+  )
   public String getDurationReservedAfterStartHumanReadable() {
     return durationReservedAfterStartHumanReadable;
   }
@@ -102,6 +111,14 @@ public class PersonalInfo {
     this.latestOrderSeconds = latestOrderSeconds;
   }
 
+  @Schema(
+      example = "1626819802",
+      format = "[0-9]{10}",
+      minLength = 10,
+      maxLength = 10,
+      minimum = "1626454800",
+      exclusiveMinimum = true
+  )
   public long getLatestOrderSeconds() {
     return latestOrderSeconds;
   }
@@ -110,6 +127,10 @@ public class PersonalInfo {
     this.latestOrder = latestOrder;
   }
 
+  @Schema(
+      example = "2021-07-23T06:40:37Z",
+      description = "UTC time"
+  )
   public OffsetDateTime getLatestOrder() {
     return latestOrder;
   }
@@ -122,6 +143,9 @@ public class PersonalInfo {
     this.lastDataUpdate = lastDataUpdate;
   }
 
+  @Schema(
+      example = "2022-04-15"
+  )
   public LocalDate getLastBatchDate() {
     return lastBatchDate;
   }

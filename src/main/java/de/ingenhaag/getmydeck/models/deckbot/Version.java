@@ -1,7 +1,11 @@
 package de.ingenhaag.getmydeck.models.deckbot;
 
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.v3.oas.annotations.media.Schema;
 
+@Schema(
+    enumAsRef = true
+)
 public enum Version {
 
   S64("64"),

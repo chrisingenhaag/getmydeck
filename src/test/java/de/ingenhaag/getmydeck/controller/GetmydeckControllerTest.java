@@ -28,6 +28,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.util.List;
 import java.util.stream.Stream;
 
 import static de.ingenhaag.getmydeck.services.DeckServiceTest.RESERVED_TOO_EARLY;
@@ -56,8 +57,7 @@ class GetmydeckControllerTest extends AbstractMongoContainerIntegrationTest impl
 
   @ParameterizedTest
   @MethodSource("getAllIterations")
-  void testGetApiV2(Region region, Version version) throws Exception {
-    final String reservedAt = DeckServiceTest.RESERVED_AT;
+  void testGetApiV2(Region region, Version version, String reservedAt) throws Exception {
 
     final MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders
             .get(String.format("/api/v2/regions/%s/versions/%s/infos/%s", region.toString(), version.getVersion(), reservedAt))
@@ -68,22 +68,31 @@ class GetmydeckControllerTest extends AbstractMongoContainerIntegrationTest impl
     final InfoResponse infoResponse = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), InfoResponse.class);
     infoResponse.getPersonalInfo().setLastDataUpdate(OffsetDateTime.ofInstant(Instant.ofEpochSecond(1655141686), ZoneOffset.UTC));
 
-    assertWithFileWithSuffix(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(infoResponse), region+version.getVersion(), FileExtensions.JSON);
+    assertWithFileWithSuffix(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(infoResponse), String.join("_", region.toString(), version.getVersion(), reservedAt), FileExtensions.JSON);
 
     assertEquals(5, Mockito.mockingDetails(database).getInvocations().size());
   }
 
   private static Stream<Arguments> getAllIterations() {
     return Stream.of(
-        Arguments.of(Region.EU, Version.S64),
-        Arguments.of(Region.EU, Version.S256),
-        Arguments.of(Region.EU, Version.S512),
-        Arguments.of(Region.UK, Version.S64),
-        Arguments.of(Region.UK, Version.S256),
-        Arguments.of(Region.UK, Version.S512),
-        Arguments.of(Region.US, Version.S64),
-        Arguments.of(Region.US, Version.S256),
-        Arguments.of(Region.US, Version.S512)
+        Arguments.of(Region.EU, Version.S64, DeckServiceTest.RESERVED_AT),
+        Arguments.of(Region.EU, Version.S256, DeckServiceTest.RESERVED_AT),
+        Arguments.of(Region.EU, Version.S512, DeckServiceTest.RESERVED_AT),
+        Arguments.of(Region.UK, Version.S64, DeckServiceTest.RESERVED_AT),
+        Arguments.of(Region.UK, Version.S256, DeckServiceTest.RESERVED_AT),
+        Arguments.of(Region.UK, Version.S512, DeckServiceTest.RESERVED_AT),
+        Arguments.of(Region.US, Version.S64, DeckServiceTest.RESERVED_AT),
+        Arguments.of(Region.US, Version.S256, DeckServiceTest.RESERVED_AT),
+        Arguments.of(Region.US, Version.S512, DeckServiceTest.RESERVED_AT),
+        Arguments.of(Region.EU, Version.S64, DeckServiceTest.RESERVED_AT_PAST),
+        Arguments.of(Region.EU, Version.S256, DeckServiceTest.RESERVED_AT_PAST),
+        Arguments.of(Region.EU, Version.S512, DeckServiceTest.RESERVED_AT_PAST),
+        Arguments.of(Region.UK, Version.S64, DeckServiceTest.RESERVED_AT_PAST),
+        Arguments.of(Region.UK, Version.S256, DeckServiceTest.RESERVED_AT_PAST),
+        Arguments.of(Region.UK, Version.S512, DeckServiceTest.RESERVED_AT_PAST),
+        Arguments.of(Region.US, Version.S64, DeckServiceTest.RESERVED_AT_PAST),
+        Arguments.of(Region.US, Version.S256, DeckServiceTest.RESERVED_AT_PAST),
+        Arguments.of(Region.US, Version.S512, DeckServiceTest.RESERVED_AT_PAST)
     );
   }
 

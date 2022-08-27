@@ -9,6 +9,34 @@
     "description" : "production"
   } ],
   "paths" : {
+    "/api/v2/summary" : {
+      "get" : {
+        "tags" : [ "getmydeck-controller" ],
+        "operationId" : "getHistoricSummary",
+        "responses" : {
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "OK",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/HistoricSummary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v2/regions/{region}/versions/{version}/infos/{reservationTimestamp}" : {
       "get" : {
         "tags" : [ "getmydeck-controller" ],
@@ -62,6 +90,58 @@
   },
   "components" : {
     "schemas" : {
+      "HistoricSummary" : {
+        "type" : "object",
+        "properties" : {
+          "summary" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "object",
+              "additionalProperties" : {
+                "$ref" : "#/components/schemas/HistoricSummarySet"
+              }
+            }
+          },
+          "allDays" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string",
+              "format" : "date"
+            }
+          }
+        }
+      },
+      "HistoricSummaryEntry" : {
+        "type" : "object",
+        "properties" : {
+          "lastOrderSeconds" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "elapsedSeconds" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "elapsedDuration" : {
+            "type" : "string"
+          },
+          "lastOrderDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }
+      },
+      "HistoricSummarySet" : {
+        "type" : "object",
+        "properties" : {
+          "entries" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "$ref" : "#/components/schemas/HistoricSummaryEntry"
+            }
+          }
+        }
+      },
       "Region" : {
         "type" : "string",
         "enum" : [ "EU", "UK", "US" ]

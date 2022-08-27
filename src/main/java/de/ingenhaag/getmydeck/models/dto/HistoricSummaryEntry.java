@@ -1,6 +1,7 @@
 package de.ingenhaag.getmydeck.models.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.OffsetDateTime;
 
@@ -11,7 +12,9 @@ public class HistoricSummaryEntry {
 
   private Long elapsedSeconds;
 
-  private OffsetDateTime lastUpdate;
+  private String elapsedDuration;
+
+  private OffsetDateTime lastOrderDate;
 
   public Long getLastOrderSeconds() {
     return lastOrderSeconds;
@@ -29,11 +32,19 @@ public class HistoricSummaryEntry {
     this.elapsedSeconds = elapsedSeconds;
   }
 
-  public OffsetDateTime getLastUpdate() {
-    return lastUpdate;
+  public String getElapsedDuration() {
+    return elapsedDuration;
   }
 
-  public void setLastUpdate(OffsetDateTime lastUpdate) {
-    this.lastUpdate = lastUpdate;
+  public void setElapsedDuration(String elapsedDuration) {
+    this.elapsedDuration = elapsedDuration;
+  }
+
+  public void setLastOrderDate(OffsetDateTime lastOrderDate) {
+    this.lastOrderDate = lastOrderDate;
+  }
+
+  public OffsetDateTime getLastOrderDate() {
+    return lastOrderDate;
   }
 }

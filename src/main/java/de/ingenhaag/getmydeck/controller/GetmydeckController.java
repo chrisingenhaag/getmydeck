@@ -79,10 +79,10 @@ public class GetmydeckController {
     return ResponseEntity.ok(deckService.getPersonalInfos(reservationTimestamp, region, version));
   }
 
-  @Operation(
-      hidden = true
+  @GetMapping(
+      path = "/api/v2/summary",
+      produces = MediaType.APPLICATION_JSON_VALUE
   )
-  @GetMapping("/api/v2/summary")
   public ResponseEntity<HistoricSummary> getHistoricSummary() {
     return ResponseEntity.ok(deckService.getHistoricSummary());
   }

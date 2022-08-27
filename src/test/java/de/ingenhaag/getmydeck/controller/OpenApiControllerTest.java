@@ -56,7 +56,7 @@ class OpenApiControllerTest extends AbstractMongoContainerIntegrationTest implem
 
     final Object summary = objectMapper.readValue(result.getResponse().getContentAsString(), Object.class);
 
-    assertWithFile(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(summary));
+    assertWithFile(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(summary), FileExtensions.JSON);
 
 
   }

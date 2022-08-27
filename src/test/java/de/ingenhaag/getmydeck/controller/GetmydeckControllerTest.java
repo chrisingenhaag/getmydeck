@@ -1,6 +1,7 @@
 package de.ingenhaag.getmydeck.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.cronn.assertions.validationfile.FileExtension;
 import de.cronn.assertions.validationfile.FileExtensions;
 import de.cronn.assertions.validationfile.junit5.JUnit5ValidationFileAssertions;
 import de.ingenhaag.getmydeck.models.deckbot.Region;
@@ -39,6 +40,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class GetmydeckControllerTest extends AbstractMongoContainerIntegrationTest implements JUnit5ValidationFileAssertions {
 
+  private static final int TEST_PREPARATION_CALLS = 2;
   @Autowired
   private MockMvc mvc;
 
@@ -70,7 +72,7 @@ class GetmydeckControllerTest extends AbstractMongoContainerIntegrationTest impl
 
     assertWithFileWithSuffix(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(infoResponse), String.join("_", region.toString(), version.getVersion(), reservedAt), FileExtensions.JSON);
 
-    assertEquals(5, Mockito.mockingDetails(database).getInvocations().size());
+    assertEquals(3, Mockito.mockingDetails(database).getInvocations().size()-TEST_PREPARATION_CALLS);
   }
 
   private static Stream<Arguments> getAllIterations() {
@@ -152,9 +154,8 @@ class GetmydeckControllerTest extends AbstractMongoContainerIntegrationTest impl
 
     final HistoricSummary summary = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), HistoricSummary.class);
 
-    assertWithFile(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(summary));
-
-    assertEquals(11, Mockito.mockingDetails(database).getInvocations().size());
+    assertWithFile(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(summary), FileExtensions.JSON);
+    assertEquals(10, Mockito.mockingDetails(database).getInvocations().size()-TEST_PREPARATION_CALLS);
   }
 
 }

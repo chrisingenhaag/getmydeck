@@ -62,11 +62,14 @@ public class DeckService {
 
   public HistoricSummary getHistoricSummary() {
     HistoricSummary summary = new HistoricSummary();
+    final List<LocalDate> allDayOfBatches = steamDeckMongoService.getAllDayOfBatches();
+    summary.setAllDays(allDayOfBatches);
+
     SortedMap<Region, SortedMap<Version, HistoricSummarySet>> regionMap = new TreeMap<>();
     Arrays.stream(Region.values()).forEach(region -> {
       SortedMap<Version, HistoricSummarySet> versionMap = new TreeMap<>();
       Arrays.stream(Version.values()).forEach(version -> {
-       versionMap.put(version, calcHistSummarySetFor(region, version));
+       versionMap.put(version, calcHistSummarySetFor(region, version, new ArrayList<>(allDayOfBatches)));
       });
       regionMap.put(region, versionMap);
     });
@@ -74,23 +77,33 @@ public class DeckService {
     return summary;
   }
 
-  private HistoricSummarySet calcHistSummarySetFor(Region region, Version version) {
+  private HistoricSummarySet calcHistSummarySetFor(Region region, Version version, List<LocalDate> allDayOfBatches) {
     SortedMap<LocalDate, HistoricSummaryEntry> entries = new TreeMap<>();
 
-    for (SteamDeckQueueDayEntry data : steamDeckMongoService.getAllDataFromQueue(region, version)) {
-      LocalDate date = data.getDayOfBatch();
+    final List<SteamDeckQueueDayEntry> allDataFromQueue = steamDeckMongoService.getAllDataFromQueue(region, version);
+
+    Long elapsedSeconds = 0l;
+    Long lastOrderSeconds = !allDataFromQueue.isEmpty() ? allDataFromQueue.get(0).getLatestOrder() : 0l;
+    for (SteamDeckQueueDayEntry data : allDataFromQueue) {
 
       HistoricSummaryEntry entry = new HistoricSummaryEntry();
       entry.setLastOrderSeconds(data.getLatestOrder());
+      entry.setLastOrderDate(OffsetDateTime.ofInstant(Instant.ofEpochSecond(data.getLatestOrder()), ZoneOffset.UTC));
       // not possible as lastmodified by spring-data mongo db can´t be time mocked
       // entry.setLastUpdate(getOffsetDateTime(data.getLastModified().toEpochSecond(ZoneOffset.UTC)));
-      // TODO
-      //entry.setElapsedSeconds();
 
-      entries.put(date, entry);
+      elapsedSeconds = data.getLatestOrder() - lastOrderSeconds;
+      entry.setElapsedSeconds(elapsedSeconds);
+      entry.setElapsedDuration(Duration.ofSeconds(elapsedSeconds).toString());
+
+      lastOrderSeconds = data.getLatestOrder();
+      final LocalDate dayOfBatch = data.getDayOfBatch();;
+      allDayOfBatches.remove(dayOfBatch);
+
+      entries.put(dayOfBatch, entry);
     }
 
-
+    allDayOfBatches.forEach(localDate -> entries.put(localDate, new HistoricSummaryEntry()));
 
     HistoricSummarySet summarySet = new HistoricSummarySet();
     summarySet.setEntries(entries);

@@ -1,5 +1,6 @@
 package de.ingenhaag.getmydeck.config;
 
+import de.ingenhaag.getmydeck.services.support.PersistenceConfiguration;
 import de.ingenhaag.getmydeck.testsupport.DeckStaticTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

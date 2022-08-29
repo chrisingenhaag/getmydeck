@@ -30,17 +30,14 @@ public class GoogleSheetScheduler {
 
   private final RestTemplate restTemplate;
   private final DeckBotConfiguration deckBotConfiguration;
-  private DeckDataPersistenceService persistenceService;
   private SteamDeckMongoService mongoPersistenceService;
 
   @Autowired
   public GoogleSheetScheduler(RestTemplateBuilder builder,
                               DeckBotConfiguration deckBotConfiguration,
-                              DeckDataPersistenceService persistenceService,
                               SteamDeckMongoService mongoPersistenceService) {
     this.restTemplate = builder.build();
     this.deckBotConfiguration = deckBotConfiguration;
-    this.persistenceService = persistenceService;
     this.mongoPersistenceService = mongoPersistenceService;
   }
 

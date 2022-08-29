@@ -22,10 +22,6 @@ public class SteamDeckMongoService {
 
   private static final Logger log = LoggerFactory.getLogger(SteamDeckMongoService.class);
 
-
-  @Autowired
-  private DeckDataPersistenceService deckDataPersistenceService;
-
   @Autowired
   private Clock clock;
 
@@ -104,26 +100,5 @@ public class SteamDeckMongoService {
     } else {
       log.debug("object not differing, ignoring");
     }
-  }
-
-  public void deleteDataSet(LocalDate day, Region region, Version version) {
-    repo.deleteByRegionAndVersionAndDayOfBatch(region,version,day);
-  }
-
-  public void migrateDataToMongo() {
-    deckDataPersistenceService.getAllDataFromDisk().forEach((localDate, deckBotData) -> {
-      final OffsetDateTime lastUpdated = deckBotData.getLastUpdated();
-      deckBotData.getLastShipments().forEach((region, versionOffsetDateTimeSortedMap) -> {
-        versionOffsetDateTimeSortedMap.forEach((version, offsetDateTime) -> {
-          SteamDeckQueueDayEntry entry = new SteamDeckQueueDayEntry();
-          entry.setLastModified(lastUpdated.toLocalDateTime());
-          entry.setRegion(region);
-          entry.setVersion(version);
-          entry.setDayOfBatch(localDate);
-          entry.setLatestOrder(offsetDateTime.toEpochSecond());
-          repo.save(entry);
-        });
-      });
-    });
   }
 }

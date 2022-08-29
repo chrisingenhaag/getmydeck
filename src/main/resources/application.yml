@@ -12,10 +12,6 @@ getmydeck:
     base-url: https://sheets.googleapis.com/v4/spreadsheets
     url: "${getmydeck.deckbot.base-url}/${getmydeck.deckbot.sheet-id}/values/${getmydeck.deckbot.sheet-data-location}?key=${getmydeck.deckbot.google-api-key}"
 
-  persistence:
-    path: ${DECKBOT_DATA_PATH:classpath:deckbot-data.json}
-    create-if-not-exists: ${DECKBOT_DATA_PATH_CREATE_IF_NOT_EXISTS:false}
-
 springdoc:
   api-docs:
     path: /api/openapi-docs

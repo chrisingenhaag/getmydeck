@@ -1,19 +1,26 @@
 package de.ingenhaag.getmydeck.testsupport;
 
 
+import de.ingenhaag.getmydeck.models.deckbot.Region;
+import de.ingenhaag.getmydeck.models.deckbot.Version;
+import de.ingenhaag.getmydeck.models.persistence.mongo.SteamDeckQueueDayEntry;
 import de.ingenhaag.getmydeck.models.persistence.mongo.SteamDeckQueueRepository;
-import de.ingenhaag.getmydeck.services.SteamDeckMongoService;
+import de.ingenhaag.getmydeck.services.support.DeckDataPersistenceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.utility.DockerImageName;
 
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.Map;
 
 @SpringBootTest
+@ActiveProfiles("test")
 public class AbstractMongoContainerIntegrationTest {
 
   static final GenericContainer MONGODB_CONTAINER;
@@ -32,21 +39,41 @@ public class AbstractMongoContainerIntegrationTest {
   }
 
   @Autowired
-  SteamDeckMongoService migrateDataToMongo;
+  SteamDeckQueueRepository repo;
 
   @Autowired
-  SteamDeckQueueRepository repo;
+  DeckDataPersistenceService deckDataPersistenceService;
 
   public void resetDataBase() {
     try {
       repo.deleteAll();
-      migrateDataToMongo.migrateDataToMongo();
+      migrateDataToMongo();
     } catch(Exception e) {
       e.printStackTrace();
     }
 
   }
 
+  public void deleteDataSet(LocalDate day, Region region, Version version) {
+    repo.deleteByRegionAndVersionAndDayOfBatch(region,version,day);
+  }
+
+  private void migrateDataToMongo() {
+    deckDataPersistenceService.getAllDataFromDisk().forEach((localDate, deckBotData) -> {
+      final OffsetDateTime lastUpdated = deckBotData.getLastUpdated();
+      deckBotData.getLastShipments().forEach((region, versionOffsetDateTimeSortedMap) -> {
+        versionOffsetDateTimeSortedMap.forEach((version, offsetDateTime) -> {
+          SteamDeckQueueDayEntry entry = new SteamDeckQueueDayEntry();
+          entry.setLastModified(lastUpdated.toLocalDateTime());
+          entry.setRegion(region);
+          entry.setVersion(version);
+          entry.setDayOfBatch(localDate);
+          entry.setLatestOrder(offsetDateTime.toEpochSecond());
+          repo.save(entry);
+        });
+      });
+    });
+  }
 
   @DynamicPropertySource
   static void registerPgProperties(DynamicPropertyRegistry registry) {

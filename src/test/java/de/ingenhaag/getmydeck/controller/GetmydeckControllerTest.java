@@ -1,7 +1,6 @@
 package de.ingenhaag.getmydeck.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.cronn.assertions.validationfile.FileExtension;
 import de.cronn.assertions.validationfile.FileExtensions;
 import de.cronn.assertions.validationfile.junit5.JUnit5ValidationFileAssertions;
 import de.ingenhaag.getmydeck.models.deckbot.Region;
@@ -29,7 +28,6 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.util.List;
 import java.util.stream.Stream;
 
 import static de.ingenhaag.getmydeck.services.DeckServiceTest.RESERVED_TOO_EARLY;
@@ -40,7 +38,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class GetmydeckControllerTest extends AbstractMongoContainerIntegrationTest implements JUnit5ValidationFileAssertions {
 
-  private static final int TEST_PREPARATION_CALLS = 2;
   @Autowired
   private MockMvc mvc;
 
@@ -54,7 +51,7 @@ class GetmydeckControllerTest extends AbstractMongoContainerIntegrationTest impl
   void each() {
     resetDataBase();
     LocalDate dayToRemove = LocalDate.of(2022, 6, 9);
-    database.deleteDataSet(dayToRemove, Region.US, Version.S64);
+    deleteDataSet(dayToRemove, Region.US, Version.S64);
   }
 
   @ParameterizedTest
@@ -72,7 +69,7 @@ class GetmydeckControllerTest extends AbstractMongoContainerIntegrationTest impl
 
     assertWithFileWithSuffix(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(infoResponse), String.join("_", region.toString(), version.getVersion(), reservedAt), FileExtensions.JSON);
 
-    assertEquals(3, Mockito.mockingDetails(database).getInvocations().size()-TEST_PREPARATION_CALLS);
+    assertEquals(3, Mockito.mockingDetails(database).getInvocations().size());
   }
 
   private static Stream<Arguments> getAllIterations() {
@@ -155,7 +152,7 @@ class GetmydeckControllerTest extends AbstractMongoContainerIntegrationTest impl
     final HistoricSummary summary = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), HistoricSummary.class);
 
     assertWithFile(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(summary), FileExtensions.JSON);
-    assertEquals(10, Mockito.mockingDetails(database).getInvocations().size()-TEST_PREPARATION_CALLS);
+    assertEquals(10, Mockito.mockingDetails(database).getInvocations().size());
   }
 
 }

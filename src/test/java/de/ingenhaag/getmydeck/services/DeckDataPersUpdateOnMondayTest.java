@@ -1,7 +1,6 @@
 package de.ingenhaag.getmydeck.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import de.ingenhaag.getmydeck.models.deckbot.DeckBotData;
 import de.ingenhaag.getmydeck.models.deckbot.Region;
 import de.ingenhaag.getmydeck.models.deckbot.Version;
 import de.ingenhaag.getmydeck.models.persistence.mongo.SteamDeckQueueDayEntry;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.*;
-import java.util.Map;
 import java.util.SortedMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

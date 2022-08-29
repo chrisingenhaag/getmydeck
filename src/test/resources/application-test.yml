@@ -1,0 +1,5 @@
+getmydeck:
+  persistence:
+    enabled: false
+    path: "classpath:deckbot-data.json"
+    create-if-not-exists: false

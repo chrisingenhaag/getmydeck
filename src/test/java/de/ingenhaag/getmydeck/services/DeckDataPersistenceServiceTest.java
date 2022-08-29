@@ -1,6 +1,7 @@
 package de.ingenhaag.getmydeck.services;
 
-import de.ingenhaag.getmydeck.models.deckbot.DeckBotData;
+import de.ingenhaag.getmydeck.services.support.deckbot.DeckBotData;
+import de.ingenhaag.getmydeck.services.support.DeckDataPersistenceService;
 import de.ingenhaag.getmydeck.testsupport.DeckDataPersistenceBaseTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

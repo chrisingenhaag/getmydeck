@@ -4,6 +4,7 @@ import de.ingenhaag.getmydeck.config.DeckBotConfiguration;
 import de.ingenhaag.getmydeck.models.deckbot.Region;
 import de.ingenhaag.getmydeck.models.deckbot.Version;
 import de.ingenhaag.getmydeck.models.google.DeckBotSheetResponse;
+import io.micrometer.core.annotation.Counted;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,7 @@ public class GoogleSheetScheduler {
   }
 
   @Scheduled(timeUnit = TimeUnit.MINUTES, fixedRate = 1, initialDelay = 2)
+  @Counted(description = "measure background scheduled task to fetch data from fammys google sheet via rest and store it to mongodb")
   protected void fetchDeckBotData() {
     final ResponseEntity<DeckBotSheetResponse> response = restTemplate.getForEntity(URI.create(deckBotConfiguration.getUrl()), DeckBotSheetResponse.class);
     if (response.hasBody() && response.getBody() != null) {
@@ -64,9 +66,11 @@ public class GoogleSheetScheduler {
         mongoPersistenceService.updateParsedDataIfChanged(parsedData);
       } catch(NullPointerException e) {
         log.error("Error parsing response from googlesheet", e);
+        throw new RuntimeException(e);
       }
     } else {
       log.error("Google sheet response evaluated to null with response {}", response);
+      throw new RuntimeException("Google sheet no body or null");
     }
   }
 }

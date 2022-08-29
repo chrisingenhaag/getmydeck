@@ -1,9 +1,8 @@
-package de.ingenhaag.getmydeck.models.persistence;
+package de.ingenhaag.getmydeck.services.support.deckbot;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.ingenhaag.getmydeck.models.deckbot.Region;
 import de.ingenhaag.getmydeck.models.deckbot.Version;
-import de.ingenhaag.getmydeck.models.deckbot.DeckBotData;
 
 import java.util.Map;
 import java.util.Objects;

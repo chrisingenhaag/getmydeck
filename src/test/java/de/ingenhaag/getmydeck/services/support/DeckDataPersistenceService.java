@@ -1,9 +1,8 @@
-package de.ingenhaag.getmydeck.services;
+package de.ingenhaag.getmydeck.services.support;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import de.ingenhaag.getmydeck.config.PersistenceConfiguration;
-import de.ingenhaag.getmydeck.models.deckbot.DeckBotData;
-import de.ingenhaag.getmydeck.models.persistence.DeckBotPersistenceObject;
+import de.ingenhaag.getmydeck.services.support.deckbot.DeckBotData;
+import de.ingenhaag.getmydeck.services.support.deckbot.DeckBotPersistenceObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package de.ingenhaag.getmydeck.config;
+package de.ingenhaag.getmydeck.services.support;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

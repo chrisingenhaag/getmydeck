@@ -1,18 +1,13 @@
 # GetMyDeck
 
+Spring-Boot based api backend for [getmydeck.ingenhaag.dev](https://getmydeck.ingenhaag.dev)
+
+
 ## build and deploy
 
 ```bash
 ./gradlew bootBuildImage
-docker push
 ```
-
-## Todos
-
-* Update data from deckbot sheet only if changed
-* if data changed save them with datestamp (on disk -- json to survive restarts)
-* Use historical data to display last increases on your personal reservation time
-* use historical data to calc a 5 week average and use it to calc estimated order time
 
 ## General infos
 

@@ -1,10 +1,10 @@
 package de.ingenhaag.getmydeck.config.validation;
 
 import de.ingenhaag.getmydeck.config.SteamConfiguration;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 

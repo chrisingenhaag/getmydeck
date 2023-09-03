@@ -23,6 +23,11 @@ spring:
       auto-index-creation: true
 
 management:
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+        http.client.requests: true
   endpoints:
     web:
       exposure:

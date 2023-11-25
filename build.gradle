@@ -50,7 +50,7 @@ bootBuildImage {
 }
 
 release {
-	buildTasks = ['bootBuildImage']
+	buildTasks.add('bootBuildImage')
 	git {
 		requireBranch.set('main')
 		pushOptions.add("-o ci.skip")

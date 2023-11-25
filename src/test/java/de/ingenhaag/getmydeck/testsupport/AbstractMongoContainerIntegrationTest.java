@@ -8,23 +8,32 @@ import de.ingenhaag.getmydeck.models.persistence.mongo.SteamDeckQueueRepository;
 import de.ingenhaag.getmydeck.services.support.DeckDataPersistenceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.test.context.ActiveProfiles;
-import org.testcontainers.containers.MongoDBContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.containers.wait.strategy.Wait;
+import org.testcontainers.utility.DockerImageName;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.util.Map;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Testcontainers
 @ActiveProfiles("test")
 public class AbstractMongoContainerIntegrationTest {
+  static final GenericContainer MONGO_DB_CONTAINER;
 
-  @Container
-  @ServiceConnection
-  static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo");
+  static {
+      MONGO_DB_CONTAINER =  new GenericContainer<>(DockerImageName.parse("bitnami/mongodb:4.4"))
+              .withExposedPorts(27017)
+              .waitingFor(Wait.forLogMessage(".*Waiting for connections.*\\n", 1))
+              .withEnv(Map.of("MONGODB_ROOT_PASSWORD", "password123",
+                      "MONGODB_USERNAME", "getmydeck",
+                      "MONGODB_PASSWORD", "password123",
+                      "MONGODB_DATABASE", "getmydeck"));
+      MONGO_DB_CONTAINER.start();
+  }
 
   @Autowired
   SteamDeckQueueRepository repo;
@@ -62,4 +71,12 @@ public class AbstractMongoContainerIntegrationTest {
       );
     });
   }
+
+    @DynamicPropertySource
+    static void registerPgProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.data.mongodb.uri",
+                () -> String.format("mongodb://getmydeck:password123@%s:%d/getmydeck",
+                        MONGO_DB_CONTAINER.getHost(),
+                        MONGO_DB_CONTAINER.getFirstMappedPort()));
+    }
 }

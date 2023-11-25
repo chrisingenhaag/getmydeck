@@ -8,35 +8,23 @@ import de.ingenhaag.getmydeck.models.persistence.mongo.SteamDeckQueueRepository;
 import de.ingenhaag.getmydeck.services.support.DeckDataPersistenceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.containers.GenericContainer;
-import org.testcontainers.containers.wait.strategy.Wait;
-import org.testcontainers.utility.DockerImageName;
+import org.testcontainers.containers.MongoDBContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
-import java.util.Map;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Testcontainers
 @ActiveProfiles("test")
 public class AbstractMongoContainerIntegrationTest {
 
-  static final GenericContainer MONGODB_CONTAINER;
-
-  static {
-    MONGODB_CONTAINER = new GenericContainer<>(
-        DockerImageName.parse("bitnami/mongodb:4.4")
-    )
-        .withExposedPorts(27017)
-        .waitingFor(Wait.forLogMessage(".*Waiting for connections.*\\n", 1))
-        .withEnv(Map.of("MONGODB_ROOT_PASSWORD", "password123",
-            "MONGODB_USERNAME", "getmydeck",
-            "MONGODB_PASSWORD", "password123",
-            "MONGODB_DATABASE", "getmydeck"));
-    MONGODB_CONTAINER.start();
-  }
+  @Container
+  @ServiceConnection
+  static MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo");
 
   @Autowired
   SteamDeckQueueRepository repo;
@@ -61,7 +49,7 @@ public class AbstractMongoContainerIntegrationTest {
   private void migrateDataToMongo() {
     deckDataPersistenceService.getAllDataFromDisk().forEach((localDate, deckBotData) -> {
       final OffsetDateTime lastUpdated = deckBotData.getLastUpdated();
-      deckBotData.getLastShipments().forEach((region, versionOffsetDateTimeSortedMap) -> {
+      deckBotData.getLastShipments().forEach((region, versionOffsetDateTimeSortedMap) ->
         versionOffsetDateTimeSortedMap.forEach((version, offsetDateTime) -> {
           SteamDeckQueueDayEntry entry = new SteamDeckQueueDayEntry();
           entry.setLastModified(lastUpdated.toLocalDateTime());
@@ -70,17 +58,8 @@ public class AbstractMongoContainerIntegrationTest {
           entry.setDayOfBatch(localDate);
           entry.setLatestOrder(offsetDateTime.toEpochSecond());
           repo.save(entry);
-        });
-      });
+        })
+      );
     });
   }
-
-  @DynamicPropertySource
-  static void registerPgProperties(DynamicPropertyRegistry registry) {
-    registry.add("spring.data.mongodb.uri",
-        () -> String.format("mongodb://getmydeck:password123@%s:%d/getmydeck",
-            MONGODB_CONTAINER.getHost(),
-            MONGODB_CONTAINER.getFirstMappedPort()));
-  }
-
 }

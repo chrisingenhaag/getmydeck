@@ -39,3 +39,6 @@ out/
 ### File validation comparison ###
 data/test/output
 data/test/tmp
+
+### other stuff
+bin/

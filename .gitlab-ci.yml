@@ -25,8 +25,8 @@ before_script:
 
 stages:
   - build
-  - test
   - release
+  - test
 
 build:
   stage: build

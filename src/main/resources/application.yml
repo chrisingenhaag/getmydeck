@@ -1,4 +1,3 @@
-
 getmydeck:
   steam:
     reservation-start: 1626454800
@@ -16,7 +15,12 @@ springdoc:
   api-docs:
     path: /api/openapi-docs
 
+server:
+  shutdown: graceful
+
 spring:
+  lifecycle:
+    timeout-per-shutdown-phase: 10s
   data:
     mongodb:
       uri: ${DECKBOT_MONGODB_URI:mongodb://getmydeck:password123@localhost:27017/getmydeck}

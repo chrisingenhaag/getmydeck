@@ -39,6 +39,7 @@ tasks.named('test') {
 
 bootBuildImage {
 	imageName = "registry.gitlab.com/cin/${project.name}:${project.version}"
+	tags = ["registry.gitlab.com/cin/${project.name}:${System.getenv("CI_COMMIT_BRANCH")}"]
 	publish = !project.version.contains("-SNAPSHOT")
 	docker {
 		publishRegistry {

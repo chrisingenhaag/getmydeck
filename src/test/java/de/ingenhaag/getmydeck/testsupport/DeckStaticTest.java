@@ -8,5 +8,5 @@ import org.springframework.test.context.TestPropertySource;
     "getmydeck.persistence.enabled=true",
 })
 @ActiveProfiles("test")
-public class DeckStaticTest extends AbstractMongoContainerIntegrationTest {
+public class DeckStaticTest extends AbstractIntegrationTest {
 }

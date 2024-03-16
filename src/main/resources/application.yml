@@ -5,8 +5,8 @@ getmydeck:
   deckbot:
     scheduler:
       enabled: ${DECKBOT_SCHEDULER_ENABLED:true}
-    google-api-key: ***REMOVED***
-    sheet-id: 1ZaKncig9fce7K0sr1f-E2_sgLH1HuKQ-q3k7clPMOCs
+    google-api-key: ${DECKBOT_GOOGLE_SHEET_APIKEY:dummy}
+    sheet-id: ${DECKBOT_GOOGLE_SHEET_ID:dummy}
     sheet-data-location: "deckbot!A1:C9"
     base-url: https://sheets.googleapis.com/v4/spreadsheets
     url: "${getmydeck.deckbot.base-url}/${getmydeck.deckbot.sheet-id}/values/${getmydeck.deckbot.sheet-data-location}?key=${getmydeck.deckbot.google-api-key}"

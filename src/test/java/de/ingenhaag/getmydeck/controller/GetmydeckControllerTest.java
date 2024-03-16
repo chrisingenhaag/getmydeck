@@ -9,7 +9,7 @@ import de.ingenhaag.getmydeck.models.dto.HistoricSummary;
 import de.ingenhaag.getmydeck.models.dto.InfoResponse;
 import de.ingenhaag.getmydeck.services.DeckServiceTest;
 import de.ingenhaag.getmydeck.services.SteamDeckMongoService;
-import de.ingenhaag.getmydeck.testsupport.AbstractMongoContainerIntegrationTest;
+import de.ingenhaag.getmydeck.testsupport.AbstractIntegrationTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -36,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
-class GetmydeckControllerTest extends AbstractMongoContainerIntegrationTest implements JUnit5ValidationFileAssertions {
+class GetmydeckControllerTest extends AbstractIntegrationTest implements JUnit5ValidationFileAssertions {
 
   @Autowired
   private MockMvc mvc;

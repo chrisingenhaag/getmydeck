@@ -2,7 +2,7 @@ package de.ingenhaag.getmydeck.services;
 
 import de.ingenhaag.getmydeck.models.deckbot.Region;
 import de.ingenhaag.getmydeck.models.deckbot.Version;
-import de.ingenhaag.getmydeck.testsupport.AbstractMongoContainerIntegrationTest;
+import de.ingenhaag.getmydeck.testsupport.AbstractIntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class GoogleSheetSchedulerTest extends AbstractMongoContainerIntegrationTest {
+class GoogleSheetSchedulerTest extends AbstractIntegrationTest {
 
   @Autowired
   private SteamDeckMongoService service;

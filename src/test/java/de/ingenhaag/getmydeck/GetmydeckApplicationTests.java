@@ -1,9 +1,9 @@
 package de.ingenhaag.getmydeck;
 
-import de.ingenhaag.getmydeck.testsupport.AbstractMongoContainerIntegrationTest;
+import de.ingenhaag.getmydeck.testsupport.AbstractIntegrationTest;
 import org.junit.jupiter.api.Test;
 
-class GetmydeckApplicationTests extends AbstractMongoContainerIntegrationTest {
+class GetmydeckApplicationTests extends AbstractIntegrationTest {
 
 	@Test
 	void contextLoads() {

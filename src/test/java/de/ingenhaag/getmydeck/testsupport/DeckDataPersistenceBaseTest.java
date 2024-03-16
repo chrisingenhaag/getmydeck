@@ -16,7 +16,7 @@ import java.util.SortedMap;
     "getmydeck.deckbot.scheduler.enabled=false",
     "getmydeck.persistence.path=classpath:deckbot-data-persistence-tests.json",
 })
-public class DeckDataPersistenceBaseTest extends AbstractMongoContainerIntegrationTest {
+public class DeckDataPersistenceBaseTest extends AbstractIntegrationTest {
 
   @Autowired
   ObjectMapper mapper;

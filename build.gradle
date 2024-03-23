@@ -39,14 +39,13 @@ tasks.named('test') {
 }
 
 bootBuildImage {
-	imageName = "registry.gitlab.com/cin/${project.name}:${project.version}"
-	tags = ["registry.gitlab.com/cin/${project.name}:${System.getenv("CI_COMMIT_BRANCH")}"]
+	imageName = "ghcr.io/chrisingenhaag/${project.name}:${project.version}"
+	tags = ["ghcr.io/chrisingenhaag/${project.name}:${System.getenv("GH_BRANCH")}"]
 	publish = !project.version.contains("-SNAPSHOT")
 	docker {
 		publishRegistry {
-			url = System.getenv("CI_REGISTRY") ?: "n/a"
-			username = System.getenv("CI_REGISTRY_USER") ?: "n/a"
-			password = System.getenv("CI_REGISTRY_PASSWORD") ?: "n/a"
+			url = "https://ghcr.io"
+			token = System.getenv("GH_TOKEN") ?: "n/a"
 		}
 	}
 }
@@ -56,10 +55,9 @@ release {
 	git {
 		requireBranch.set('main')
 		pushOptions.add("-o ci.skip")
+		preCommitText = "[ci skip]"
 	}
 }
-
-
 
 test {
 	finalizedBy jacocoTestReport, jacocoTestCoverageVerification

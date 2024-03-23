@@ -1,13 +1,9 @@
-name: Build branch
+name: Build
 
 on:
   push:
-    branches:
+    branches-ignore:
       - main
-
-permissions:
-  packages: write
-  contents: write
 
 jobs:
   build:
@@ -23,12 +19,5 @@ jobs:
           architecture: x64
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
-      - name: Setup git config
-        run: |
-          git config user.name "GitHub Actions Bot"
-          git config user.email "<>"
       - name: Build with Gradle
-        env:
-          GH_TOKEN: '${{secrets.GITHUB_TOKEN}}'
-          GH_BRANCH: '${{github.ref.name}}'
-        run: ./gradlew release -Prelease.useAutomaticVersion=true --stacktrace
+        run: ./gradlew build

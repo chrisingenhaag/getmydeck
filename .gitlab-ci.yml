@@ -1,3 +1,6 @@
+# deprecated
+# In 2022 getmydeck was built and developed on gitlab
+
 include:
   - template: Security/SAST.gitlab-ci.yml
   - template: Security/Dependency-Scanning.gitlab-ci.yml

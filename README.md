@@ -4,6 +4,19 @@
 
 Spring-Boot based api backend for [getmydeck.ingenhaag.dev](https://getmydeck.ingenhaag.dev)
 
+In 2022 getmydeck was a tool for the [reddit community](https://www.reddit.com/search/?q=getmydeck&type=link&sort=new) around the release of the Valve Steam Deck. Based on crowdfunded data from
+the community users were able to get information about Valves shipment progress. During that time Valve sent out emails
+twice a week and notified some of the customers that they are now able to proceed to order. This data was shared by the reddit users and scraped
+by getmydeck. Everyone else hammered F5 in their browser twice a week to see how much progress Valve did, sample result below.
+
+![getmydeck sample restul](https://github.com/chrisingenhaag/getmydeck-app/blob/main/doc/sample-result.png?raw=true)
+
+## :warning: Deprecation notice
+
+As of october 2022, this api went to status read only as no more new data had to be scraped. Then the api stayed readonly for about a year, and from now on the api is not reachable anymore as
+[getmydeck-app](https://github.com/chrisingenhaag/getmydeck-app) catches the api route and redirects to the [all queue statistics](https://getmydeck.ingenhaag.dev/statistics).
+The frontend holds the last static copy of the data for all queues.
+
 
 ## build and deploy
 

@@ -1,4 +1,4 @@
-name: Build branch
+name: Build
 
 on:
   push:
@@ -29,6 +29,7 @@ jobs:
           git config user.email "<>"
       - name: Build with Gradle
         env:
-          GH_TOKEN: '${{secrets.GITHUB_TOKEN}}'
-          GH_BRANCH: '${{github.ref.name}}'
+          GH_USER: '${{secrets.GETMYDECK_USER}}'
+          GH_TOKEN: '${{secrets.GETMYDECK_TOKEN}}'
+          GH_BRANCH: 'main'
         run: ./gradlew release -Prelease.useAutomaticVersion=true --stacktrace

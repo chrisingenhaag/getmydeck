@@ -44,8 +44,9 @@ bootBuildImage {
 	publish = !project.version.contains("-SNAPSHOT")
 	docker {
 		publishRegistry {
-			url = "https://ghcr.io"
-			token = System.getenv("GH_TOKEN") ?: "n/a"
+			url = "ghcr.io"
+			username = System.getenv("GH_USERNAME") ?: "n/a"
+			password = System.getenv("GH_TOKEN") ?: "n/a"
 		}
 	}
 }

@@ -1,5 +1,7 @@
 # GetMyDeck
 
+![Build](https://github.com/chrisingenhaag/actions/workflows/gradle-build.yml/badge.svg?branch=main)
+
 Spring-Boot based api backend for [getmydeck.ingenhaag.dev](https://getmydeck.ingenhaag.dev)
 
 
